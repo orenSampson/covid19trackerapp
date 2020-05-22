@@ -8,15 +8,12 @@ export function fetchData({ commit }) {
     .get("https://api.covid19api.com/summary")
     .then(res => {
       const countriesArr = res.data.Countries;
+      console.log(countriesArr);
 
       countriesArr.sort((countryA, countryB) => {
         if (countryA.TotalConfirmed < countryB.TotalConfirmed) return 1;
         if (countryA.TotalConfirmed > countryB.TotalConfirmed) return -1;
         return 0;
-      });
-
-      countriesArr.forEach(function(item, index, array) {
-        item.index = index;
       });
 
       commit("setCountriesArr", countriesArr);
@@ -33,7 +30,7 @@ export function intervalFetchData({ dispatch, commit }, payload) {
 
   const intervalId = setInterval(
     () => dispatch("fetchData"),
-    +fetchInterval * 1000
+    fetchInterval * 1000
   );
 
   commit("setIntervalId", intervalId);
@@ -41,7 +38,5 @@ export function intervalFetchData({ dispatch, commit }, payload) {
 
 export function stopCurrentInterval({ getters }) {
   const intervalId = getters.getIntervalId;
-  if (intervalId) {
-    clearInterval(intervalId);
-  }
+  clearInterval(intervalId);
 }

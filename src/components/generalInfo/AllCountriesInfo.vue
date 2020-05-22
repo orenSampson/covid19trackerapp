@@ -3,7 +3,7 @@
         <div v-if="countriesArr.length > 0">
             <country-info
                 v-for="country in countriesArr"
-                :key="country.index"
+                :key="country.CountryCode"
                 :countryInfo="country"
             />
         </div>
