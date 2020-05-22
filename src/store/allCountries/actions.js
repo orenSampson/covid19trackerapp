@@ -1,14 +1,9 @@
-// import axios from "axios";
 import Vue from "vue";
 export function fetchData({ commit }) {
-  console.log("general Info fetchData fired");
-
-  //   this.$axios
   Vue.prototype.$axios
     .get("https://api.covid19api.com/summary")
     .then(res => {
       const countriesArr = res.data.Countries;
-      console.log(countriesArr);
 
       countriesArr.sort((countryA, countryB) => {
         if (countryA.TotalConfirmed < countryB.TotalConfirmed) return 1;
