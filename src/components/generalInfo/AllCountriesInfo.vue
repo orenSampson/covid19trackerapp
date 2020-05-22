@@ -15,13 +15,15 @@
 </template>
 
 <script>
+import CountryInfo from 'components/generalInfo/CountryInfo';
+
 import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "AllCountriesInfo",
 
     components: {
-        CountryInfo: require("components/generalInfo/CountryInfo").default
+        CountryInfo
     },
 
     props: {
