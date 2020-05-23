@@ -5,11 +5,13 @@
 </template>
 
 <script>
+import LastDaysSelection from "components/graph/LastDaysSelection";
+
 export default {
     name: "PageGraph",
 
     components: {
-        LastDaysSelection: require("components/graph/LastDaysSelection").default
+        LastDaysSelection
     },
 
     data() {

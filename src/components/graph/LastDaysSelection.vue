@@ -10,18 +10,21 @@
 <script>
 import moment from "moment";
 
+import { mapActions } from "vuex";
+// import { mapGetters } from "vuex";
+
 export default {
     name: "LastDaysSelection",
 
     data() {
         return {
-            fetchedData: null,
             lastDaysOption: [14, 30],
             lastDays: 14
         };
     },
 
     methods: {
+        ...mapActions("oneCountry", ["fetchData"]),
         formatDate(date) {
             return date + "T00:00:00Z";
         },
@@ -30,51 +33,30 @@ export default {
             return moment()
                 .subtract(this.lastDays + 1, "days")
                 .format("YYYY-MM-DD");
-        },
-
-        calcDiff(arr) {
-            for (
-                let i = arr.length - 1, counter = 1;
-                counter <= this.lastDays && i > 0;
-                i--
-            ) {
-                this.fetchedData.unshift({
-                    date: arr[i].Date,
-                    newCases: arr[i].Confirmed - arr[i - 1].Confirmed,
-                    newDeaths: arr[i].Deaths - arr[i - 1].Deaths
-                });
-
-                counter++;
-            }
-        },
-
-        fetchData() {
-            const baseURL = "https://api.covid19api.com";
-            const from = this.formatDate(this.daysAgoFromNow());
-            const to = this.formatDate(moment().format("YYYY-MM-DD"));
-            const country = "south-africa";
-
-            console.log(from);
-            console.log(to);
-
-            this.$axios
-                .get(`${baseURL}/country/${country}?from=${from}&to=${to}`)
-                .then(res => {
-                    console.log(res.data);
-                    this.fetchedData = [];
-                    this.calcDiff(res.data);
-                    console.log(this.fetchedData);
-                });
         }
     },
 
+    // computed: {
+    //     ...mapGetters("oneCountry", {
+    //         fetchedData: "getFetchedData"
+    //     })
+    // },
+
     created() {
-        this.fetchData();
+        this.fetchData({
+            from: this.formatDate(this.daysAgoFromNow()),
+            to: this.formatDate(moment().format("YYYY-MM-DD")),
+            country: "south-africa"
+        });
     },
 
     watch: {
         lastDays: function() {
-            this.fetchData();
+            this.fetchData({
+                from: this.formatDate(this.daysAgoFromNow()),
+                to: this.formatDate(moment().format("YYYY-MM-DD")),
+                country: "south-africa"
+            });
         }
     }
 };
