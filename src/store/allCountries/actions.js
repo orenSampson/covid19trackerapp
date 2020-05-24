@@ -1,5 +1,6 @@
 import Vue from "vue";
 export function fetchData({ commit }) {
+  console.log("allcountries fetchdata called");
   Vue.prototype.$axios
     .get("https://api.covid19api.com/summary")
     .then(res => {

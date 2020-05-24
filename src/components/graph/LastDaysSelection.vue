@@ -8,10 +8,9 @@
 </template>
 
 <script>
-import moment from "moment";
-
 import { mapActions } from "vuex";
-// import { mapGetters } from "vuex";
+
+import moment from "moment";
 
 export default {
     name: "LastDaysSelection",
@@ -19,45 +18,35 @@ export default {
     data() {
         return {
             lastDaysOption: [14, 30],
-            lastDays: 14
+            lastDays: null
         };
     },
 
     methods: {
         ...mapActions("oneCountry", ["fetchData"]),
-        formatDate(date) {
-            return date + "T00:00:00Z";
-        },
-
-        daysAgoFromNow() {
+        daysAgoFromNow(daysFromNow) {
             return moment()
-                .subtract(this.lastDays + 1, "days")
+                .subtract(daysFromNow + 1, "days")
                 .format("YYYY-MM-DD");
+        },
+        callToFetchData() {
+            if (this.lastDays) {
+                const from = this.daysAgoFromNow(this.lastDays);
+                const to = moment().format("YYYY-MM-DD");
+                const country = "south-africa";
+                this.fetchData({ from, to, country });
+            }
         }
-    },
-
-    // computed: {
-    //     ...mapGetters("oneCountry", {
-    //         fetchedData: "getFetchedData"
-    //     })
-    // },
-
-    created() {
-        this.fetchData({
-            from: this.formatDate(this.daysAgoFromNow()),
-            to: this.formatDate(moment().format("YYYY-MM-DD")),
-            country: "south-africa"
-        });
     },
 
     watch: {
-        lastDays: function() {
-            this.fetchData({
-                from: this.formatDate(this.daysAgoFromNow()),
-                to: this.formatDate(moment().format("YYYY-MM-DD")),
-                country: "south-africa"
-            });
+        lastDays() {
+            this.callToFetchData();
         }
+    },
+
+    created() {
+        this.callToFetchData();
     }
 };
 </script>
