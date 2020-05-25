@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import CountryInfo from 'components/generalInfo/CountryInfo';
+import CountryInfo from "components/generalInfo/CountryInfo";
 
 import { mapActions, mapGetters } from "vuex";
 
@@ -58,7 +58,6 @@ export default {
     },
 
     beforeDestroy() {
-        console.log("beforeDestroy called!");
         this.stopCurrentInterval();
     },
 

@@ -1,5 +1,5 @@
 <template>
-    <div class="row q-mx-xl q-my-md q-pa-sm">
+    <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
         <div class="col-xs-6 col-sm-4 col-md">
             <span class="text-weight-bold">{{ countryInfo.Country }}</span>
         </div>
@@ -31,6 +31,15 @@ export default {
             type: Object,
             required: true
         }
+    },
+
+    methods: {
+        routeToCountry(event) {
+            this.$router.push({
+                name: "country",
+                params: { country: this.countryInfo.Slug }
+            });
+        }
     }
 };
 </script>
@@ -38,5 +47,6 @@ export default {
 <style scoped>
 .row {
     border: 1px solid black;
+    cursor: pointer;
 }
 </style>

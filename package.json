@@ -14,7 +14,8 @@
     "@quasar/extras": "^1.0.0",
     "axios": "^0.18.1",
     "moment": "^2.25.3",
-    "quasar": "^1.0.0"
+    "quasar": "^1.0.0",
+    "vue-functional-calendar": "^2.8.83"
   },
   "devDependencies": {
     "@quasar/app": "^1.0.0"

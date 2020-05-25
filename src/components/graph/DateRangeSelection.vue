@@ -1,32 +1,45 @@
 <template>
     <div>
-        <div>Hi</div>
-        <!-- <div>{{something}}</div> -->
-        <div>{{getCountriesArr}}</div>
-        <button @click="fetchData">Hi There</button>
-        <!-- <ul>
-            <li v-for="(item, i) in someData" :key="i">{{item}}</li>
-        </ul>-->
+        <div>Date Range</div>
+        <FunctionalCalendar
+            @selectedDaysCount="selectedDaysCount"
+            v-model="calendarData"
+            :date-format="'yyyy-mm-dd'"
+            :is-date-range="true"
+            :is-date-picker="true"
+        ></FunctionalCalendar>
+    </div>
+</template>
     </div>
 </template>
 
 <script>
-import { mapGetters, mapActions } from "vuex";
+import moment from "moment";
+
+import { mapActions } from "vuex";
+
+import { FunctionalCalendar } from "vue-functional-calendar";
 
 export default {
     name: "DateRangeSelection",
     data() {
-        return { something: "" };
+        return { calendarData: {} };
+    },
+    components: {
+        FunctionalCalendar
     },
     methods: {
-        ...mapActions("allCountries", [
-            "fetchData",
-            "intervalFetchData",
-            "stopCurrentInterval"
-        ])
-    },
-    computed: {
-        ...mapGetters("allCountries", ["getCountriesArr", "getErrorMsg"])
+        ...mapActions("oneCountry", ["fetchData"]),
+        selectedDaysCount(daysSelected) {
+            let from = this.calendarData.dateRange.start.date;
+            from = moment(from, "YYYY-MM-DD")
+                .subtract(1, "days")
+                .format("YYYY-MM-DD");
+            console.log("from: " + from);
+            let to = this.calendarData.dateRange.end.date;
+            console.log("to: " + to);
+            this.fetchData({ from, to });
+        }
     }
 };
 </script>

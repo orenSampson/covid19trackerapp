@@ -33,8 +33,7 @@ export default {
             if (this.lastDays) {
                 const from = this.daysAgoFromNow(this.lastDays);
                 const to = moment().format("YYYY-MM-DD");
-                const country = "south-africa";
-                this.fetchData({ from, to, country });
+                this.fetchData({ from, to });
             }
         }
     },

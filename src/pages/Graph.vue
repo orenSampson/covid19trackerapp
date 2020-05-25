@@ -1,17 +1,16 @@
 <template>
     <div>
-        <last-days-selection />
+        <start-page></start-page>
     </div>
 </template>
 
 <script>
-import LastDaysSelection from "components/graph/LastDaysSelection";
-
+import StartPage from "components/graph/StartPage";
 export default {
     name: "PageGraph",
 
     components: {
-        LastDaysSelection
+        StartPage
     },
 
     data() {

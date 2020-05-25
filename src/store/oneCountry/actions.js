@@ -23,28 +23,33 @@ const calcDiff = (arr, daysAmount) => {
 
 const formatDate = date => date + "T00:00:00Z";
 
-export function fetchData({ commit }, payload) {
+export function fetchData({ commit, state }, payload) {
+  commit("setFrom", null);
+  commit("setTo", null);
+  commit("setFetchedData", null);
+
   const baseURL = "https://api.covid19api.com";
 
   let from = payload.from;
+  from = moment(from, "YYYY-MM-DD").format("YYYY-MM-DD");
   commit("setFrom", from);
 
   let to = payload.to;
+  to = moment(to, "YYYY-MM-DD").format("YYYY-MM-DD");
   commit("setTo", to);
-
-  const country = payload.country;
-  commit("setCountry", country);
 
   const fromMoment = moment(from, "YYYY-MM-DD");
   const toMoment = moment(to, "YYYY-MM-DD");
   const dayDiff = toMoment.diff(fromMoment, "days");
 
+  const country = state.country;
   from = formatDate(from);
   to = formatDate(to);
 
   Vue.prototype.$axios
     .get(`${baseURL}/country/${country}?from=${from}&to=${to}`)
     .then(res => {
+      console.log(res.data);
       commit("setFetchedData", calcDiff(res.data, dayDiff));
     });
 }
