@@ -5,13 +5,14 @@
         <button @click="mode = 'DateRange'">Date Range Selection Mode</button>
         <last-days-selection v-if="mode === 'LastDays'"></last-days-selection>
         <date-range-selection v-if="mode === 'DateRange'"></date-range-selection>
+        <graph-by-country></graph-by-country>
     </div>
 </template>
 
 <script>
 import LastDaysSelection from "components/graph/LastDaysSelection";
 import DateRangeSelection from "components/graph/DateRangeSelection";
-// import Graph
+import GraphByCountry from "components/graph/GraphByCountry";
 
 import { mapActions } from "vuex";
 
@@ -19,7 +20,8 @@ export default {
     name: "StartPage",
     components: {
         LastDaysSelection,
-        DateRangeSelection
+        DateRangeSelection,
+        GraphByCountry
     },
 
     data() {

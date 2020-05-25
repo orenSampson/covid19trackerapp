@@ -44,7 +44,7 @@ export default {
         }
     },
 
-    created() {
+    mounted() {
         this.callToFetchData();
     }
 };

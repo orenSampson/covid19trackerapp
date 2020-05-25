@@ -4,15 +4,6 @@
 
 <script>
 export default {
-    name: "GraphByCountry",
-    data() {
-        return {
-            dateOptions: ["lastDays", "dateRangeSelection"],
-            dateSelection: null
-        };
-    }
+    name: "GraphByCountry"
 };
 </script>
-
-<style scoped>
-</style>

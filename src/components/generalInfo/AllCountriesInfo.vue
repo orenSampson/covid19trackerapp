@@ -52,7 +52,7 @@ export default {
         })
     },
 
-    created() {
+    mounted() {
         this.fetchData();
         this.intervalFetchData(this.fetchInterval);
     },
