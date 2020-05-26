@@ -9,6 +9,7 @@
 
 <script>
 import { mapActions } from "vuex";
+import consts from "src/constants/Graph.constants";
 
 import moment from "moment";
 
@@ -17,7 +18,7 @@ export default {
 
     data() {
         return {
-            lastDaysOption: [14, 30],
+            lastDaysOption: consts.LASTDAYSOPTIONS,
             lastDays: null
         };
     },
