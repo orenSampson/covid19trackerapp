@@ -1,11 +1,11 @@
-export function getCountriesArr(state) {
+export function countriesArr(state) {
   return state.countriesArr;
 }
 
-export function getErrorMsg(state) {
+export function errorMsg(state) {
   return state.errorMsg;
 }
 
-export function getIntervalId(state) {
+export function intervalId(state) {
   return state.intervalId;
 }

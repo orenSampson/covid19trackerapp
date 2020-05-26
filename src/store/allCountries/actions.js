@@ -32,6 +32,6 @@ export function intervalFetchData({ dispatch, commit }, payload) {
 }
 
 export function stopCurrentInterval({ getters }) {
-  const intervalId = getters.getIntervalId;
+  const intervalId = getters.intervalId;
   clearInterval(intervalId);
 }

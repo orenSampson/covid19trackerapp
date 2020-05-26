@@ -46,10 +46,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters("allCountries", {
-            countriesArr: "getCountriesArr",
-            errorMsg: "getErrorMsg"
-        })
+        ...mapGetters("allCountries", ["countriesArr", "errorMsg"])
     },
 
     mounted() {

@@ -23,7 +23,7 @@ const calcDiff = (arr, daysAmount) => {
 
 const formatDate = date => date + "T00:00:00Z";
 
-export function fetchData({ commit, state }, payload) {
+export function fetchData({ commit, getters }, payload) {
   commit("setFrom", null);
   commit("setTo", null);
   commit("setFetchedData", null);
@@ -42,7 +42,7 @@ export function fetchData({ commit, state }, payload) {
   const toMoment = moment(to, "YYYY-MM-DD");
   const dayDiff = toMoment.diff(fromMoment, "days");
 
-  const country = state.country;
+  const country = getters.country;
   from = formatDate(from);
   to = formatDate(to);
 

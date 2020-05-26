@@ -1,14 +1,14 @@
-export function getCountry(state) {
+export function country(state) {
   return state.country;
 }
-export function getFrom(state) {
+export function from(state) {
   return state.from;
 }
 
-export function getTo(state) {
+export function to(state) {
   return state.to;
 }
 
-export function getFetchedData(state) {
+export function fetchedData(state) {
   return state.fetchedData;
 }
