@@ -43,8 +43,6 @@ export async function fetchData({ commit, getters }, payload) {
   commit("setTo", null);
   commit("setFetchedData", null);
 
-  const baseURL = "https://api.covid19api.com";
-
   let from = payload.from;
   from = moment(from, "YYYY-MM-DD").format("YYYY-MM-DD");
   commit("setFrom", from);
@@ -62,8 +60,8 @@ export async function fetchData({ commit, getters }, payload) {
   to = formatDate(to);
 
   try {
-    const res = await Vue.prototype.$axios.get(
-      `${baseURL}/country/${country}?from=${from}&to=${to}`
+    const res = await Vue.prototype.$axiosFetch.get(
+      `/country/${country}?from=${from}&to=${to}`
     );
     console.log(res.data);
     commit("setFetchedData", calcDiff(res.data, dayDiff));

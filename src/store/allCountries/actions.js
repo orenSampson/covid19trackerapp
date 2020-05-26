@@ -2,9 +2,7 @@ import Vue from "vue";
 
 export async function fetchData({ commit }) {
   try {
-    const res = await Vue.prototype.$axios.get(
-      "https://api.covid19api.com/summary"
-    );
+    const res = await Vue.prototype.$axiosFetch.get("/summary");
     const countriesArr = res.data.Countries;
 
     countriesArr.sort((countryA, countryB) => {
