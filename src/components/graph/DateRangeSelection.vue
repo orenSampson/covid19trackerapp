@@ -32,12 +32,13 @@ export default {
         ...mapActions("oneCountry", ["fetchData"]),
         selectedDaysCount(daysSelected) {
             let from = this.calendarData.dateRange.start.date;
+
             from = moment(from, "YYYY-MM-DD")
                 .subtract(1, "days")
                 .format("YYYY-MM-DD");
-            console.log("from: " + from);
+
             let to = this.calendarData.dateRange.end.date;
-            console.log("to: " + to);
+            
             this.fetchData({ from, to });
         }
     }
