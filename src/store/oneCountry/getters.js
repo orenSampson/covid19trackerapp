@@ -12,3 +12,7 @@ export function to(state) {
 export function fetchedData(state) {
   return state.fetchedData;
 }
+
+export function errorMsg(state) {
+  return state.errorMsg;
+}

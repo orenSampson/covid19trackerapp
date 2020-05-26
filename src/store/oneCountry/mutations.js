@@ -13,3 +13,7 @@ export function setTo(state, payload) {
 export function setFetchedData(state, payload) {
   state.fetchedData = payload;
 }
+
+export function setErrorMsg(state, payload) {
+  state.errorMsg = payload;
+}

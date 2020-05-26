@@ -23,7 +23,7 @@ const calcDiff = (arr, daysAmount) => {
 
 const formatDate = date => date + "T00:00:00Z";
 
-export function fetchData({ commit, getters }, payload) {
+export async function fetchData({ commit, getters }, payload) {
   commit("setFrom", null);
   commit("setTo", null);
   commit("setFetchedData", null);
@@ -46,12 +46,16 @@ export function fetchData({ commit, getters }, payload) {
   from = formatDate(from);
   to = formatDate(to);
 
-  Vue.prototype.$axios
-    .get(`${baseURL}/country/${country}?from=${from}&to=${to}`)
-    .then(res => {
-      console.log(res.data);
-      commit("setFetchedData", calcDiff(res.data, dayDiff));
-    });
+  try {
+    const res = await Vue.prototype.$axios.get(
+      `${baseURL}/country/${country}?from=${from}&to=${to}`
+    );
+    console.log(res.data);
+    commit("setFetchedData", calcDiff(res.data, dayDiff));
+    commit("setErrorMsg", null);
+  } catch (err) {
+    commit("setErrorMsg", err);
+  }
 }
 
 export function setCountryAction({ commit }, payload) {
