@@ -1,3 +1,4 @@
 export default {
-  LASTDAYSOPTIONS: [14, 30]
+  LASTDAYSOPTIONS: [14, 30],
+  FETCHINTERVALOPTIONS: [5, 7, 10]
 };

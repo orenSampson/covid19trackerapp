@@ -11,6 +11,8 @@
 <script>
 import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
 
+import consts from "src/constants/Graph.constants";
+
 export default {
     name: "PageIndex",
 
@@ -20,7 +22,7 @@ export default {
 
     data() {
         return {
-            fetchIntervalOptions: [5, 7, 10],
+            fetchIntervalOptions: consts.FETCHINTERVALOPTIONS,
             fetchInterval: 10
         };
     }
