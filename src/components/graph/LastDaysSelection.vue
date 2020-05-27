@@ -45,10 +45,6 @@ export default {
         lastDays() {
             this.callToFetchData();
         }
-    },
-
-    mounted() {
-        this.callToFetchData();
     }
 };
 </script>
