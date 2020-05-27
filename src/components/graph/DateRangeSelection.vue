@@ -14,11 +14,10 @@
 </template>
 
 <script>
-import moment from "moment";
+import { FunctionalCalendar } from "vue-functional-calendar";
 
 import { mapActions } from "vuex";
-
-import { FunctionalCalendar } from "vue-functional-calendar";
+import { date } from "quasar";
 
 export default {
     name: "DateRangeSelection",
@@ -31,14 +30,19 @@ export default {
     methods: {
         ...mapActions("oneCountry", ["fetchData"]),
         selectedDaysCount(daysSelected) {
+            const { subtractFromDate, formatDate } = date;
+
             let from = this.calendarData.dateRange.start.date;
+            from = formatDate(
+                subtractFromDate(from, { days: 1 }),
+                "YYYY-MM-DD"
+            );
 
-            from = moment(from, "YYYY-MM-DD")
-                .subtract(1, "days")
-                .format("YYYY-MM-DD");
+            let to = formatDate(
+                this.calendarData.dateRange.end.date,
+                "YYYY-MM-DD"
+            );
 
-            let to = this.calendarData.dateRange.end.date;
-            
             this.fetchData({ from, to });
         }
     }

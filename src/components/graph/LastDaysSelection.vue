@@ -11,7 +11,7 @@
 import { mapActions } from "vuex";
 import consts from "src/constants/Graph.constants";
 
-import moment from "moment";
+import { date } from "quasar";
 
 export default {
     name: "LastDaysSelection",
@@ -25,15 +25,17 @@ export default {
 
     methods: {
         ...mapActions("oneCountry", ["fetchData"]),
-        daysAgoFromNow(daysFromNow) {
-            return moment()
-                .subtract(daysFromNow + 1, "days")
-                .format("YYYY-MM-DD");
-        },
         callToFetchData() {
             if (this.lastDays) {
-                const from = this.daysAgoFromNow(this.lastDays);
-                const to = moment().format("YYYY-MM-DD");
+                const { subtractFromDate, formatDate } = date;
+
+                let from = subtractFromDate(new Date(), {
+                    days: this.lastDays + 1
+                });
+                from = formatDate(from, "YYYY-MM-DD");
+
+                const to = formatDate(new Date(), "YYYY-MM-DD");
+
                 this.fetchData({ from, to });
             }
         }

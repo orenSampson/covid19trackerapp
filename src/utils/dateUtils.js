@@ -1,5 +1,4 @@
 export const calcDiff = (arr, daysAmount) => {
-  console.log("calcDiff - im here");
   if (arr.length > 2) {
     const compactedArr = [];
     compactedArr.push(arr[0]);
