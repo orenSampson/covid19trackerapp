@@ -2,8 +2,9 @@ export const calcDiff = (arr, daysAmount) => {
   if (arr.length > 2) {
     const compactedArr = [];
     compactedArr.push(arr[0]);
-    for (let i = 1; i < arr.length - 1; i++) {
+    for (let i = 1; i < arr.length; i++) {
       if (compactedArr[compactedArr.length - 1].Date === arr[i].Date) {
+        console.log("Same Date: " + arr[i].Date);
         compactedArr[compactedArr.length - 1].Confirmed += arr[i].Confirmed;
         compactedArr[compactedArr.length - 1].Deaths += arr[i].Deaths;
       } else {
@@ -32,4 +33,4 @@ export const calcDiff = (arr, daysAmount) => {
   commit("setErrorMsg", "Array fetched is to short. please try again");
 };
 
-export const formatDate = date => date + "T00:00:00Z";
+export const formatDateWithTime = date => date + "T00:00:00Z";

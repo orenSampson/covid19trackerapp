@@ -30,8 +30,9 @@ export default {
                 const { subtractFromDate, formatDate } = date;
 
                 let from = subtractFromDate(new Date(), {
-                    days: this.lastDays + 1
+                    days: this.lastDays
                 });
+
                 from = formatDate(from, "YYYY-MM-DD");
 
                 const to = formatDate(new Date(), "YYYY-MM-DD");

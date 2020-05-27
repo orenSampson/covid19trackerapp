@@ -1,10 +1,10 @@
 import Vue from "vue";
 import { date } from "quasar";
 
-import { calcDiff, formatDate } from "src/utils/dateUtils";
+import { calcDiff, formatDateWithTime } from "src/utils/dateUtils";
 
 export async function fetchData({ commit, getters }, payload) {
-  const { getDateDiff } = date;
+  const { getDateDiff, subtractFromDate, formatDate } = date;
 
   commit("setFrom", null);
   commit("setTo", null);
@@ -16,12 +16,14 @@ export async function fetchData({ commit, getters }, payload) {
   let to = payload.to;
   commit("setTo", to);
 
-  let dayDiff = getDateDiff(to, from, "days");
-
   const country = getters.country;
 
-  from = formatDate(from);
-  to = formatDate(to);
+  let dayDiff = getDateDiff(to, from, "days");
+
+  from = formatDate(subtractFromDate(from, { days: 1 }), "YYYY-MM-DD");
+
+  from = formatDateWithTime(from);
+  to = formatDateWithTime(to);
 
   try {
     const res = await Vue.prototype.$axiosFetch.get(
