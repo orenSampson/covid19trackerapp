@@ -7,9 +7,7 @@
 <script>
 import AllCountriesInfo from "src/components/generalInfo/AllCountriesInfo";
 
-import consts from "src/constants/GeneralInfo.constants";
-
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 export default {
     name: "IntervalFetchCountries",
@@ -18,11 +16,8 @@ export default {
         AllCountriesInfo
     },
 
-    props: {
-        fetchInterval: {
-            type: [Number],
-            required: true
-        }
+    data() {
+        return {};
     },
 
     methods: {
@@ -33,9 +28,13 @@ export default {
         ])
     },
 
+    computed: {
+        ...mapGetters("allCountries", ["fetchIntervalVal"])
+    },
+
     mounted() {
         this.fetchData();
-        this.intervalFetchData(this.fetchInterval);
+        this.intervalFetchData();
     },
 
     beforeDestroy() {
@@ -43,9 +42,9 @@ export default {
     },
 
     watch: {
-        fetchInterval() {
+        fetchIntervalVal() {
             this.stopCurrentInterval();
-            this.intervalFetchData(this.fetchInterval);
+            this.intervalFetchData();
         }
     }
 };

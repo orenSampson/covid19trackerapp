@@ -19,8 +19,8 @@ export async function fetchData({ commit }) {
   }
 }
 
-export function intervalFetchData({ dispatch, commit }, payload) {
-  const fetchInterval = payload;
+export function intervalFetchData({ dispatch, commit, getters }, payload) {
+  const fetchInterval = getters.fetchIntervalVal;
 
   const intervalId = setInterval(
     () => dispatch("fetchData"),
@@ -32,5 +32,10 @@ export function intervalFetchData({ dispatch, commit }, payload) {
 
 export function stopCurrentInterval({ getters }) {
   const intervalId = getters.intervalId;
+
   clearInterval(intervalId);
+}
+
+export function setFetchIntervalValAction({ commit }, payload) {
+  commit("setFetchIntervalVal", payload);
 }

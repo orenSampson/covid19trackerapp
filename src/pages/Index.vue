@@ -10,15 +10,8 @@
         </div>
 
         <div v-if="mode === modeOptions[1]">
-            <span class="text-bold">Select time interval for fetching data (in seconds):</span>
-            <select v-model="fetchInterval" class="q-ml-md">
-                <option
-                    v-for="(val, index) in fetchIntervalOptions"
-                    :key="index"
-                    :value="val"
-                >{{val}}</option>
-            </select>
-            <interval-fetch-countries :fetchInterval="fetchInterval" />
+            <interval-selected />
+            <interval-fetch-countries />
         </div>
     </div>
 </template>
@@ -26,6 +19,7 @@
 <script>
 import IntervalFetchCountries from "components/generalInfo/IntervalFetchCountries";
 import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
+import IntervalSelected from "components/generalInfo/IntervalSelected";
 
 import { mapActions } from "vuex";
 
@@ -36,13 +30,12 @@ export default {
 
     components: {
         IntervalFetchCountries,
-        AllCountriesInfo
+        AllCountriesInfo,
+        IntervalSelected
     },
 
     data() {
         return {
-            fetchIntervalOptions: consts.FETCHINTERVALOPTIONS,
-            fetchInterval: consts.FETCHINTERVALOPTIONS[2],
             modeOptions: consts.modes,
             mode: null
         };

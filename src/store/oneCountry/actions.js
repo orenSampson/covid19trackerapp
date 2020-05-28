@@ -44,6 +44,7 @@ export function setCountryAction({ commit }, payload) {
 export function setFromAction({ commit }, payload) {
   commit("setFrom", payload);
 }
+
 export function setToAction({ commit }, payload) {
   commit("setTo", payload);
 }
