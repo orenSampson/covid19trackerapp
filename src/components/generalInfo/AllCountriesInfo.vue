@@ -17,7 +17,7 @@
 <script>
 import CountryInfo from "components/generalInfo/CountryInfo";
 
-import { mapActions, mapGetters } from "vuex";
+import { mapGetters } from "vuex";
 
 export default {
     name: "AllCountriesInfo",
@@ -26,43 +26,8 @@ export default {
         CountryInfo
     },
 
-    props: {
-        fetchInterval: {
-            type: [Number],
-            required: true
-        }
-    },
-
-    data() {
-        return {};
-    },
-
-    methods: {
-        ...mapActions("allCountries", [
-            "fetchData",
-            "intervalFetchData",
-            "stopCurrentInterval"
-        ])
-    },
-
     computed: {
         ...mapGetters("allCountries", ["countriesArr", "errorMsg"])
-    },
-
-    mounted() {
-        this.fetchData();
-        this.intervalFetchData(this.fetchInterval);
-    },
-
-    beforeDestroy() {
-        this.stopCurrentInterval();
-    },
-
-    watch: {
-        fetchInterval() {
-            this.stopCurrentInterval();
-            this.intervalFetchData(this.fetchInterval);
-        }
     }
 };
 </script>
