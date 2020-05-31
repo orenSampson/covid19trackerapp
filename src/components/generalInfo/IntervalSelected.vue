@@ -17,7 +17,7 @@ export default {
 
     data() {
         return {
-            fetchIntervalOptions: consts.FETCHINTERVALOPTIONS
+            fetchIntervalOptions: consts.FETCH_INTERVAL_OPTIONS
         };
     },
 
