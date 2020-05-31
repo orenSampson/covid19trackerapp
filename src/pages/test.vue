@@ -11,6 +11,7 @@ export default {
         const fromMoment = moment(from, "YYYY-MM-DD");
         const toMoment = moment(to, "YYYY-MM-DD");
         console.log(toMoment.diff(fromMoment, "days"));
+        // console.log(toMoment.diff(fromMoment, "days"));
     }
 };
 </script>
