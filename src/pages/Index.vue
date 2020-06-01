@@ -1,24 +1,23 @@
 <template>
     <div>
-        {{mode}}
         <div>
             <button @click="mode = modeOptions.manual">Manual Fetch</button>
             <button @click="mode = modeOptions.interval">Interval Fetch</button>
         </div>
+
         <div v-if="mode === modeOptions.manual">
             <button @click="fetchData">Fetch Data</button>
-            <all-countries-info />
         </div>
 
         <div v-if="mode === modeOptions.interval">
             <interval-selected />
-            <interval-fetch-countries />
         </div>
+
+        <all-countries-info />
     </div>
 </template>
 
 <script>
-import IntervalFetchCountries from "components/generalInfo/IntervalFetchCountries";
 import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
 import IntervalSelected from "components/generalInfo/IntervalSelected";
 
@@ -30,7 +29,6 @@ export default {
     name: "PageIndex",
 
     components: {
-        IntervalFetchCountries,
         AllCountriesInfo,
         IntervalSelected
     },

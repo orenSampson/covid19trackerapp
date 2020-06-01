@@ -19,7 +19,7 @@ export async function fetchData({ commit }) {
   }
 }
 
-export function intervalFetchData({ dispatch, commit, getters }, payload) {
+export function intervalFetchData({ dispatch, commit, getters }) {
   const fetchInterval = getters.fetchIntervalVal;
 
   const intervalId = setInterval(

@@ -22,7 +22,20 @@ export default {
     },
 
     methods: {
-        ...mapActions("allCountries", ["setFetchIntervalValAction"])
+        ...mapActions("allCountries", [
+            "setFetchIntervalValAction",
+            "fetchData",
+            "intervalFetchData",
+            "stopCurrentInterval"
+        ])
+    },
+
+    mounted() {
+        this.fetchData();
+    },
+
+    beforeDestroy() {
+        this.stopCurrentInterval();
     },
 
     computed: {
@@ -34,6 +47,15 @@ export default {
             set(value) {
                 this.setFetchIntervalValAction(value);
             }
+        }
+    },
+    watch: {
+        fetchIntervalVal: {
+            handler() {
+                this.stopCurrentInterval();
+                this.intervalFetchData();
+            },
+            immediate: true
         }
     }
 };
