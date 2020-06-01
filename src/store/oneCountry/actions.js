@@ -1,5 +1,5 @@
 import Vue from "vue";
-import { date } from "quasar";
+import { date, Notify } from "quasar";
 
 import { calcDiff, formatDateWithTime } from "src/utils/date";
 
@@ -31,9 +31,11 @@ export async function fetchData({ commit, getters }, payload) {
     );
     console.log(res.data);
     commit("setFetchedData", calcDiff(res.data, dayDiff));
-    commit("setErrorMsg", null);
   } catch (err) {
-    commit("setErrorMsg", err);
+    Notify.create({
+      message: "Unable To Fetch Data: " + err,
+      color: "primary"
+    });
   }
 }
 

@@ -7,11 +7,7 @@
         <last-days-selection v-if="selectedMode === modes.lastDays"></last-days-selection>
         <date-range-selection v-if="selectedMode === modes.dateRange"></date-range-selection>
 
-        <graph-by-country v-if="!errorMsg"></graph-by-country>
-        <div v-if="errorMsg" class="text-h5">
-            <span class="text-weight-bold">Error with fetching the data:</span>
-            {{ errorMsg }}
-        </div>
+        <graph-by-country></graph-by-country>
     </div>
 </template>
 
@@ -21,7 +17,7 @@ import DateRangeSelection from "components/graph/DateRangeSelection";
 import GraphByCountry from "components/graph/GraphByCountry";
 
 import consts from "src/constants/graph";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
     name: "Graph",
@@ -41,10 +37,6 @@ export default {
 
     methods: {
         ...mapActions("oneCountry", { setCountry: "setCountryAction" })
-    },
-
-    computed: {
-        ...mapGetters("oneCountry", ["errorMsg"])
     },
 
     mounted() {

@@ -1,5 +1,7 @@
 import Vue from "vue";
 
+import { Notify } from "quasar";
+
 export async function fetchData({ commit }) {
   try {
     const res = await Vue.prototype.$axiosFetch.get("/summary");
@@ -12,10 +14,12 @@ export async function fetchData({ commit }) {
     });
 
     commit("setCountriesArr", countriesArr);
-    commit("setErrorMsg", null);
   } catch (err) {
     commit("setCountriesArr", []);
-    commit("setErrorMsg", err);
+    Notify.create({
+      message: "Unable To Fetch Data: " + err,
+      color: "primary"
+    });
   }
 }
 

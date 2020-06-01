@@ -7,10 +7,6 @@
                 :countryInfo="country"
             />
         </div>
-        <div v-if="errorMsg" class="text-h5">
-            <span class="text-weight-bold">Error with fetching the data:</span>
-            {{ errorMsg }}
-        </div>
     </div>
 </template>
 
@@ -27,7 +23,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters("allCountries", ["countriesArr", "errorMsg"])
+        ...mapGetters("allCountries", ["countriesArr"])
     }
 };
 </script>
