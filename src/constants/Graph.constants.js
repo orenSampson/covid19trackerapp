@@ -1,3 +1,3 @@
-export default {
-  LASTDAYSOPTIONS: [14, 30]
-};
+export default Object.freeze({
+  LAST_DAYS_OPTIONS: [14, 30]
+});

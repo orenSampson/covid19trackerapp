@@ -1,15 +1,16 @@
 <template>
     <div>
+        {{mode}}
         <div>
-            <button @click="mode = modeOptions[0]">Manual Fetch</button>
-            <button @click="mode = modeOptions[1]">Interval Fetch</button>
+            <button @click="mode = modeOptions.manual">Manual Fetch</button>
+            <button @click="mode = modeOptions.interval">Interval Fetch</button>
         </div>
-        <div v-if="mode === modeOptions[0]">
+        <div v-if="mode === modeOptions.manual">
             <button @click="fetchData">Fetch Data</button>
             <all-countries-info />
         </div>
 
-        <div v-if="mode === modeOptions[1]">
+        <div v-if="mode === modeOptions.interval">
             <interval-selected />
             <interval-fetch-countries />
         </div>
@@ -36,7 +37,7 @@ export default {
 
     data() {
         return {
-            modeOptions: consts.modes,
+            modeOptions: consts.MODES,
             mode: null
         };
     },
