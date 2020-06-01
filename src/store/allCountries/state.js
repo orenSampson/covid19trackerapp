@@ -1,4 +1,4 @@
-import consts from "src/constants/GeneralInfo.constants";
+import consts from "src/constants/generalInfo";
 
 export default function() {
   return {

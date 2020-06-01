@@ -1,7 +1,7 @@
 import Vue from "vue";
 import { date } from "quasar";
 
-import { calcDiff, formatDateWithTime } from "src/utils/dateUtils";
+import { calcDiff, formatDateWithTime } from "src/utils/date";
 
 export async function fetchData({ commit, getters }, payload) {
   const { getDateDiff, subtractFromDate, formatDate } = date;

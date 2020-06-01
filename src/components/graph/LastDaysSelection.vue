@@ -9,7 +9,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import consts from "src/constants/Graph.constants";
+import consts from "src/constants/graph";
 import { date } from "quasar";
 
 export default {

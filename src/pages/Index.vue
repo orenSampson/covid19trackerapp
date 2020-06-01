@@ -23,7 +23,7 @@ import IntervalSelected from "components/generalInfo/IntervalSelected";
 
 import { mapActions } from "vuex";
 
-import consts from "src/constants/GeneralInfo.constants";
+import consts from "src/constants/generalInfo";
 
 export default {
     name: "PageIndex",

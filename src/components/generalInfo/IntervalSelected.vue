@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import consts from "src/constants/GeneralInfo.constants";
+import consts from "src/constants/generalInfo";
 
 import { mapActions, mapGetters } from "vuex";
 
