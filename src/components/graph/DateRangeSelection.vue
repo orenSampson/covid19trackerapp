@@ -16,7 +16,7 @@
 <script>
 import { FunctionalCalendar } from "vue-functional-calendar";
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
 
 export default {
@@ -30,11 +30,10 @@ export default {
     methods: {
         ...mapActions("oneCountry", ["fetchData"]),
         selectedDaysCount(daysSelected) {
-            const { subtractFromDate, formatDate } = date;
+            const { formatDate } = date;
 
-            let from = this.calendarData.dateRange.start.date;
-            from = formatDate(
-                subtractFromDate(from, { days: 1 }),
+            let from = formatDate(
+                this.calendarData.dateRange.start.date,
                 "YYYY-MM-DD"
             );
 
@@ -45,6 +44,9 @@ export default {
 
             this.fetchData({ from, to });
         }
+    },
+    computed: {
+        ...mapGetters("oneCountry", ["from", "to"])
     }
 };
 </script>

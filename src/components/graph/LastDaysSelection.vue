@@ -27,13 +27,15 @@ export default {
         callToFetchData() {
             const { subtractFromDate, formatDate } = date;
 
-            let from = subtractFromDate(new Date(), {
-                days: this.lastDays
+            let to = subtractFromDate(new Date(), {
+                days: 1
             });
+            to = formatDate(to, "YYYY-MM-DD");
 
+            let from = subtractFromDate(to, {
+                days: this.lastDays - 1
+            });
             from = formatDate(from, "YYYY-MM-DD");
-
-            const to = formatDate(new Date(), "YYYY-MM-DD");
 
             this.fetchData({ from, to });
         }

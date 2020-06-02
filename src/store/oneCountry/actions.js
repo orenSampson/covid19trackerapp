@@ -18,7 +18,7 @@ export async function fetchData({ commit, getters }, payload) {
 
   const country = getters.country;
 
-  let dayDiff = getDateDiff(to, from, "days");
+  let dayDiff = getDateDiff(to, from, "days") + 1;
 
   from = formatDate(subtractFromDate(from, { days: 1 }), "YYYY-MM-DD");
 
