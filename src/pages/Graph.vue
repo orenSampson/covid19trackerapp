@@ -24,6 +24,8 @@ import { mapActions } from "vuex";
 export default {
     name: "Graph",
 
+    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {},
+
     components: {
         LastDaysSelection,
         DateRangeSelection,

@@ -28,6 +28,8 @@ import consts from "src/constants/generalInfo";
 export default {
     name: "PageIndex",
 
+    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {},
+
     components: {
         AllCountriesInfo,
         IntervalSelected
