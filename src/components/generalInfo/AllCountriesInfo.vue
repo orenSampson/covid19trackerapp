@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div v-if="countriesArr.length > 0">
+        <div v-if="countriesArr && countriesArr.length > 0">
             <country-info
                 v-for="country in countriesArr"
                 :key="country.CountryCode"

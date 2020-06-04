@@ -1,7 +1,7 @@
 <template>
     <div>
         <span class="text-bold">Select number of last days:</span>
-        <select v-model="lastDays" class="q-ml-md" @change="callToFetchData">
+        <select v-model="lastDays" class="q-ml-md" @change="callToFetchData(lastDays)">
             <option v-for="(val, index) in lastDaysOption" :key="index" :value="val">{{val}}</option>
         </select>
     </div>
@@ -18,13 +18,17 @@ export default {
     data() {
         return {
             lastDaysOption: consts.LAST_DAYS_OPTIONS,
-            lastDays: null
+            lastDays: consts.LAST_DAYS_OPTIONS[consts.DEFAULT_LAST_DAYS]
         };
+    },
+
+    created() {
+        this.callToFetchData(this.lastDays);
     },
 
     methods: {
         ...mapActions("oneCountry", ["fetchData"]),
-        callToFetchData() {
+        callToFetchData(lastDays) {
             const { subtractFromDate, formatDate } = date;
 
             let to = subtractFromDate(new Date(), {
@@ -33,7 +37,7 @@ export default {
             to = formatDate(to, "YYYY-MM-DD");
 
             let from = subtractFromDate(to, {
-                days: this.lastDays - 1
+                days: lastDays - 1
             });
             from = formatDate(from, "YYYY-MM-DD");
 

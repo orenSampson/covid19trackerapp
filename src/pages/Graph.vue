@@ -24,7 +24,12 @@ import { mapActions } from "vuex";
 export default {
     name: "Graph",
 
-    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {},
+    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+        return store.dispatch(
+            "oneCountry/setCountryAction",
+            currentRoute.params.country
+        );
+    },
 
     components: {
         LastDaysSelection,
@@ -41,10 +46,6 @@ export default {
 
     methods: {
         ...mapActions("oneCountry", { setCountry: "setCountryAction" })
-    },
-
-    mounted() {
-        this.setCountry(this.$route.params.country);
     },
 
     watch: {

@@ -6,10 +6,6 @@ import { calcDiff, formatDateWithTime } from "src/utils/date";
 export async function fetchData({ commit, getters }, payload) {
   const { getDateDiff, subtractFromDate, formatDate } = date;
 
-  commit("setFrom", null);
-  commit("setTo", null);
-  commit("setFetchedData", null);
-
   let from = payload.from;
   commit("setFrom", from);
 
@@ -32,6 +28,7 @@ export async function fetchData({ commit, getters }, payload) {
     console.log(res.data);
     commit("setFetchedData", calcDiff(res.data, dayDiff));
   } catch (err) {
+    commit("setFetchedData", []);
     Notify.create({
       message: "Unable To Fetch Data: " + err,
       color: "primary"

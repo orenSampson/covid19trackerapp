@@ -23,12 +23,14 @@ import IntervalSelected from "components/generalInfo/IntervalSelected";
 
 import { mapActions } from "vuex";
 
-import consts from "src/constants/generalInfo";
+import { MODES } from "src/constants/generalInfo";
 
 export default {
     name: "PageIndex",
 
-    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {},
+    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+        return store.dispatch("allCountries/fetchData");
+    },
 
     components: {
         AllCountriesInfo,
@@ -37,7 +39,7 @@ export default {
 
     data() {
         return {
-            modeOptions: consts.MODES,
+            modeOptions: MODES,
             mode: null
         };
     },

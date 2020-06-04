@@ -8,16 +8,16 @@
 </template>
 
 <script>
-import consts from "src/constants/generalInfo";
+import { FETCH_INTERVAL_OPTIONS } from "src/constants/generalInfo";
 
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
     name: "IntevalSelected",
 
     data() {
         return {
-            fetchIntervalOptions: consts.FETCH_INTERVAL_OPTIONS
+            fetchIntervalOptions: FETCH_INTERVAL_OPTIONS
         };
     },
 
@@ -32,6 +32,7 @@ export default {
 
     mounted() {
         this.fetchData();
+        this.intervalFetchData();
     },
 
     beforeDestroy() {
@@ -39,23 +40,15 @@ export default {
     },
 
     computed: {
-        ...mapGetters("allCountries", ["fetchIntervalVal"]),
         fetchIntervalValue: {
             get() {
-                return this.fetchIntervalVal;
+                return this.$store.getters["allCountries/fetchIntervalVal"];
             },
             set(value) {
-                this.setFetchIntervalValAction(value);
-            }
-        }
-    },
-    watch: {
-        fetchIntervalVal: {
-            handler() {
                 this.stopCurrentInterval();
                 this.intervalFetchData();
-            },
-            immediate: true
+                this.setFetchIntervalValAction(value);
+            }
         }
     }
 };

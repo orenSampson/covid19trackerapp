@@ -3,6 +3,6 @@ export default function() {
     country: null,
     from: null,
     to: null,
-    fetchedData: null
+    fetchedData: []
   };
 }

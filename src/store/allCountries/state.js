@@ -1,10 +1,12 @@
-import consts from "src/constants/generalInfo";
+import {
+  FETCH_INTERVAL_OPTIONS,
+  FETCH_INTERVAL_OPTIONS_DEFAULT
+} from "src/constants/generalInfo";
 
 export default function() {
   return {
     countriesArr: [],
     intervalId: null,
-    fetchIntervalVal:
-      consts.FETCH_INTERVAL_OPTIONS[consts.FETCH_INTERVAL_OPTIONS_DEFAULT]
+    fetchIntervalVal: FETCH_INTERVAL_OPTIONS[FETCH_INTERVAL_OPTIONS_DEFAULT]
   };
 }
