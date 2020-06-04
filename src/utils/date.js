@@ -4,7 +4,6 @@ export const calcDiff = (arr, daysAmount) => {
     compactedArr.push(arr[0]);
     for (let i = 1; i < arr.length; i++) {
       if (compactedArr[compactedArr.length - 1].Date === arr[i].Date) {
-        console.log("Same Date: " + arr[i].Date);
         compactedArr[compactedArr.length - 1].Confirmed += arr[i].Confirmed;
         compactedArr[compactedArr.length - 1].Deaths += arr[i].Deaths;
       } else {

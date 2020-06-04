@@ -16,6 +16,7 @@ export async function fetchData({ commit }) {
     commit("setCountriesArr", countriesArr);
   } catch (err) {
     commit("setCountriesArr", []);
+
     Notify.create({
       message: "Unable To Fetch Data: " + err,
       color: "primary"

@@ -58,7 +58,7 @@ module.exports = function(/* ctx */) {
     supportTS: false,
 
     // https://quasar.dev/quasar-cli/cli-documentation/prefetch-feature
-    // preFetch: true
+    preFetch: true,
 
     // Full list of options: https://quasar.dev/quasar-cli/quasar-conf-js#Property%3A-build
     build: {
