@@ -1,13 +1,7 @@
 <template>
     <div>
-        <!-- <div class="text-bold">Choose LastDays Mode Or Choose Date Range Selection Mode:</div> -->
-        <button @click="selectedMode = modes.lastDays">LastDays Mode</button>
-        <button @click="selectedMode = modes.dateRange">Date Range Selection Mode</button>
-
         <last-days-selection></last-days-selection>
         <date-range-selection></date-range-selection>
-        <!-- <last-days-selection v-if="selectedMode === modes.lastDays"></last-days-selection>
-        <date-range-selection v-if="selectedMode === modes.dateRange"></date-range-selection>-->
 
         <graph-by-country></graph-by-country>
     </div>
@@ -35,13 +29,6 @@ export default {
         LastDaysSelection,
         DateRangeSelection,
         GraphByCountry
-    },
-
-    data() {
-        return {
-            modes: consts.MODES,
-            selectedMode: null
-        };
     },
 
     methods: {
