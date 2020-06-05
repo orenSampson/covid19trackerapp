@@ -25,7 +25,6 @@ export async function fetchData({ commit, getters }, payload) {
     const res = await Vue.prototype.$axiosFetch.get(
       `/country/${country}?from=${from}&to=${to}`
     );
-    console.log(res.data);
     commit("setFetchedData", calcDiff(res.data, dayDiff));
   } catch (err) {
     commit("setFetchedData", []);
