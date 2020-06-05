@@ -12,7 +12,6 @@ import LastDaysSelection from "components/graph/LastDaysSelection";
 import DateRangeSelection from "components/graph/DateRangeSelection";
 import GraphByCountry from "components/graph/GraphByCountry";
 
-import consts from "src/constants/graph";
 import { mapActions } from "vuex";
 
 export default {

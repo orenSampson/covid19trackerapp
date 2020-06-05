@@ -9,7 +9,7 @@
 
 <script>
 import { mapActions } from "vuex";
-import consts from "src/constants/graph";
+import { LAST_DAYS_OPTIONS, DEFAULT_LAST_DAYS } from "src/constants/graph";
 import { date } from "quasar";
 
 export default {
@@ -17,8 +17,8 @@ export default {
 
     data() {
         return {
-            lastDaysOption: consts.LAST_DAYS_OPTIONS,
-            lastDays: consts.LAST_DAYS_OPTIONS[consts.DEFAULT_LAST_DAYS]
+            lastDaysOption: LAST_DAYS_OPTIONS,
+            lastDays: LAST_DAYS_OPTIONS[DEFAULT_LAST_DAYS]
         };
     },
 
