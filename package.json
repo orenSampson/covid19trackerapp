@@ -8,18 +8,19 @@
   "author": "oren sampson <oren.sampson@gmail.com>",
   "private": true,
   "scripts": {
-    "test": "echo \"No test specified\" && exit 0"
+    "test": "echo \"No test specified\" && exit 0",
+    "start": "quasar dev -m ssr"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.8.2",
     "axios": "^0.18.1",
     "chart.js": "^2.9.3",
-    "quasar": "^1.0.0",
+    "quasar": "^1.12.8",
     "vue-chartjs": "^3.5.0",
-    "vue-functional-calendar": "^2.8.83"
+    "vue-functional-calendar": "^2.8.87"
   },
   "devDependencies": {
-    "@quasar/app": "^1.0.0"
+    "@quasar/app": "^1.9.6"
   },
   "engines": {
     "node": ">= 10.18.1",
