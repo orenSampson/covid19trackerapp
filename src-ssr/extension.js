@@ -1,5 +1,10 @@
-const MONGODB_URI =
-  "mongodb+srv://new-user:turivdcr10@cluster0-qcnha.mongodb.net/covid19trackerapp?retryWrites=true&w=majority";
+const mongoose = require("mongoose");
+
+const { MONGODB_URI } = require("./constants/mongo");
+const isConnectedMongo = require("./middleware/is-connected-mongo");
+
+mongoose.connect(MONGODB_URI, { useNewUrlParser: true });
+
 /*
  * This file runs in a Node context (it's NOT transpiled by Babel), so use only
  * the ES6 features that are supported by your Node version. https://node.green/
@@ -14,10 +19,7 @@ const MONGODB_URI =
  */
 
 module.exports.extendApp = function({ app, ssr }) {
-  /*
-     Extend the parts of the express app that you
-     want to use with development server too.
-
-     Example: app.use(), app.get() etc
-  */
+  app.use(isConnectedMongo, (req, res, next) => {
+    // res.status(500).json({ message: "mongo connection failed" });
+  });
 };
