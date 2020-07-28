@@ -1,15 +1,17 @@
+const { validationResult } = require("express-validator/check");
 const bcrypt = require("bcryptjs");
 
 const User = require("../models/user");
 
 exports.signup = async (req, res, next) => {
+  const errors = validationResult(req);
+
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ message: errors.array()[0].msg });
+  }
   const email = req.body.email;
   const name = req.body.name;
   const password = req.body.password;
-
-  console.log("Email", email);
-  console.log("Name", name);
-  console.log("Password", password);
 
   let hashedPassWord = null;
 
