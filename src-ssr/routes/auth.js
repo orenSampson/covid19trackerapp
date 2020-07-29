@@ -4,7 +4,7 @@ const { body } = require("express-validator");
 const User = require("../models/user");
 const isConnectedMongo = require("../middleware/is-connected-mongo");
 const authController = require("../controllers/auth");
-const { passwordMinLength } = require("../constants/auth");
+const { PASSWORD_MIN_LENGTH } = require("../constants/auth");
 
 const router = express.Router();
 
@@ -26,9 +26,9 @@ router.put(
       }),
     body("password")
       .trim()
-      .isLength({ min: passwordMinLength })
+      .isLength({ min: PASSWORD_MIN_LENGTH })
       .withMessage(
-        `Password too short. Should be at least ${passwordMinLength} characters`
+        `Password too short. Should be at least ${PASSWORD_MIN_LENGTH} characters`
       ),
     body("name")
       .trim()
@@ -40,6 +40,22 @@ router.put(
   authController.signup
 );
 
-// router.post("/signin", isConnectedMongo, authController.signin);
+router.post(
+  "/signin",
+  [
+    body("email")
+      .isEmail()
+      .withMessage("Please enter a valid email.")
+      .normalizeEmail(),
+    body("password")
+      .trim()
+      .isLength({ min: PASSWORD_MIN_LENGTH })
+      .withMessage(
+        `Password too short. Should be at least ${PASSWORD_MIN_LENGTH} characters`
+      )
+  ],
+  isConnectedMongo,
+  authController.signin
+);
 
 module.exports = router;
