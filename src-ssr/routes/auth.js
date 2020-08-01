@@ -11,6 +11,11 @@ const router = express.Router();
 router.put(
   "/signup",
   [
+    body("name")
+      .trim()
+      .not()
+      .isEmpty()
+      .withMessage("Name must not be empty"),
     body("email")
       .isEmail()
       .withMessage("Please enter a valid email.")
@@ -29,12 +34,7 @@ router.put(
       .isLength({ min: PASSWORD_MIN_LENGTH })
       .withMessage(
         `Password too short. Should be at least ${PASSWORD_MIN_LENGTH} characters`
-      ),
-    body("name")
-      .trim()
-      .not()
-      .isEmpty()
-      .withMessage("Name must not be empty")
+      )
   ],
   isConnectedMongo,
   authController.signup

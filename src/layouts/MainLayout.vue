@@ -1,6 +1,15 @@
 <template>
-    <q-layout view="lHh Lpr lFf">
-        <h3 class="text-center">Covid-19 Tracker App</h3>
+    <q-layout view="hHh lpR fFf">
+        <q-header elevated class="bg-primary text-white" height-hint="98">
+            <q-toolbar>
+                <q-toolbar-title>Covid-19 Tracker App</q-toolbar-title>
+            </q-toolbar>
+
+            <q-tabs align="right">
+                <q-route-tab to="/auth/signup" label="signup" />
+            </q-tabs>
+        </q-header>
+
         <q-page-container>
             <router-view />
         </q-page-container>
@@ -13,6 +22,6 @@ export default {
 
     data() {
         return {};
-    }
+    },
 };
 </script>
