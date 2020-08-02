@@ -7,6 +7,7 @@
 
             <q-tabs align="right">
                 <q-route-tab to="/auth/signup" label="signup" />
+                <q-route-tab to="/auth/signin" label="signin" />
             </q-tabs>
         </q-header>
 

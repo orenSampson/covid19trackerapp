@@ -84,7 +84,13 @@ exports.signin = async (req, res, next) => {
         expiresIn: "1h"
       }
     );
-    res.status(200).json({ token, userId: user._id.toString() });
+    res
+      .status(200)
+      .json({
+        token,
+        userId: user._id.toString(),
+        message: "successfull sign in"
+      });
   } catch (err) {
     return res.status(500).json({ message: "Error using jwt" });
   }

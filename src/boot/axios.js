@@ -9,5 +9,10 @@ const axiosForSignup = axios.create({
   baseURL: "http://localhost:8080/auth/signup"
 });
 
+const axiosForSignin = axios.create({
+  baseURL: "http://localhost:8080/auth/signin"
+});
+
 Vue.prototype.$axiosFetch = axiosForFetch;
 Vue.prototype.$axiosSignup = axiosForSignup;
+Vue.prototype.$axiosSignin = axiosForSignin;
