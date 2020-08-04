@@ -11,7 +11,8 @@ const routes = [
       },
       { path: "test", component: () => import("pages/test.vue") },
       { path: "auth/signup", component: () => import("pages/Signup.vue") },
-      { path: "auth/signin", component: () => import("pages/Signin.vue") }
+      { path: "auth/signin", component: () => import("pages/Signin.vue") },
+      { path: "admin/signin", component: () => import("pages/AdminSignin.vue") }
     ]
   }
 ];
