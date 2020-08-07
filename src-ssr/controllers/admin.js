@@ -7,8 +7,8 @@ const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 exports.signin = async (req, res, next) => {
   const password = req.body.password;
 
-  let isEqual = null;
-  let token = null;
+  let isEqual;
+  let token;
 
   try {
     isEqual = await bcrypt.compare(password, ADMIN_PASSWORD);

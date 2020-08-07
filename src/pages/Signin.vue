@@ -11,6 +11,7 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios";
 import { Notify } from "quasar";
 
 export default {
@@ -26,7 +27,7 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await Vue.prototype.$axiosSignin.post("/", {
+                const response = await axios.post("/auth/signin", {
                     email: this.email,
                     password: this.password,
                 });

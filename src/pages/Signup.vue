@@ -12,6 +12,7 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios";
 import { Notify } from "quasar";
 
 export default {
@@ -28,7 +29,7 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await Vue.prototype.$axiosSignup.put("/", {
+                const response = await axios.put("/auth/signup", {
                     name: this.name,
                     email: this.email,
                     password: this.password,

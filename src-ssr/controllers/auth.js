@@ -15,7 +15,7 @@ exports.signup = async (req, res, next) => {
   const name = req.body.name;
   const password = req.body.password;
 
-  let hashedPassWord = null;
+  let hashedPassWord;
 
   try {
     hashedPassWord = await bcrypt.hash(password, 12);
@@ -50,9 +50,9 @@ exports.signin = async (req, res, next) => {
   const email = req.body.email;
   const password = req.body.password;
 
-  let user = null;
-  let isEqual = null;
-  let token = null;
+  let user;
+  let isEqual;
+  let token;
 
   try {
     user = await User.findOne({ email: email });

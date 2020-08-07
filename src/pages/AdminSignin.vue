@@ -10,6 +10,7 @@
 
 <script>
 import Vue from "vue";
+import axios from "axios";
 import { Notify } from "quasar";
 
 export default {
@@ -24,12 +25,9 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await Vue.prototype.$axiosAdminSignin.post(
-                    "/",
-                    {
-                        password: this.password,
-                    }
-                );
+                const response = await axios.post("/admin/signin", {
+                    password: this.password,
+                });
                 this.submitDisabled = false;
                 localStorage.setItem("adminToken", response.data.token);
                 Notify.create({
