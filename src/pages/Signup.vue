@@ -2,9 +2,9 @@
     <div class="q-pa-md" style="max-width: 400px">
         <h5>Sign up</h5>
         <q-form @submit.prevent="onSubmit" class="q-gutter-md">
-            <q-input v-model="name" filled hint="Name" />
-            <q-input v-model="email" filled type="email" hint="Email" />
-            <q-input v-model="password" filled type="password" hint="Password" />
+            <q-input v-model="name" outlined label="Name" />
+            <q-input v-model="email" outlined type="email" label="Email" />
+            <q-input v-model="password" outlined type="password" label="Password" />
             <q-btn label="Sign Up" type="submit" color="primary" :disable="submitDisabled" />
         </q-form>
     </div>
