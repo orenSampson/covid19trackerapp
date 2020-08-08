@@ -90,13 +90,9 @@ exports.signin = async (req, res, next) => {
   }
 
   try {
-    token = jwt.sign(
-      { email: user.email, userId: user._id.toString() },
-      ACCESS_TOKEN_SECRET,
-      {
-        expiresIn: "1h"
-      }
-    );
+    token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
+      expiresIn: "1h"
+    });
     res.status(signinSuccessful.status).json({
       token,
       userId: user._id.toString(),
