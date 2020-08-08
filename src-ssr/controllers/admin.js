@@ -3,6 +3,11 @@ const jwt = require("jsonwebtoken");
 
 const { ADMIN_PASSWORD } = require("../constants/admin");
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
+const {
+  serverError,
+  wrongPassword,
+  signinSuccessful
+} = require("../constants/responses");
 
 exports.signin = async (req, res, next) => {
   const password = req.body.password;
@@ -14,23 +19,27 @@ exports.signin = async (req, res, next) => {
     isEqual = await bcrypt.compare(password, ADMIN_PASSWORD);
   } catch (err) {
     return res
-      .status(500)
-      .json({ message: "Server Error. Error using bcrypt" });
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 
   if (!isEqual) {
-    return res.status(401).json({ message: "Wrong password!" });
+    return res
+      .status(wrongPassword.status)
+      .json({ message: wrongPassword.message });
   }
 
   try {
     token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
       expiresIn: "1h"
     });
-    res.status(200).json({
+    res.status(signinSuccessful.status).json({
       token,
-      message: "successfull sign in"
+      message: signinSuccessful.message
     });
   } catch (err) {
-    return res.status(500).json({ message: "Server Error. Error using jwt" });
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 };

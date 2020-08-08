@@ -4,6 +4,13 @@ const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
+const {
+  serverError,
+  userCreated,
+  userNotFound,
+  wrongPassword,
+  signinSuccessful
+} = require("../constants/responses");
 
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -21,8 +28,8 @@ exports.signup = async (req, res, next) => {
     hashedPassWord = await bcrypt.hash(password, 12);
   } catch (err) {
     return res
-      .status(500)
-      .json({ message: "failed generating hashed password" });
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
   const user = new User({
     email,
@@ -33,10 +40,10 @@ exports.signup = async (req, res, next) => {
   try {
     const result = await user.save();
     res
-      .status(201)
-      .json({ message: "User created on MongoDB!", userId: result._id });
+      .status(userCreated.status)
+      .json({ message: userCreated.message, userId: result._id });
   } catch (err) {
-    res.status(500).json({ message: "failed creating User on MongoDB" });
+    res.status(serverError.status).json({ message: serverError.message });
   }
 };
 
@@ -57,23 +64,29 @@ exports.signin = async (req, res, next) => {
   try {
     user = await User.findOne({ email: email });
   } catch (err) {
-    return res.status(500).json({ message: "Error using MongoDB" });
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 
   if (!user) {
     return res
-      .status(401)
-      .json({ message: "A user with this email could not be found" });
+      .status(userNotFound.status)
+      .json({ message: userNotFound.message });
   }
 
   try {
     isEqual = await bcrypt.compare(password, user.password);
   } catch (err) {
-    return res.status(500).json({ message: "Error comparing passwords" });
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 
   if (!isEqual) {
-    return res.status(401).json({ message: "Wrong password!" });
+    return res
+      .status(wrongPassword.status)
+      .json({ message: wrongPassword.message });
   }
 
   try {
@@ -84,12 +97,14 @@ exports.signin = async (req, res, next) => {
         expiresIn: "1h"
       }
     );
-    res.status(200).json({
+    res.status(signinSuccessful.status).json({
       token,
       userId: user._id.toString(),
-      message: "successfull sign in"
+      message: signinSuccessful.message
     });
   } catch (err) {
-    return res.status(500).json({ message: "Error using jwt" });
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 };
