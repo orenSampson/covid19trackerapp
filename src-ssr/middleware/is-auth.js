@@ -1,11 +1,14 @@
 const jwt = require("jsonwebtoken");
 
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
+const { notAuthenticated, serverError } = require("../constants/responses");
 
 module.exports = (req, res, next) => {
   const authHeader = req.get("Authorization");
   if (!authHeader) {
-    return res.status(401).json({ message: "Not authenticated." });
+    return res
+      .status(notAuthenticated.status)
+      .json({ message: notAuthenticated.message });
   }
 
   const token = authHeader.split(" ")[1];
@@ -13,10 +16,14 @@ module.exports = (req, res, next) => {
   try {
     decodedToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
   } catch (err) {
-    res.status(500).json({ message: "Server error" });
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
   if (!decodedToken) {
-    res.status(401).json({ message: "Not authenticated." });
+    return res
+      .status(notAuthenticated.status)
+      .json({ message: notAuthenticated.message });
   }
   next();
 };

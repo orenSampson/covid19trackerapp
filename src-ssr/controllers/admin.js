@@ -1,12 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
+const AdminCountry = require("../models/adminCountry");
 const { ADMIN_PASSWORD } = require("../constants/admin");
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 const {
   serverError,
   wrongPassword,
-  signinSuccessful
+  signinSuccessful,
+  successfulResponse
 } = require("../constants/responses");
 
 exports.signin = async (req, res, next) => {
@@ -42,4 +44,50 @@ exports.signin = async (req, res, next) => {
       .status(serverError.status)
       .json({ message: serverError.message });
   }
+};
+
+exports.getCountries = async (req, res, next) => {
+  let countriesArr;
+
+  try {
+    countriesArr = await AdminCountry.find().sort({ country: 1 });
+  } catch (err) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  if (!countriesArr) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  res.status(successfulResponse.status).json({ data: countriesArr });
+};
+
+exports.updateSelected = async (req, res, next) => {
+  const id = req.body.id;
+  const isSelectedNewVal = req.body.isSelectedNewVal;
+
+  let doc;
+  try {
+    doc = await AdminCountry.findOneAndUpdate(
+      { _id: id },
+      { isSelected: isSelectedNewVal },
+      { new: true }
+    );
+  } catch (err) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  if (!doc) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  res.status(successfulResponse.status).end();
 };

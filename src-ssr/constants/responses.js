@@ -1,4 +1,5 @@
 module.exports = Object.freeze({
+  successfulResponse: { status: 200 },
   serverError: {
     status: 500,
     message: "Server Error. Please try again later."
@@ -14,6 +15,10 @@ module.exports = Object.freeze({
   wrongPassword: {
     status: 401,
     message: "Wrong password!"
+  },
+  notAuthenticated: {
+    status: 401,
+    message: "Not authenticated."
   },
   signinSuccessful: {
     status: 200,

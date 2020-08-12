@@ -8,19 +8,20 @@
             :icon="iconVal"
             :label="propsCountryName"
             clickable
+            :disable="disabled"
         />
-        <div>{{isSelected}}</div>
-        <!-- <q-icon name="star" />
-        <q-icon name="star_border" />-->
     </div>
 </template>
 
 <script>
+import axios from "axios";
+import { Notify } from "quasar";
+
 export default {
     name: "AdminCountry",
     props: {
-        propsIsSelected: {
-            type: Boolean,
+        propsCountryId: {
+            type: String,
             required: true,
         },
         propsCountryName: {
@@ -31,28 +32,58 @@ export default {
             type: String,
             required: true,
         },
-        propsCountryId: {
-            type: String,
+        propsIsSelected: {
+            type: Boolean,
             required: true,
         },
     },
     data() {
         return {
+            disabled: false,
             isSelected: false,
             iconVal: "star_border",
         };
     },
     mounted() {
         this.isSelected = this.propsIsSelected;
+        if (this.isSelected) {
+            this.iconVal = "star";
+        } else {
+            this.iconVal = "star_border";
+        }
     },
     methods: {
-        qchipSelected() {
+        async qchipSelected() {
+            this.disabled = true;
+
+            try {
+                await axios.post(
+                    "/admin/updateselected",
+                    {
+                        id: this.propsCountryId,
+                        isSelectedNewVal: !this.isSelected,
+                    },
+                    {
+                        headers: {
+                            Authorization:
+                                "Bearer " + localStorage.getItem("adminToken"),
+                        },
+                    }
+                );
+            } catch (err) {
+                return Notify.create({
+                    message: err.response.data.message,
+                    color: "primary",
+                });
+            }
+
             this.isSelected = !this.isSelected;
             if (this.isSelected) {
                 this.iconVal = "star";
             } else {
                 this.iconVal = "star_border";
             }
+            this.disabled = false;
         },
     },
 };
