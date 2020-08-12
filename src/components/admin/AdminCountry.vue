@@ -46,11 +46,6 @@ export default {
     },
     mounted() {
         this.isSelected = this.propsIsSelected;
-        if (this.isSelected) {
-            this.iconVal = "star";
-        } else {
-            this.iconVal = "star_border";
-        }
     },
     methods: {
         async qchipSelected() {
@@ -78,12 +73,16 @@ export default {
             }
 
             this.isSelected = !this.isSelected;
+            this.disabled = false;
+        },
+    },
+    watch: {
+        isSelected() {
             if (this.isSelected) {
                 this.iconVal = "star";
             } else {
                 this.iconVal = "star_border";
             }
-            this.disabled = false;
         },
     },
 };
