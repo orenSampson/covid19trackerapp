@@ -5,7 +5,6 @@
             :key="country._id"
             :propsCountryId="country._id"
             :propsCountryName="country.country"
-            :propsCountrySlug="country.slug"
             :propsIsSelected="country.isSelected"
         ></admin-country>
     </div>

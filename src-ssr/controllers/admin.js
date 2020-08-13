@@ -63,7 +63,15 @@ exports.getCountries = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  res.status(successfulResponse.status).json({ data: countriesArr });
+  const newCountriesArr = countriesArr.map(item => {
+    return {
+      _id: item._id,
+      country: item.country,
+      isSelected: item.isSelected
+    };
+  });
+
+  res.status(successfulResponse.status).json({ data: newCountriesArr });
 };
 
 exports.updateSelected = async (req, res, next) => {

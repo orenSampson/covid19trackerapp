@@ -28,10 +28,6 @@ export default {
             type: String,
             required: true,
         },
-        propsCountrySlug: {
-            type: String,
-            required: true,
-        },
         propsIsSelected: {
             type: Boolean,
             required: true,
