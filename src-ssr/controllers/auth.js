@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
+const AdminCountry = require("../models/adminCountry");
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 const {
   serverError,
@@ -31,19 +32,46 @@ exports.signup = async (req, res, next) => {
       .status(serverError.status)
       .json({ message: serverError.message });
   }
+
+  let countriesSelected;
+
+  try {
+    countriesSelected = await AdminCountry.find({ isSelected: true }, "_id");
+  } catch (err) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  if (!countriesSelected) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  const newCountriesSelected = countriesSelected.map(item => {
+    return {
+      _id: item._id,
+      isSelected: false
+    };
+  });
+
   const user = new User({
     email,
     password: hashedPassWord,
-    name
+    name,
+    countries: newCountriesSelected
   });
 
   try {
     const result = await user.save();
-    res
+    return res
       .status(userCreated.status)
       .json({ message: userCreated.message, userId: result._id });
   } catch (err) {
-    res.status(serverError.status).json({ message: serverError.message });
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 };
 
