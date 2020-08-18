@@ -6,6 +6,8 @@
             </q-toolbar>
 
             <q-tabs align="right">
+                <q-route-tab to="/admin/signin" label="admin signin" />
+                <q-route-tab to="/admin/countries" label="admin countries" />
                 <q-route-tab to="/auth/signup" label="signup" />
                 <q-route-tab to="/auth/signin" label="signin" />
             </q-tabs>
