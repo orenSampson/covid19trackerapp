@@ -9,6 +9,7 @@ const userSchema = new Schema({
   countries: [
     {
       _id: { type: Schema.Types.ObjectId },
+      slug: { type: String },
       isSelected: { type: Boolean }
     }
   ]

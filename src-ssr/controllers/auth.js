@@ -36,7 +36,10 @@ exports.signup = async (req, res, next) => {
   let countriesSelected;
 
   try {
-    countriesSelected = await AdminCountry.find({ isSelected: true }, "_id");
+    countriesSelected = await AdminCountry.find(
+      { isSelected: true },
+      "_id slug"
+    );
   } catch (err) {
     return res
       .status(serverError.status)
@@ -52,6 +55,7 @@ exports.signup = async (req, res, next) => {
   const newCountriesSelected = countriesSelected.map(item => {
     return {
       _id: item._id,
+      slug: item.slug,
       isSelected: false
     };
   });

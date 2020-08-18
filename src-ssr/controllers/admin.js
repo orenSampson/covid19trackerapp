@@ -84,8 +84,7 @@ exports.updateSelected = async (req, res, next) => {
   try {
     doc = await AdminCountry.findOneAndUpdate(
       { _id: countryID },
-      { isSelected: isSelectedNewVal },
-      { new: true }
+      { isSelected: isSelectedNewVal }
     );
   } catch (err) {
     return res
@@ -119,6 +118,7 @@ exports.updateSelected = async (req, res, next) => {
   if (isSelectedNewVal) {
     userCountry = {
       _id: countryID,
+      slug: doc.slug,
       isSelected: false
     };
   }
