@@ -56,3 +56,47 @@ exports.getCountries = async (req, res, next) => {
 
   res.status(successfulResponse.status).json({ data: countriesSummary });
 };
+
+exports.updateSelected = async (req, res, next) => {
+  const userId = req.body.userId;
+  const countryId = req.body.countryId;
+  const isSelectedNewVal = req.body.isSelectedNewVal;
+
+  let user;
+
+  try {
+    user = await User.findOne({ _id: userId });
+  } catch (err) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  if (!user) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  const userCountries = user.countries;
+
+  const i = userCountries.findIndex(item => item._id.toString() === countryId);
+
+  if (i < 0) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  userCountries[i].isSelected = isSelectedNewVal;
+
+  try {
+    await user.save();
+  } catch (err) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  res.status(successfulResponse.status).end();
+};

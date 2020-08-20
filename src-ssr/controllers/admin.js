@@ -77,13 +77,13 @@ exports.getCountries = async (req, res, next) => {
 };
 
 exports.updateSelected = async (req, res, next) => {
-  const countryID = req.body.id;
+  const countryId = req.body.id;
   const isSelectedNewVal = req.body.isSelectedNewVal;
 
   let doc;
   try {
     doc = await AdminCountry.findOneAndUpdate(
-      { _id: countryID },
+      { _id: countryId },
       { isSelected: isSelectedNewVal }
     );
   } catch (err) {
@@ -117,7 +117,7 @@ exports.updateSelected = async (req, res, next) => {
   let userCountry;
   if (isSelectedNewVal) {
     userCountry = {
-      _id: countryID,
+      _id: countryId,
       slug: doc.slug,
       isSelected: false
     };
@@ -128,7 +128,7 @@ exports.updateSelected = async (req, res, next) => {
       user.countries.push(userCountry);
     } else {
       user.countries = user.countries.filter(
-        obj => obj._id.toString() !== countryID
+        obj => obj._id.toString() !== countryId
       );
     }
 

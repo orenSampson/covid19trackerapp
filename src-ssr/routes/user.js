@@ -8,4 +8,11 @@ const router = express.Router();
 
 router.get("/getcountries", isAuth, isServerReady, userController.getCountries);
 
+router.post(
+  "/updateselected",
+  isAuth,
+  isServerReady,
+  userController.updateSelected
+);
+
 module.exports = router;
