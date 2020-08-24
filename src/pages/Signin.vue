@@ -31,7 +31,7 @@ export default {
                     password: this.password,
                 });
                 this.submitDisabled = false;
-                localStorage.setItem("token", response.data.token);
+                localStorage.setItem("userToken", response.data.token);
                 localStorage.setItem("userId", response.data.userId);
                 Notify.create({
                     message: response.data.message,

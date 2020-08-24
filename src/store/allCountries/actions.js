@@ -1,11 +1,18 @@
 import Vue from "vue";
+import axios from "axios";
 
 import { Notify } from "quasar";
 
 export async function fetchData({ commit }) {
   try {
-    const res = await Vue.prototype.$axiosFetch.get("/summary");
-    const countriesArr = res.data.Countries;
+    const res = await axios.get("/user/getcountries", {
+      headers: {
+        userid: localStorage.getItem("userId"),
+        Authorization: "Bearer " + localStorage.getItem("userToken")
+      }
+    });
+
+    const countriesArr = res.data.data;
 
     countriesArr.sort((countryA, countryB) => {
       if (countryA.TotalConfirmed < countryB.TotalConfirmed) return 1;
@@ -17,7 +24,12 @@ export async function fetchData({ commit }) {
   } catch (err) {
     commit("setCountriesArr", []);
 
-    Notify.create({
+    // return Notify.create({
+    //     message: err.response.data.message,
+    //     color: "primary",
+    // });
+
+    return Notify.create({
       message: "Unable To Fetch Data: " + err,
       color: "primary"
     });

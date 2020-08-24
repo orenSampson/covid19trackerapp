@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-chip
-            @click="qchipSelected"
+            @click="qchipClicked"
             class="glossy"
             color="orange"
             text-color="white"
@@ -44,7 +44,7 @@ export default {
         this.isSelected = this.propsIsSelected;
     },
     methods: {
-        async qchipSelected() {
+        async qchipClicked() {
             this.disabled = true;
 
             try {
@@ -62,6 +62,7 @@ export default {
                     }
                 );
             } catch (err) {
+                this.disabled = false;
                 return Notify.create({
                     message: err.response.data.message,
                     color: "primary",
