@@ -1,9 +1,8 @@
-import Vue from "vue";
 import axios from "axios";
 
 import { Notify } from "quasar";
 
-export async function fetchData({ commit }) {
+export async function fetchData({ commit, dispatch }) {
   try {
     const res = await axios.get("/user/getcountries", {
       headers: {
@@ -14,23 +13,15 @@ export async function fetchData({ commit }) {
 
     const countriesArr = res.data.data;
 
-    countriesArr.sort((countryA, countryB) => {
-      if (countryA.TotalConfirmed < countryB.TotalConfirmed) return 1;
-      if (countryA.TotalConfirmed > countryB.TotalConfirmed) return -1;
-      return 0;
-    });
-
     commit("setCountriesArr", countriesArr);
   } catch (err) {
     commit("setCountriesArr", []);
 
-    // return Notify.create({
-    //     message: err.response.data.message,
-    //     color: "primary",
-    // });
+    console.log("Err: ", err);
+    //response.data.message
 
     return Notify.create({
-      message: "Unable To Fetch Data: " + err,
+      message: "Error, Please try again later",
       color: "primary"
     });
   }
@@ -53,6 +44,47 @@ export function stopCurrentInterval({ getters }) {
   clearInterval(intervalId);
 }
 
-export function setFetchIntervalValAction({ commit }, payload) {
-  commit("setFetchIntervalVal", payload);
+export async function changeSelected({ getters, commit }, payload) {
+  const countryId = payload;
+  const countriesArr = getters.countriesArr;
+
+  const i = countriesArr.findIndex(item => {
+    return item.countryId === countryId;
+  });
+
+  if (i < 0) {
+    Notify.create({
+      message: "Error, Please try again later",
+      color: "primary"
+    });
+
+    return false;
+  }
+
+  try {
+    await axios.post(
+      "/user/updateselected",
+      {
+        userId: localStorage.getItem("userId"),
+        countryId,
+        isSelectedNewVal: !countriesArr[i].isSelected
+      },
+      {
+        headers: {
+          Authorization: "Bearer " + localStorage.getItem("userToken")
+        }
+      }
+    );
+  } catch (err) {
+    Notify.create({
+      message: err.response.data.message,
+      color: "primary"
+    });
+
+    return false;
+  }
+
+  commit("changeSelected", i);
+
+  return true;
 }

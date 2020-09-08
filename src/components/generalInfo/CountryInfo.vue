@@ -37,6 +37,8 @@
 import axios from "axios";
 import { Notify } from "quasar";
 
+import { mapActions } from "vuex";
+
 export default {
     name: "CountryInfo",
     data() {
@@ -56,6 +58,10 @@ export default {
         this.isSelected = this.countryInfo.isSelected;
     },
 
+    updated() {
+        this.isSelected = this.countryInfo.isSelected;
+    },
+
     methods: {
         routeToCountry(event) {
             this.$router.push({
@@ -65,33 +71,24 @@ export default {
         },
         async qchipClicked() {
             this.disabled = true;
+            let result;
 
             try {
-                await axios.post(
-                    "/user/updateselected",
-                    {
-                        userId: localStorage.getItem("userId"),
-                        countryId: this.countryInfo.countryId,
-                        isSelectedNewVal: !this.isSelected,
-                    },
-                    {
-                        headers: {
-                            Authorization:
-                                "Bearer " + localStorage.getItem("userToken"),
-                        },
-                    }
-                );
+                result = await this.changeSelected(this.countryInfo.countryId);
             } catch (err) {
-                this.disabled = false;
-                return Notify.create({
-                    message: err.response.data.message,
+                Notify.create({
+                    message: "Error, Please try again later",
                     color: "primary",
                 });
             }
 
-            this.isSelected = !this.isSelected;
+            if (result) {
+                this.isSelected = !this.isSelected;
+            }
+
             this.disabled = false;
         },
+        ...mapActions("allCountries", ["changeSelected"]),
     },
 
     watch: {
