@@ -1,11 +1,9 @@
 <template>
-    <div v-if="countries">
+    <div v-if="adminCountriesArr && adminCountriesArr.length > 0">
         <admin-country
-            v-for="country in countries"
+            v-for="(country, index) in adminCountriesArr"
             :key="country._id"
-            :propsCountryId="country._id"
-            :propsCountryName="country.country"
-            :propsIsSelected="country.isSelected"
+            :propsIndex="index"
         ></admin-country>
     </div>
 </template>
@@ -14,6 +12,7 @@
 import axios from "axios";
 import { Notify } from "quasar";
 
+import { mapActions, mapGetters } from "vuex";
 import AdminCountry from "components/admin/AdminCountry";
 export default {
     name: "AdminCountries",
@@ -25,30 +24,14 @@ export default {
     components: {
         AdminCountry,
     },
-    async mounted() {
-        let countriesArr;
-        try {
-            countriesArr = await axios.get("/admin/getcountries", {
-                headers: {
-                    Authorization:
-                        "Bearer " + localStorage.getItem("adminToken"),
-                },
-            });
-        } catch (err) {
-            return Notify.create({
-                message: err.response.data.message,
-                color: "primary",
-            });
-        }
-
-        if (!countriesArr) {
-            return Notify.create({
-                message: "Server Error",
-                color: "primary",
-            });
-        }
-
-        this.countries = countriesArr.data.data;
+    methods: {
+        ...mapActions("adminCountries", ["fetchData"]),
+    },
+    computed: {
+        ...mapGetters("adminCountries", ["adminCountriesArr"]),
+    },
+    mounted() {
+        this.fetchData();
     },
 };
 </script>

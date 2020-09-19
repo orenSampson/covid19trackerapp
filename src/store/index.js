@@ -1,8 +1,9 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import allCountries from "./allCountries";
 import oneCountry from "./oneCountry";
+import allCountries from "./allCountries";
+import adminCountries from "./adminCountries";
 
 Vue.use(Vuex);
 
@@ -18,8 +19,9 @@ Vue.use(Vuex);
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
+      oneCountry,
       allCountries,
-      oneCountry
+      adminCountries
     },
 
     // enable strict mode (adds overhead!)

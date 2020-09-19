@@ -1,14 +1,10 @@
 <template>
     <div>
-        <q-chip
-            @click="qchipClicked"
-            class="glossy"
-            color="orange"
-            text-color="white"
-            :icon="iconVal"
-            :label="propsCountryName"
-            clickable
-            :disable="disabled"
+        <star-toggle
+            @click="starToggleClicked"
+            :propsIsSelected="adminCountriesArr[this.propsIndex].isSelected"
+            :propsCountryName="adminCountriesArr[this.propsIndex].country"
+            :propsIsDisabled="disabled"
         />
     </div>
 </template>
@@ -17,69 +13,48 @@
 import axios from "axios";
 import { Notify } from "quasar";
 
+import { mapGetters, mapActions } from "vuex";
+import StarToggle from "components/general/StarToggle";
+
 export default {
     name: "AdminCountry",
+
+    components: {
+        StarToggle,
+    },
+
     props: {
-        propsCountryId: {
-            type: String,
-            required: true,
-        },
-        propsCountryName: {
-            type: String,
-            required: true,
-        },
-        propsIsSelected: {
-            type: Boolean,
+        propsIndex: {
+            type: Number,
             required: true,
         },
     },
+
     data() {
         return {
             disabled: false,
-            isSelected: false,
-            iconVal: "star_border",
         };
     },
-    mounted() {
-        this.isSelected = this.propsIsSelected;
+
+    computed: {
+        ...mapGetters("adminCountries", ["adminCountriesArr"]),
     },
+
     methods: {
-        async qchipClicked() {
+        ...mapActions("adminCountries", ["changeSelected"]),
+        async starToggleClicked() {
             this.disabled = true;
 
             try {
-                await axios.post(
-                    "/admin/updateselected",
-                    {
-                        id: this.propsCountryId,
-                        isSelectedNewVal: !this.isSelected,
-                    },
-                    {
-                        headers: {
-                            Authorization:
-                                "Bearer " + localStorage.getItem("adminToken"),
-                        },
-                    }
-                );
-            } catch (err) {
-                this.disabled = false;
-                return Notify.create({
-                    message: err.response.data.message,
+                await this.changeSelected(this.propsIndex);
+            } catch {
+                Notify.create({
+                    message: "Error, Please try again later",
                     color: "primary",
                 });
             }
 
-            this.isSelected = !this.isSelected;
             this.disabled = false;
-        },
-    },
-    watch: {
-        isSelected() {
-            if (this.isSelected) {
-                this.iconVal = "star";
-            } else {
-                this.iconVal = "star_border";
-            }
         },
     },
 };
