@@ -26,7 +26,7 @@ export default {
         propsIsDisabled: {
             type: Boolean,
             required: false,
-            default: true,
+            default: false,
         },
         propsCountryName: {
             type: String,
