@@ -1,33 +1,29 @@
 <template>
     <div>
-        <q-chip
-            @click="qchipClicked"
-            class="glossy"
-            color="orange"
-            text-color="white"
-            :icon="iconVal"
-            clickable
-            :disable="disabled"
+        <star-toggle
+            @click="starToggleClicked"
+            :propsIsSelected="countriesArr[this.propsIndex].isSelected"
+            :propsIsDisabled="disabled"
         />
         <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
             <div class="col-xs-6 col-sm-4 col-md">
-                <span class="text-weight-bold">{{ countryInfo.Country }}</span>
+                <span class="text-weight-bold">{{ countriesArr[propsIndex].Country }}</span>
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Cases:</span>
-                {{ countryInfo.TotalConfirmed }}
+                {{ countriesArr[propsIndex].TotalConfirmed }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">New Cases:</span>
-                {{ countryInfo.NewConfirmed }}
+                {{ countriesArr[propsIndex].NewConfirmed }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Total Deaths:</span>
-                {{ countryInfo.TotalDeaths }}
+                {{ countriesArr[propsIndex].TotalDeaths }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Total Recovered:</span>
-                {{ countryInfo.TotalRecovered }}
+                {{ countriesArr[propsIndex].TotalRecovered }}
             </div>
         </div>
     </div>
@@ -37,67 +33,54 @@
 import axios from "axios";
 import { Notify } from "quasar";
 
-import { mapActions } from "vuex";
+import { mapGetters, mapActions } from "vuex";
+import StarToggle from "components/general/StarToggle";
 
 export default {
     name: "CountryInfo",
-    data() {
-        return {
-            disabled: false,
-            isSelected: false,
-            iconVal: "star_border",
-        };
+
+    components: {
+        StarToggle,
     },
+
     props: {
-        countryInfo: {
-            type: Object,
+        propsIndex: {
+            type: Number,
             required: true,
         },
     },
-    mounted() {
-        this.isSelected = this.countryInfo.isSelected;
+
+    data() {
+        return {
+            disabled: false,
+        };
     },
 
-    updated() {
-        this.isSelected = this.countryInfo.isSelected;
+    computed: {
+        ...mapGetters("allCountries", ["countriesArr"]),
     },
 
     methods: {
+        ...mapActions("allCountries", ["changeSelected"]),
         routeToCountry(event) {
             this.$router.push({
                 name: "country",
                 params: { country: this.countryInfo.Slug },
             });
         },
-        async qchipClicked() {
+        async starToggleClicked() {
             this.disabled = true;
-            let result;
 
             try {
-                result = await this.changeSelected(this.countryInfo.countryId);
-            } catch (err) {
+                await this.changeSelected(this.propsIndex);
+            } catch {
                 Notify.create({
                     message: "Error, Please try again later",
                     color: "primary",
                 });
             }
 
-            if (result) {
-                this.isSelected = !this.isSelected;
-            }
-
             this.disabled = false;
-        },
-        ...mapActions("allCountries", ["changeSelected"]),
-    },
-
-    watch: {
-        isSelected() {
-            if (this.isSelected) {
-                this.iconVal = "star";
-            } else {
-                this.iconVal = "star_border";
-            }
         },
     },
 };

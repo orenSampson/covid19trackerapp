@@ -2,9 +2,9 @@
     <div>
         <div v-if="countriesArr && countriesArr.length > 0">
             <country-info
-                v-for="country in countriesArr"
-                :key="country.CountryCode"
-                :countryInfo="country"
+                v-for="(country, index) in countriesArr"
+                :key="country.countryId"
+                :propsIndex="index"
             />
         </div>
     </div>
@@ -19,11 +19,11 @@ export default {
     name: "AllCountriesInfo",
 
     components: {
-        CountryInfo
+        CountryInfo,
     },
 
     computed: {
-        ...mapGetters("allCountries", ["countriesArr"])
-    }
+        ...mapGetters("allCountries", ["countriesArr"]),
+    },
 };
 </script>

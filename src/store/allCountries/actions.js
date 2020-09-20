@@ -2,29 +2,41 @@ import axios from "axios";
 
 import { Notify } from "quasar";
 
-export async function fetchData({ commit, dispatch }) {
+export async function fetchData({ commit }) {
+  let res;
+
   try {
-    const res = await axios.get("/user/getcountries", {
+    res = await axios.get("/user/getcountries", {
       headers: {
         userid: localStorage.getItem("userId"),
         Authorization: "Bearer " + localStorage.getItem("userToken")
       }
     });
-
-    const countriesArr = res.data.data;
-
-    commit("setCountriesArr", countriesArr);
   } catch (err) {
     commit("setCountriesArr", []);
 
-    console.log("Err: ", err);
-    //response.data.message
+    return Notify.create({
+      message: "Error, Please try again later",
+      color: "primary"
+    });
+    // return Notify.create({
+    //   message: err.response.data.message,
+    //   color: "primary"
+    // });
+  }
+
+  if (!res) {
+    commit("setCountriesArr", []);
 
     return Notify.create({
       message: "Error, Please try again later",
       color: "primary"
     });
   }
+
+  const countriesArr = res.data.data;
+
+  commit("setCountriesArr", countriesArr);
 }
 
 export function intervalFetchData({ dispatch, commit, getters }) {
@@ -45,29 +57,16 @@ export function stopCurrentInterval({ getters }) {
 }
 
 export async function changeSelected({ getters, commit }, payload) {
-  const countryId = payload;
-  const countriesArr = getters.countriesArr;
-
-  const i = countriesArr.findIndex(item => {
-    return item.countryId === countryId;
-  });
-
-  if (i < 0) {
-    Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
-
-    return false;
-  }
+  const countryIndex = payload;
+  const country = getters.countriesArr[countryIndex];
 
   try {
     await axios.post(
       "/user/updateselected",
       {
         userId: localStorage.getItem("userId"),
-        countryId,
-        isSelectedNewVal: !countriesArr[i].isSelected
+        countryId: country.countryId,
+        isSelectedNewVal: !country.isSelected
       },
       {
         headers: {
@@ -84,7 +83,7 @@ export async function changeSelected({ getters, commit }, payload) {
     return false;
   }
 
-  commit("changeSelected", i);
+  commit("changeSelected", countryIndex);
 
   return true;
 }
