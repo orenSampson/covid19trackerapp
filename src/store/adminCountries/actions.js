@@ -12,6 +12,8 @@ export async function fetchData({ commit }) {
       }
     });
   } catch (err) {
+    commit("setAdminCountriesArr", []);
+
     return Notify.create({
       message: err.response.data.message,
       color: "primary"
