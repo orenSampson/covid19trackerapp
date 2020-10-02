@@ -1,7 +1,7 @@
 const express = require("express");
 
 const adminController = require("../controllers/admin");
-const isAuth = require("../middleware/is-auth");
+const isAuthAdmin = require("../middleware/is-auth-admin");
 const isServerReady = require("../middleware/is-server-ready");
 
 const router = express.Router();
@@ -10,14 +10,14 @@ router.post("/signin", adminController.signin);
 
 router.get(
   "/getcountries",
-  isAuth,
+  isAuthAdmin,
   isServerReady,
   adminController.getCountries
 );
 
 router.post(
   "/updateselected",
-  isAuth,
+  isAuthAdmin,
   isServerReady,
   adminController.updateSelected
 );

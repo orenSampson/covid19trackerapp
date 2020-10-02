@@ -6,11 +6,7 @@ export async function fetchData({ commit }) {
   let adminCountriesArr;
 
   try {
-    adminCountriesArr = await axios.get("/admin/getcountries", {
-      headers: {
-        Authorization: "Bearer " + localStorage.getItem("adminToken")
-      }
-    });
+    adminCountriesArr = await axios.get("/admin/getcountries");
   } catch (err) {
     commit("setAdminCountriesArr", []);
 
@@ -35,18 +31,10 @@ export async function changeSelected({ getters, commit }, payload) {
   const adminCountry = getters.adminCountriesArr[countryIndex];
 
   try {
-    await axios.post(
-      "/admin/updateselected",
-      {
-        id: adminCountry._id,
-        isSelectedNewVal: !adminCountry.isSelected
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("adminToken")
-        }
-      }
-    );
+    await axios.post("/admin/updateselected", {
+      id: adminCountry._id,
+      isSelectedNewVal: !adminCountry.isSelected
+    });
   } catch (err) {
     return Notify.create({
       message: err.response.data.message,

@@ -9,10 +9,8 @@
 </template>
 
 <script>
-import axios from "axios";
-import { Notify } from "quasar";
-
 import { mapActions, mapGetters } from "vuex";
+
 import AdminCountry from "components/admin/AdminCountry";
 export default {
     name: "AdminCountries",

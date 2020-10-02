@@ -11,10 +11,10 @@ const {
   signinSuccessful,
   successfulResponse
 } = require("../constants/responses");
-const user = require("../models/user");
 
 exports.signin = async (req, res, next) => {
   const password = req.body.password;
+  const maxAge = 3600 * 1000; //one hour in milliseconds
 
   let isEqual;
   let token;
@@ -35,17 +35,22 @@ exports.signin = async (req, res, next) => {
 
   try {
     token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
-      expiresIn: "1h"
-    });
-    res.status(signinSuccessful.status).json({
-      token,
-      message: signinSuccessful.message
+      expiresIn: maxAge + "ms"
     });
   } catch (err) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
   }
+
+  res.cookie("admin_access_token", token, {
+    maxAge: maxAge,
+    httpOnly: true
+  });
+
+  res.status(signinSuccessful.status).json({
+    message: signinSuccessful.message
+  });
 };
 
 exports.getCountries = async (req, res, next) => {
