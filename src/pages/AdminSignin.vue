@@ -2,8 +2,18 @@
     <div class="q-pa-md" style="max-width: 400px">
         <h5>Admin Sign in</h5>
         <q-form @submit.prevent="onSubmit" class="q-gutter-md">
-            <q-input v-model="password" outlined type="password" label="Password" />
-            <q-btn label="Sign In" type="submit" color="primary" :disable="submitDisabled" />
+            <q-input
+                v-model="password"
+                outlined
+                type="password"
+                label="Password"
+            />
+            <q-btn
+                label="Sign In"
+                type="submit"
+                color="primary"
+                :disable="submitDisabled"
+            />
         </q-form>
     </div>
 </template>
@@ -25,19 +35,35 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await axios.post("/admin/signin", {
-                    password: this.password,
-                });
+                const response = await axios.post(
+                    "/admin/signin",
+                    {
+                        password: this.password,
+                    },
+                    { withCredentials: true }
+                );
+
                 this.submitDisabled = false;
-                localStorage.setItem("adminToken", response.data.token);
-                Notify.create({
+                return Notify.create({
                     message: response.data.message,
                     color: "primary",
                 });
             } catch (err) {
                 this.submitDisabled = false;
-                Notify.create({
-                    message: err.response.data.message,
+
+                if (
+                    err &&
+                    err.response &&
+                    err.response.data &&
+                    err.response.data.message
+                ) {
+                    return Notify.create({
+                        message: err.response.data.message,
+                        color: "primary",
+                    });
+                }
+                return Notify.create({
+                    message: "Error, Please try again later",
                     color: "primary",
                 });
             }

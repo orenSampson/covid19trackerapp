@@ -34,19 +34,19 @@ export default {
 
     components: {
         AllCountriesInfo,
-        IntervalSelected
+        IntervalSelected,
     },
 
     data() {
         return {
             modeOptions: MODES,
-            mode: null
+            mode: null,
         };
     },
 
     methods: {
-        ...mapActions("allCountries", ["fetchData"])
-    }
+        ...mapActions("allCountries", ["fetchData"]),
+    },
 };
 </script>
 

@@ -6,17 +6,27 @@ export async function fetchData({ commit }) {
   let adminCountriesArr;
 
   try {
-    adminCountriesArr = await axios.get("/admin/getcountries");
+    adminCountriesArr = await axios.get("/admin/getcountries", {
+      withCredentials: true
+    });
   } catch (err) {
     commit("setAdminCountriesArr", []);
 
+    if (err && err.response && err.response.data && err.response.data.message) {
+      return Notify.create({
+        message: err.response.data.message,
+        color: "primary"
+      });
+    }
     return Notify.create({
-      message: err.response.data.message,
+      message: "Error, Please try again later",
       color: "primary"
     });
   }
 
   if (!adminCountriesArr) {
+    commit("setAdminCountriesArr", []);
+
     return Notify.create({
       message: "Error, Please try again later",
       color: "primary"
@@ -31,13 +41,25 @@ export async function changeSelected({ getters, commit }, payload) {
   const adminCountry = getters.adminCountriesArr[countryIndex];
 
   try {
-    await axios.post("/admin/updateselected", {
-      id: adminCountry._id,
-      isSelectedNewVal: !adminCountry.isSelected
-    });
+    await axios.post(
+      "/admin/updateselected",
+      {
+        id: adminCountry._id,
+        isSelectedNewVal: !adminCountry.isSelected
+      },
+      {
+        withCredentials: true
+      }
+    );
   } catch (err) {
+    if (err && err.response && err.response.data && err.response.data.message) {
+      return Notify.create({
+        message: err.response.data.message,
+        color: "primary"
+      });
+    }
     return Notify.create({
-      message: err.response.data.message,
+      message: "Error, Please try again later",
       color: "primary"
     });
   }

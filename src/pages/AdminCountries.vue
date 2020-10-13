@@ -14,20 +14,19 @@ import { mapActions, mapGetters } from "vuex";
 import AdminCountry from "components/admin/AdminCountry";
 export default {
     name: "AdminCountries",
-    data() {
-        return {
-            countries: null,
-        };
-    },
+
     components: {
         AdminCountry,
     },
+
     methods: {
         ...mapActions("adminCountries", ["fetchData"]),
     },
+
     computed: {
         ...mapGetters("adminCountries", ["adminCountriesArr"]),
     },
+
     mounted() {
         this.fetchData();
     },
