@@ -5,33 +5,33 @@ import { Notify } from "quasar";
 export async function fetchData({ commit }) {
   let res;
 
+  console.log("fetchData-begining");
+
   try {
     res = await axios.get("/user/getcountries", {
       headers: {
-        userid: localStorage.getItem("userId"),
-        Authorization: "Bearer " + localStorage.getItem("userToken")
+        withCredentials: true
       }
     });
+
+    console.log("fetchData-successful");
   } catch (err) {
+    console.log("fetchData-error1");  
+
     commit("setCountriesArr", []);
 
-    return Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
-    // return Notify.create({
-    //   message: err.response.data.message,
-    //   color: "primary"
-    // });
+    if (err && err.response && err.response.data && err.response.data.message) {
+        return commit("setErrorMsg", err.response.data.message);
+    }
+    return commit("setErrorMsg", "Error, Please try again later");
   }
 
   if (!res) {
+    console.log("fetchData-error2");  
+
     commit("setCountriesArr", []);
 
-    return Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
+    return commit("setErrorMsg", "Error, Please try again later");
   }
 
   const countriesArr = res.data.data;
@@ -64,13 +64,13 @@ export async function changeSelected({ getters, commit }, payload) {
     await axios.post(
       "/user/updateselected",
       {
-        userId: localStorage.getItem("userId"),
+        // userId: localStorage.getItem("userId"),
         countryId: country.countryId,
         isSelectedNewVal: !country.isSelected
       },
       {
         headers: {
-          Authorization: "Bearer " + localStorage.getItem("userToken")
+            withCredentials: true
         }
       }
     );

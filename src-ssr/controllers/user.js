@@ -5,8 +5,9 @@ const { COVID_BASE_URL } = require("../constants/covid19");
 const { serverError, successfulResponse } = require("../constants/responses");
 
 exports.getCountries = async (req, res, next) => {
-  const userIdHeader = req.get("userid");
-  if (!userIdHeader) {
+  const userId = req.cookies.userId;
+
+  if (!userId) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -25,15 +26,15 @@ exports.getCountries = async (req, res, next) => {
 
   let userCountries;
   try {
-    userCountries = await User.find({ _id: userIdHeader }, "countries");
-    userCountries = userCountries[0].countries;
+    userCountries = await User.findOne({ _id: userId }, '-_id countries').populate("countries._id", "slug");
+    userCountries = userCountries.countries;
   } catch (err) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
   }
 
-  const userSlugs = userCountries.map(item => item.slug);
+  const userSlugs = userCountries.map(item => item._id.slug);
 
   countriesSummary = countriesSummary.filter(item => {
     const slug = item.Slug;
@@ -49,7 +50,7 @@ exports.getCountries = async (req, res, next) => {
       NewConfirmed: item.NewConfirmed,
       TotalDeaths: item.TotalDeaths,
       TotalRecovered: item.TotalRecovered,
-      countryId: userCountries[i]._id.toString(),
+      countryId: userCountries[i]._id._id.toString(),
       isSelected: userCountries[i].isSelected
     };
   });
@@ -57,15 +58,16 @@ exports.getCountries = async (req, res, next) => {
   res.status(successfulResponse.status).json({ data: countriesSummary });
 };
 
+
 exports.updateSelected = async (req, res, next) => {
-  const userId = req.body.userId;
+  const userId = req.cookies.userId;
   const countryId = req.body.countryId;
   const isSelectedNewVal = req.body.isSelectedNewVal;
 
   let user;
 
   try {
-    user = await User.findOne({ _id: userId });
+    user = await User.findOne({ _id: userId }, 'countries');
   } catch (err) {
     return res
       .status(serverError.status)

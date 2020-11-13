@@ -7,6 +7,7 @@ export default function() {
   return {
     countriesArr: [],
     intervalId: null,
-    fetchIntervalVal: FETCH_INTERVAL_OPTIONS[FETCH_INTERVAL_OPTIONS_DEFAULT]
+    fetchIntervalVal: FETCH_INTERVAL_OPTIONS[FETCH_INTERVAL_OPTIONS_DEFAULT],
+    errorMsg: null
   };
 }

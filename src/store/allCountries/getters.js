@@ -9,3 +9,7 @@ export function intervalId(state) {
 export function fetchIntervalVal(state) {
   return state.fetchIntervalVal;
 }
+
+export function errorMsg(state) {
+    return state.errorMsg;
+  }

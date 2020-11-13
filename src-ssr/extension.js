@@ -2,7 +2,7 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
-const authRoutes = require("./routes/auth");
+const authRoutes = require("./routes/auth-user");
 const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
 const connectAndPrepareDB = require("./utils/connectAndPrepareDB");

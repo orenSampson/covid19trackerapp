@@ -13,6 +13,7 @@ const {
   signinSuccessful
 } = require("../constants/responses");
 
+
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
 
@@ -38,7 +39,7 @@ exports.signup = async (req, res, next) => {
   try {
     countriesSelected = await AdminCountry.find(
       { isSelected: true },
-      "_id slug"
+      "_id"
     );
   } catch (err) {
     return res
@@ -55,7 +56,6 @@ exports.signup = async (req, res, next) => {
   const newCountriesSelected = countriesSelected.map(item => {
     return {
       _id: item._id,
-      slug: item.slug,
       isSelected: false
     };
   });
@@ -79,7 +79,10 @@ exports.signup = async (req, res, next) => {
   }
 };
 
+
 exports.signin = async (req, res, next) => {
+  const maxAge = 3600 * 1000; //one hour in milliseconds
+
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
@@ -123,16 +126,25 @@ exports.signin = async (req, res, next) => {
 
   try {
     token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
-      expiresIn: "1h"
-    });
-    res.status(signinSuccessful.status).json({
-      token,
-      userId: user._id.toString(),
-      message: signinSuccessful.message
+      expiresIn: maxAge + "ms"
     });
   } catch (err) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
   }
+
+  res.cookie("user_access_token", token, {
+    maxAge: maxAge,
+    httpOnly: true
+  });
+
+  res.cookie("userId", user._id.toString(), {
+    maxAge: maxAge,
+    httpOnly: true
+  });
+
+  res.status(signinSuccessful.status).json({
+    message: signinSuccessful.message
+  });
 };

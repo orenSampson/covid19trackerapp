@@ -3,15 +3,15 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/Index.vue") },
+      { path: "", component: () => import("pages/UserCountries.vue") },
       {
         path: "graph/:country",
         name: "country",
         component: () => import("pages/Graph.vue")
       },
       { path: "test", component: () => import("pages/test.vue") },
-      { path: "auth/signup", component: () => import("pages/Signup.vue") },
-      { path: "auth/signin", component: () => import("pages/Signin.vue") },
+      { path: "auth/signup", component: () => import("pages/UserSignup.vue") },
+      { path: "auth/signin", component: () => import("pages/UserSignin.vue") },
       {
         path: "admin/signin",
         component: () => import("pages/AdminSignin.vue")

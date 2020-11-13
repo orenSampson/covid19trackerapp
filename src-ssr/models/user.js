@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { schema } = require("./adminCountry");
+// const { schema } = require("./adminCountry");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -8,8 +8,8 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   countries: [
     {
-      _id: { type: Schema.Types.ObjectId },
-      slug: { type: String },
+      _id: { type: Schema.Types.ObjectId, ref: 'AdminCountry' },
+    //   slug: { type: String },
       isSelected: { type: Boolean }
     }
   ]
