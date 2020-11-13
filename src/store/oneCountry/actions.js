@@ -28,9 +28,16 @@ export async function fetchData({ commit, getters }, payload) {
     commit("setFetchedData", calcDiff(res.data, dayDiff));
   } catch (err) {
     commit("setFetchedData", []);
-    Notify.create({
-      message: "Unable To Fetch Data: " + err,
-      color: "primary"
+    
+    if (err && err.response && err.response.data && err.response.data.message) {
+        return Notify.create({
+          message: err.response.data.message,
+          color: "primary"
+        });
+    }
+    return Notify.create({
+        message: "Error, Please try again later",
+        color: "primary"
     });
   }
 }

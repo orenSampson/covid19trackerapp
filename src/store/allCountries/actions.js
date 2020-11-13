@@ -5,19 +5,13 @@ import { Notify } from "quasar";
 export async function fetchData({ commit }) {
   let res;
 
-  console.log("fetchData-begining");
-
   try {
     res = await axios.get("/user/getcountries", {
       headers: {
         withCredentials: true
       }
     });
-
-    console.log("fetchData-successful");
   } catch (err) {
-    console.log("fetchData-error1");  
-
     commit("setCountriesArr", []);
 
     if (err && err.response && err.response.data && err.response.data.message) {
@@ -27,10 +21,7 @@ export async function fetchData({ commit }) {
   }
 
   if (!res) {
-    console.log("fetchData-error2");  
-
     commit("setCountriesArr", []);
-
     return commit("setErrorMsg", "Error, Please try again later");
   }
 
@@ -64,7 +55,6 @@ export async function changeSelected({ getters, commit }, payload) {
     await axios.post(
       "/user/updateselected",
       {
-        // userId: localStorage.getItem("userId"),
         countryId: country.countryId,
         isSelectedNewVal: !country.isSelected
       },
@@ -75,10 +65,17 @@ export async function changeSelected({ getters, commit }, payload) {
       }
     );
   } catch (err) {
-    Notify.create({
-      message: err.response.data.message,
-      color: "primary"
-    });
+    if (err && err.response && err.response.data && err.response.data.message) {
+        Notify.create({
+          message: err.response.data.message,
+          color: "primary"
+        });
+    } else {
+        Notify.create({
+            message: "Error, Please try again later",
+            color: "primary"
+        });
+    }
 
     return false;
   }
