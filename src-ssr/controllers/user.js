@@ -4,6 +4,7 @@ const User = require("../models/user");
 const { COVID_BASE_URL } = require("../constants/covid19");
 const { serverError, successfulResponse } = require("../constants/responses");
 
+
 exports.getCountries = async (req, res, next) => {
   const userId = req.cookies.userId;
 

@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-// const { schema } = require("./adminCountry");
 const Schema = mongoose.Schema;
 
 const userSchema = new Schema({
@@ -9,7 +8,6 @@ const userSchema = new Schema({
   countries: [
     {
       _id: { type: Schema.Types.ObjectId, ref: 'AdminCountry' },
-    //   slug: { type: String },
       isSelected: { type: Boolean }
     }
   ]
