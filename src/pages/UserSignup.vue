@@ -4,8 +4,18 @@
         <q-form @submit.prevent="onSubmit" class="q-gutter-md">
             <q-input v-model="name" outlined label="Name" />
             <q-input v-model="email" outlined type="email" label="Email" />
-            <q-input v-model="password" outlined type="password" label="Password" />
-            <q-btn label="Sign Up" type="submit" color="primary" :disable="submitDisabled" />
+            <q-input
+                v-model="password"
+                outlined
+                type="password"
+                label="Password"
+            />
+            <q-btn
+                label="Sign Up"
+                type="submit"
+                color="primary"
+                :disable="submitDisabled"
+            />
         </q-form>
     </div>
 </template>
@@ -16,7 +26,8 @@ import axios from "axios";
 import { Notify } from "quasar";
 
 export default {
-    name: "Signup",
+    name: "UserSignup",
+
     data() {
         return {
             name: null,
@@ -25,6 +36,7 @@ export default {
             submitDisabled: false,
         };
     },
+
     methods: {
         async onSubmit() {
             this.submitDisabled = true;

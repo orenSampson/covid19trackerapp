@@ -3,8 +3,18 @@
         <h5>Sign in</h5>
         <q-form @submit.prevent="onSubmit" class="q-gutter-md">
             <q-input v-model="email" outlined type="email" label="Email" />
-            <q-input v-model="password" outlined type="password" label="Password" />
-            <q-btn label="Sign In" type="submit" color="primary" :disable="submitDisabled" />
+            <q-input
+                v-model="password"
+                outlined
+                type="password"
+                label="Password"
+            />
+            <q-btn
+                label="Sign In"
+                type="submit"
+                color="primary"
+                :disable="submitDisabled"
+            />
         </q-form>
     </div>
 </template>
@@ -14,7 +24,8 @@ import axios from "axios";
 import { Notify } from "quasar";
 
 export default {
-    name: "Signin",
+    name: "UserSignin",
+
     data() {
         return {
             email: null,
@@ -22,6 +33,7 @@ export default {
             submitDisabled: false,
         };
     },
+
     methods: {
         async onSubmit() {
             this.submitDisabled = true;
@@ -30,17 +42,29 @@ export default {
                     email: this.email,
                     password: this.password,
                 });
+
                 this.submitDisabled = false;
-                localStorage.setItem("userToken", response.data.token);
-                localStorage.setItem("userId", response.data.userId);
-                Notify.create({
+
+                return Notify.create({
                     message: response.data.message,
                     color: "primary",
                 });
             } catch (err) {
                 this.submitDisabled = false;
-                Notify.create({
-                    message: err.response.data.message,
+
+                if (
+                    err &&
+                    err.response &&
+                    err.response.data &&
+                    err.response.data.message
+                ) {
+                    return Notify.create({
+                        message: err.response.data.message,
+                        color: "primary",
+                    });
+                }
+                return Notify.create({
+                    message: "Error, Please try again later",
                     color: "primary",
                 });
             }

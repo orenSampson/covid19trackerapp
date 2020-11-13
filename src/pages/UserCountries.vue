@@ -18,15 +18,17 @@
 </template>
 
 <script>
+import { Notify } from "quasar";
+
 import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
 import IntervalSelected from "components/generalInfo/IntervalSelected";
 
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
 
 import { MODES } from "src/constants/generalInfo";
 
 export default {
-    name: "PageIndex",
+    name: "UserCountries",
 
     preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
         return store.dispatch("allCountries/fetchData");
@@ -46,6 +48,24 @@ export default {
 
     methods: {
         ...mapActions("allCountries", ["fetchData"]),
+    },
+
+    computed: {
+        ...mapGetters("allCountries", ["errorMsg"]),
+    },
+
+    watch: {
+        errorMsg: {
+            handler: function (value) {
+                if (value) {
+                    return Notify.create({
+                        message: value,
+                        color: "primary",
+                    });
+                }
+            },
+            immediate: true,
+        },
     },
 };
 </script>

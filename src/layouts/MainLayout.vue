@@ -10,6 +10,7 @@
                 <q-route-tab to="/admin/countries" label="admin countries" />
                 <q-route-tab to="/auth/signup" label="signup" />
                 <q-route-tab to="/auth/signin" label="signin" />
+                <q-route-tab to="/" label="userCountries" />
             </q-tabs>
         </q-header>
 
