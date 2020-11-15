@@ -15,7 +15,7 @@ export function setFetchIntervalVal(state, payload) {
 
 export function setErrorMsg(state, payload) {
     state.errorMsg = payload;
-  }
+}
 
 export function changeSelected(state, payload) {
   const i = payload;
