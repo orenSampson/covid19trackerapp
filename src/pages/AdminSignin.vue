@@ -35,13 +35,9 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await axios.post(
-                    "/admin/signin",
-                    {
-                        password: this.password,
-                    },
-                    { withCredentials: true }
-                );
+                const response = await axios.post("/admin/signin", {
+                    password: this.password,
+                });
 
                 this.submitDisabled = false;
                 return Notify.create({

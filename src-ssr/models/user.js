@@ -7,7 +7,7 @@ const userSchema = new Schema({
   name: { type: String, required: true },
   countries: [
     {
-      _id: { type: Schema.Types.ObjectId, ref: 'AdminCountry' },
+      _id: { type: Schema.Types.ObjectId, ref: "AdminCountry" },
       isSelected: { type: Boolean }
     }
   ]
