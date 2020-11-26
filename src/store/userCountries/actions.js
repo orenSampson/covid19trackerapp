@@ -15,7 +15,7 @@ export async function fetchData({ commit }) {
     commit("setCountriesArr", []);
 
     if (err && err.response && err.response.data && err.response.data.message) {
-        return commit("setErrorMsg", err.response.data.message);
+      return commit("setErrorMsg", err.response.data.message);
     }
     return commit("setErrorMsg", "Error, Please try again later");
   }
@@ -60,21 +60,21 @@ export async function changeSelected({ getters, commit }, payload) {
       },
       {
         headers: {
-            withCredentials: true
+          withCredentials: true
         }
       }
     );
   } catch (err) {
     if (err && err.response && err.response.data && err.response.data.message) {
-        Notify.create({
-          message: err.response.data.message,
-          color: "primary"
-        });
+      Notify.create({
+        message: err.response.data.message,
+        color: "primary"
+      });
     } else {
-        Notify.create({
-            message: "Error, Please try again later",
-            color: "primary"
-        });
+      Notify.create({
+        message: "Error, Please try again later",
+        color: "primary"
+      });
     }
 
     return false;

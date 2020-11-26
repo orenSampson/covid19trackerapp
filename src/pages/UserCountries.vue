@@ -31,7 +31,7 @@ export default {
     name: "UserCountries",
 
     preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
-        return store.dispatch("allCountries/fetchData");
+        return store.dispatch("userCountries/fetchData");
     },
 
     components: {
@@ -47,11 +47,11 @@ export default {
     },
 
     methods: {
-        ...mapActions("allCountries", ["fetchData"]),
+        ...mapActions("userCountries", ["fetchData"]),
     },
 
     computed: {
-        ...mapGetters("allCountries", ["errorMsg"]),
+        ...mapGetters("userCountries", ["errorMsg"]),
     },
 
     watch: {

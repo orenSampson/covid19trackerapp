@@ -1,8 +1,16 @@
 <template>
     <div>
-        <span class="text-bold">Select time interval for fetching data (in seconds):</span>
+        <span class="text-bold"
+            >Select time interval for fetching data (in seconds):</span
+        >
         <select v-model="fetchIntervalValue" class="q-ml-md">
-            <option v-for="(val, index) in fetchIntervalOptions" :key="index" :value="val">{{val}}</option>
+            <option
+                v-for="(val, index) in fetchIntervalOptions"
+                :key="index"
+                :value="val"
+            >
+                {{ val }}
+            </option>
         </select>
     </div>
 </template>
@@ -17,17 +25,17 @@ export default {
 
     data() {
         return {
-            fetchIntervalOptions: FETCH_INTERVAL_OPTIONS
+            fetchIntervalOptions: FETCH_INTERVAL_OPTIONS,
         };
     },
 
     methods: {
-        ...mapActions("allCountries", [
+        ...mapActions("userCountries", [
             "setFetchIntervalValAction",
             "fetchData",
             "intervalFetchData",
-            "stopCurrentInterval"
-        ])
+            "stopCurrentInterval",
+        ]),
     },
 
     mounted() {
@@ -42,14 +50,14 @@ export default {
     computed: {
         fetchIntervalValue: {
             get() {
-                return this.$store.getters["allCountries/fetchIntervalVal"];
+                return this.$store.getters["userCountries/fetchIntervalVal"];
             },
             set(value) {
                 this.stopCurrentInterval();
                 this.intervalFetchData();
                 this.setFetchIntervalValAction(value);
-            }
-        }
-    }
+            },
+        },
+    },
 };
 </script>

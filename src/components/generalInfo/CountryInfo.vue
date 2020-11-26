@@ -7,7 +7,9 @@
         />
         <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
             <div class="col-xs-6 col-sm-4 col-md">
-                <span class="text-weight-bold">{{ countriesArr[propsIndex].Country }}</span>
+                <span class="text-weight-bold">{{
+                    countriesArr[propsIndex].Country
+                }}</span>
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Cases:</span>
@@ -57,11 +59,11 @@ export default {
     },
 
     computed: {
-        ...mapGetters("allCountries", ["countriesArr"]),
+        ...mapGetters("userCountries", ["countriesArr"]),
     },
 
     methods: {
-        ...mapActions("allCountries", ["changeSelected"]),
+        ...mapActions("userCountries", ["changeSelected"]),
         routeToCountry(event) {
             this.$router.push({
                 name: "country",

@@ -2,7 +2,7 @@ import Vue from "vue";
 import Vuex from "vuex";
 
 import oneCountry from "./oneCountry";
-import allCountries from "./allCountries";
+import userCountries from "./userCountries";
 import adminCountries from "./adminCountries";
 
 Vue.use(Vuex);
@@ -20,7 +20,7 @@ export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
       oneCountry,
-      allCountries,
+      userCountries,
       adminCountries
     },
 

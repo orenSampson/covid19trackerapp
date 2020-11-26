@@ -23,7 +23,7 @@ export default {
     },
 
     computed: {
-        ...mapGetters("allCountries", ["countriesArr"]),
+        ...mapGetters("userCountries", ["countriesArr"]),
     },
 };
 </script>

@@ -1,6 +1,6 @@
 export function setCountriesArr(state, payload) {
   const countriesArr = payload;
-  sortByIsSelected(countriesArr);
+  //   sortByIsSelected(countriesArr);
 
   state.countriesArr = countriesArr;
 }
@@ -14,26 +14,12 @@ export function setFetchIntervalVal(state, payload) {
 }
 
 export function setErrorMsg(state, payload) {
-    state.errorMsg = payload;
+  state.errorMsg = payload;
 }
 
 export function changeSelected(state, payload) {
   const i = payload;
   state.countriesArr[i].isSelected = !state.countriesArr[i].isSelected;
 
-  sortByIsSelected(state.countriesArr);
+  //   sortByIsSelected(state.countriesArr);
 }
-
-const sortByIsSelected = function(countriesArr) {
-  countriesArr.sort((countryA, countryB) => {
-    if (
-      (countryA.isSelected && countryB.isSelected) ||
-      (!countryA.isSelected && !countryB.isSelected)
-    )
-      return 0;
-
-    if (countryA.isSelected && !countryB.isSelected) return -1;
-
-    return 1;
-  });
-};
