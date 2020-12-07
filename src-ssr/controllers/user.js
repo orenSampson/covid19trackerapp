@@ -17,11 +17,21 @@ exports.getCountries = async (req, res, next) => {
 
   try {
     countriesSummary = await axios.get(COVID_BASE_URL + "/summary");
-    countriesSummary = countriesSummary.data.Countries;
   } catch (err) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
+  }
+
+  if (
+    !countriesSummary ||
+    !(countriesSummary.data && countriesSummary.data.Countries)
+  ) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  } else {
+    countriesSummary = countriesSummary.data.Countries;
   }
 
   let userCountries;

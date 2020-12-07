@@ -1,8 +1,5 @@
 export function setCountriesArr(state, payload) {
-  const countriesArr = payload;
-  //   sortByIsSelected(countriesArr);
-
-  state.countriesArr = countriesArr;
+  state.countriesArr = payload;
 }
 
 export function setIntervalId(state, payload) {
@@ -18,8 +15,13 @@ export function setErrorMsg(state, payload) {
 }
 
 export function changeSelected(state, payload) {
-  const i = payload;
-  state.countriesArr[i].isSelected = !state.countriesArr[i].isSelected;
+  const countryId = payload;
 
-  //   sortByIsSelected(state.countriesArr);
+  const country = findCountry(state, countryId);
+
+  country.isSelected = !country.isSelected;
 }
+
+const findCountry = (state, countryId) => {
+  return state.countriesArr.find(country => country.countryId === countryId);
+};

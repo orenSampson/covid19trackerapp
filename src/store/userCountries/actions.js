@@ -48,8 +48,8 @@ export function stopCurrentInterval({ getters }) {
 }
 
 export async function changeSelected({ getters, commit }, payload) {
-  const countryIndex = payload;
-  const country = getters.countriesArr[countryIndex];
+  const countryId = payload;
+  const country = getters.country(countryId);
 
   try {
     await axios.post(
@@ -80,7 +80,7 @@ export async function changeSelected({ getters, commit }, payload) {
     return false;
   }
 
-  commit("changeSelected", countryIndex);
+  commit("changeSelected", countryId);
 
   return true;
 }

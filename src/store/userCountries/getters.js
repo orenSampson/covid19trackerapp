@@ -1,13 +1,14 @@
-export function countriesArr(state, commit) {
-  //   let countriesArrCopy = [...state.countriesArr];
+export function countriesArr(state) {
+  let countriesArrCopy = [...state.countriesArr];
 
-  //   sortByIsSelected(countriesArrCopy);
+  sortByIsSelected(countriesArrCopy);
 
-  //   commit("setCountriesArr", countriesArrCopy);
-
-  //   return countriesArrCopy;
-  return state.countriesArr;
+  return countriesArrCopy;
 }
+
+export const country = state => countryId => {
+  return state.countriesArr.find(country => country.countryId === countryId);
+};
 
 export function intervalId(state) {
   return state.intervalId;

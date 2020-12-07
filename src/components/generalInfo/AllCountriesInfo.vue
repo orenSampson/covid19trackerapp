@@ -2,9 +2,9 @@
     <div>
         <div v-if="countriesArr && countriesArr.length > 0">
             <country-info
-                v-for="(country, index) in countriesArr"
+                v-for="country in countriesArr"
                 :key="country.countryId"
-                :propsIndex="index"
+                :propsCountryId="country.countryId"
             />
         </div>
     </div>

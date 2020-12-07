@@ -2,30 +2,31 @@
     <div>
         <star-toggle
             @click="starToggleClicked"
-            :propsIsSelected="countriesArr[this.propsIndex].isSelected"
-            :propsIsDisabled="disabled"
+            :propsIsSelected="country(propsCountryId).isSelected"
+            :propsIsDisabled="isDisabled"
         />
-        <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
+        <!-- <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry"> -->
+        <div class="row q-mx-xl q-my-md q-pa-sm">
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">{{
-                    countriesArr[propsIndex].Country
+                    country(propsCountryId).Country
                 }}</span>
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Cases:</span>
-                {{ countriesArr[propsIndex].TotalConfirmed }}
+                {{ country(propsCountryId).TotalConfirmed }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">New Cases:</span>
-                {{ countriesArr[propsIndex].NewConfirmed }}
+                {{ country(propsCountryId).NewConfirmed }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Total Deaths:</span>
-                {{ countriesArr[propsIndex].TotalDeaths }}
+                {{ country(propsCountryId).TotalDeaths }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Total Recovered:</span>
-                {{ countriesArr[propsIndex].TotalRecovered }}
+                {{ country(propsCountryId).TotalRecovered }}
             </div>
         </div>
     </div>
@@ -46,35 +47,35 @@ export default {
     },
 
     props: {
-        propsIndex: {
-            type: Number,
+        propsCountryId: {
+            type: String,
             required: true,
         },
     },
 
     data() {
         return {
-            disabled: false,
+            isDisabled: false,
         };
     },
 
     computed: {
-        ...mapGetters("userCountries", ["countriesArr"]),
+        ...mapGetters("userCountries", ["country"]),
     },
 
     methods: {
         ...mapActions("userCountries", ["changeSelected"]),
-        routeToCountry(event) {
-            this.$router.push({
-                name: "country",
-                params: { country: this.countryInfo.Slug },
-            });
-        },
+        // routeToCountry(event) {
+        //     this.$router.push({
+        //         name: "country",
+        //         params: { country: this.countryInfo.Slug },
+        //     });
+        // },
         async starToggleClicked() {
-            this.disabled = true;
+            this.isDisabled = true;
 
             try {
-                await this.changeSelected(this.propsIndex);
+                await this.changeSelected(this.propsCountryId);
             } catch {
                 Notify.create({
                     message: "Error, Please try again later",
@@ -82,7 +83,7 @@ export default {
                 });
             }
 
-            this.disabled = false;
+            this.isDisabled = false;
         },
     },
 };
