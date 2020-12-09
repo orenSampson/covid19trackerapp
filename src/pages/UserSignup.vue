@@ -23,7 +23,8 @@
 <script>
 import Vue from "vue";
 import axios from "axios";
-import { Notify } from "quasar";
+
+import { notifyError, notifyMessage } from "src/utils/errorHandling";
 
 export default {
     name: "UserSignup",
@@ -46,17 +47,16 @@ export default {
                     email: this.email,
                     password: this.password,
                 });
+
                 this.submitDisabled = false;
-                Notify.create({
-                    message: response.data.message,
-                    color: "primary",
-                });
+
+                if (response && response.data && response.data.message){
+                    notifyMessage(response.data.message)
+                }
             } catch (err) {
                 this.submitDisabled = false;
-                Notify.create({
-                    message: err.response.data.message,
-                    color: "primary",
-                });
+                
+                notifyError(err);
             }
         },
     },

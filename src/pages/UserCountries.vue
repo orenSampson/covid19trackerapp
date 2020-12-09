@@ -18,14 +18,12 @@
 </template>
 
 <script>
-import { Notify } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 
 import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
 import IntervalSelected from "components/generalInfo/IntervalSelected";
-
-import { mapActions, mapGetters } from "vuex";
-
 import { MODES } from "src/constants/generalInfo";
+import { notifyMessage } from "src/utils/errorHandling";
 
 export default {
     name: "UserCountries",
@@ -58,10 +56,7 @@ export default {
         errorMsg: {
             handler: function (value) {
                 if (value) {
-                    return Notify.create({
-                        message: value,
-                        color: "primary",
-                    });
+                    notifyMessage(value)
                 }
             },
             immediate: true,

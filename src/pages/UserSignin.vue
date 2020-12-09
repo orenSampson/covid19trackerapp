@@ -21,7 +21,8 @@
 
 <script>
 import axios from "axios";
-import { Notify } from "quasar";
+
+import { notifyError, notifyMessage } from "src/utils/errorHandling";
 
 export default {
     name: "UserSignin",
@@ -45,28 +46,13 @@ export default {
 
                 this.submitDisabled = false;
 
-                return Notify.create({
-                    message: response.data.message,
-                    color: "primary",
-                });
+                if (response && response.data && response.data.message){
+                    return notifyMessage(response.data.message)
+                }
             } catch (err) {
                 this.submitDisabled = false;
-
-                if (
-                    err &&
-                    err.response &&
-                    err.response.data &&
-                    err.response.data.message
-                ) {
-                    return Notify.create({
-                        message: err.response.data.message,
-                        color: "primary",
-                    });
-                }
-                return Notify.create({
-                    message: "Error, Please try again later",
-                    color: "primary",
-                });
+                
+                notifyError(err);
             }
         },
     },

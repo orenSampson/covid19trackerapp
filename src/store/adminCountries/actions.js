@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import { Notify } from "quasar";
+import { notifyError } from "src/utils/errorHandling";
 
 export async function fetchData({ commit }) {
   let adminCountriesArr;
@@ -11,26 +11,12 @@ export async function fetchData({ commit }) {
     });
   } catch (err) {
     commit("setAdminCountriesArr", []);
-
-    if (err && err.response && err.response.data && err.response.data.message) {
-      return Notify.create({
-        message: err.response.data.message,
-        color: "primary"
-      });
-    }
-    return Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
+    return notifyError(err);
   }
 
   if (!adminCountriesArr) {
     commit("setAdminCountriesArr", []);
-
-    return Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
+    return notifyError();
   }
 
   commit("setAdminCountriesArr", adminCountriesArr.data.data);
@@ -52,16 +38,7 @@ export async function changeSelected({ getters, commit }, payload) {
       }
     );
   } catch (err) {
-    if (err && err.response && err.response.data && err.response.data.message) {
-      return Notify.create({
-        message: err.response.data.message,
-        color: "primary"
-      });
-    }
-    return Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
+    return notifyError(err);
   }
 
   commit("changeSelected", countryIndex);

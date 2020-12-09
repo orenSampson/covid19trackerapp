@@ -34,10 +34,10 @@
 
 <script>
 import axios from "axios";
-import { Notify } from "quasar";
-
 import { mapGetters, mapActions } from "vuex";
+
 import StarToggle from "components/general/StarToggle";
+import { notifyError } from "src/utils/errorHandling";
 
 export default {
     name: "CountryInfo",
@@ -77,10 +77,7 @@ export default {
             try {
                 await this.changeSelected(this.propsCountryId);
             } catch {
-                Notify.create({
-                    message: "Error, Please try again later",
-                    color: "primary",
-                });
+                notifyError();
             }
 
             this.isDisabled = false;

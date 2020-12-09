@@ -1,6 +1,7 @@
 import axios from "axios";
-
 import { Notify } from "quasar";
+
+import { notifyError } from "src/utils/errorHandling";
 
 export async function fetchData({ commit }) {
   let res;
@@ -65,22 +66,10 @@ export async function changeSelected({ getters, commit }, payload) {
       }
     );
   } catch (err) {
-    if (err && err.response && err.response.data && err.response.data.message) {
-      Notify.create({
-        message: err.response.data.message,
-        color: "primary"
-      });
-    } else {
-      Notify.create({
-        message: "Error, Please try again later",
-        color: "primary"
-      });
-    }
-
+    notifyError(err);
     return false;
   }
 
   commit("changeSelected", countryId);
-
   return true;
 }
