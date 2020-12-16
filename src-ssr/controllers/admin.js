@@ -12,6 +12,15 @@ const {
   successfulResponse
 } = require("../constants/responses");
 
+exports.logout = (req, res, next) => {
+  res.cookie("admin_access_token", "", {
+    maxAge: 1,
+    httpOnly: true
+  });
+
+  res.status(successfulResponse.status).end();
+};
+
 exports.signin = async (req, res, next) => {
   const password = req.body.password;
   const maxAge = 3600 * 1000; //one hour in milliseconds

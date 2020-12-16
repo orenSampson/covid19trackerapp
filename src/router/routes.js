@@ -3,7 +3,14 @@ const routes = [
     path: "/",
     component: () => import("layouts/MainLayout.vue"),
     children: [
-      { path: "", component: () => import("pages/UserCountries.vue") },
+      {
+        path: "",
+        component: () => import("pages/HomePage.vue")
+      },
+      {
+        path: "user/countries",
+        component: () => import("pages/UserCountries.vue")
+      },
       {
         path: "graph/:country",
         name: "country",

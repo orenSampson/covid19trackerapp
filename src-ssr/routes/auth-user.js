@@ -7,6 +7,8 @@ const { PASSWORD_MIN_LENGTH } = require("../constants/auth");
 
 const router = express.Router();
 
+router.get("/logout", authController.logout);
+
 router.put(
   "/signup",
   [

@@ -6,11 +6,16 @@
             </q-toolbar>
 
             <q-tabs align="right">
-                <q-route-tab to="/admin/signin" label="admin signin" />
-                <q-route-tab to="/admin/countries" label="admin countries" />
-                <q-route-tab to="/auth/signup" label="signup" />
-                <q-route-tab to="/auth/signin" label="signin" />
-                <q-route-tab to="/" label="userCountries" />
+                <q-route-tab to="/" label="Home Page" />
+
+                <q-btn @click="adminLogout" label="Admin Logout" />
+                <q-route-tab to="/admin/signin" label="Admin Signin" />
+                <q-route-tab to="/admin/countries" label="Admin Countries" />
+
+                <q-btn @click="userLogout" label="User Logout" />
+                <q-route-tab to="/auth/signup" label="Signup" />
+                <q-route-tab to="/auth/signin" label="Signin" />
+                <q-route-tab to="/user/countries" label="UserCountries" />
             </q-tabs>
         </q-header>
 
@@ -21,11 +26,33 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
     name: "MainLayout",
 
     data() {
         return {};
+    },
+    methods: {
+        async adminLogout() {
+            try {
+                axios.get("/admin/logout");
+            } catch (err) {}
+
+            if (this.$route.path !== "/") {
+                this.$router.replace("/");
+            }
+        },
+        async userLogout() {
+            try {
+                axios.get("/auth/logout");
+            } catch (err) {}
+
+            if (this.$route.path !== "/") {
+                this.$router.replace("/");
+            }
+        },
     },
 };
 </script>
