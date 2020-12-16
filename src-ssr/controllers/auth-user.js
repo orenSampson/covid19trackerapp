@@ -90,7 +90,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.signin = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   const maxAge = 3600 * 1000; //one hour in milliseconds
 
   const errors = validationResult(req);

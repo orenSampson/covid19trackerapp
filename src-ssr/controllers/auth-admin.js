@@ -19,7 +19,7 @@ exports.logout = (req, res, next) => {
   res.status(successfulResponse.status).end();
 };
 
-exports.signin = async (req, res, next) => {
+exports.login = async (req, res, next) => {
   const password = req.body.password;
   const maxAge = 3600 * 1000; //one hour in milliseconds
 

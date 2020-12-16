@@ -18,10 +18,10 @@ const routes = [
       },
       { path: "test", component: () => import("pages/test.vue") },
       { path: "auth/signup", component: () => import("pages/UserSignup.vue") },
-      { path: "auth/signin", component: () => import("pages/UserSignin.vue") },
+      { path: "auth/login", component: () => import("pages/UserLogin.vue") },
       {
-        path: "admin/signin",
-        component: () => import("pages/AdminSignin.vue")
+        path: "admin/login",
+        component: () => import("pages/AdminLogin.vue")
       },
       {
         path: "admin/countries",

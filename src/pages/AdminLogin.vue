@@ -1,6 +1,6 @@
 <template>
     <div class="q-pa-md" style="max-width: 400px">
-        <h5>Admin Sign in</h5>
+        <h5>Admin Login</h5>
         <q-form @submit.prevent="onSubmit" class="q-gutter-md">
             <q-input
                 v-model="password"
@@ -24,7 +24,7 @@ import axios from "axios";
 import { notifyError, notifyMessage } from "src/utils/errorHandling";
 
 export default {
-    name: "AdminSignin",
+    name: "AdminLogin",
     data() {
         return {
             password: null,
@@ -36,7 +36,7 @@ export default {
             this.submitDisabled = true;
 
             try {
-                const response = await axios.post("/auth/admin/signin", {
+                const response = await axios.post("/auth/admin/login", {
                     password: this.password,
                 });
 

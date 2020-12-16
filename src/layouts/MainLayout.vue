@@ -9,12 +9,12 @@
                 <q-route-tab to="/" label="Home Page" />
 
                 <q-btn @click="adminLogout" label="Admin Logout" />
-                <q-route-tab to="/admin/signin" label="Admin Signin" />
+                <q-route-tab to="/admin/login" label="Admin Login" />
                 <q-route-tab to="/admin/countries" label="Admin Countries" />
 
                 <q-btn @click="userLogout" label="User Logout" />
                 <q-route-tab to="/auth/signup" label="Signup" />
-                <q-route-tab to="/auth/signin" label="Signin" />
+                <q-route-tab to="/auth/login" label="Login" />
                 <q-route-tab to="/user/countries" label="UserCountries" />
             </q-tabs>
         </q-header>

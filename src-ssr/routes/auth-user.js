@@ -41,7 +41,7 @@ router.put(
 );
 
 router.post(
-  "/signin",
+  "/login",
   [
     body("email")
       .isEmail()
@@ -54,7 +54,7 @@ router.post(
         `Password too short. Should be at least ${PASSWORD_MIN_LENGTH} characters`
       )
   ],
-  authController.signin
+  authController.login
 );
 
 module.exports = router;
