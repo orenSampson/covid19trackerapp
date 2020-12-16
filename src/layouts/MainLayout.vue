@@ -37,7 +37,7 @@ export default {
     methods: {
         async adminLogout() {
             try {
-                axios.get("/admin/logout");
+                axios.get("/auth/admin/logout");
             } catch (err) {}
 
             if (this.$route.path !== "/") {
@@ -46,7 +46,7 @@ export default {
         },
         async userLogout() {
             try {
-                axios.get("/auth/logout");
+                axios.get("/auth/user/logout");
             } catch (err) {}
 
             if (this.$route.path !== "/") {

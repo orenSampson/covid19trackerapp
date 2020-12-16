@@ -39,19 +39,19 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await axios.post("/auth/signin", {
+                const response = await axios.post("/auth/user/signin", {
                     email: this.email,
                     password: this.password,
                 });
 
                 this.submitDisabled = false;
 
-                if (response && response.data && response.data.message){
-                    return notifyMessage(response.data.message)
+                if (response && response.data && response.data.message) {
+                    return notifyMessage(response.data.message);
                 }
             } catch (err) {
                 this.submitDisabled = false;
-                
+
                 notifyError(err);
             }
         },

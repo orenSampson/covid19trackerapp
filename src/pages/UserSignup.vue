@@ -42,7 +42,7 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await axios.put("/auth/signup", {
+                const response = await axios.put("/auth/user/signup", {
                     name: this.name,
                     email: this.email,
                     password: this.password,
@@ -50,12 +50,12 @@ export default {
 
                 this.submitDisabled = false;
 
-                if (response && response.data && response.data.message){
-                    notifyMessage(response.data.message)
+                if (response && response.data && response.data.message) {
+                    notifyMessage(response.data.message);
                 }
             } catch (err) {
                 this.submitDisabled = false;
-                
+
                 notifyError(err);
             }
         },
