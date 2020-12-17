@@ -1,12 +1,20 @@
 module.exports = Object.freeze({
   successfulResponse: { status: 200 },
-  serverError: {
-    status: 500,
-    message: "Server Error. Please try again later."
+  signinSuccessful: {
+    status: 200,
+    message: "Successful sign in"
   },
   userCreated: {
     status: 201,
     message: "User created!"
+  },
+  serverError: {
+    status: 500,
+    message: "Server Error. Please try again later."
+  },
+  userNotLoggedIn: {
+    status: 401,
+    message: "Must log in inorder to perform this operation"
   },
   userNotFound: {
     status: 401,
@@ -19,9 +27,5 @@ module.exports = Object.freeze({
   notAuthenticated: {
     status: 401,
     message: "Not authenticated."
-  },
-  signinSuccessful: {
-    status: 200,
-    message: "Successful sign in"
   }
 });

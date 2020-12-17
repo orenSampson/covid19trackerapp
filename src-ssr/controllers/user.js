@@ -24,15 +24,17 @@ exports.getCountries = async (req, res, next) => {
   }
 
   if (
-    !countriesSummary ||
-    !(countriesSummary.data && countriesSummary.data.Countries)
+    !(
+      countriesSummary &&
+      countriesSummary.data &&
+      countriesSummary.data.Countries
+    )
   ) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
-  } else {
-    countriesSummary = countriesSummary.data.Countries;
   }
+  countriesSummary = countriesSummary.data.Countries;
 
   let userCountries;
   try {
