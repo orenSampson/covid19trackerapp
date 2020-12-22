@@ -56,11 +56,14 @@ export default {
         errorMsg: {
             handler: function (value) {
                 if (value) {
-                    notifyMessage(value)
+                    notifyMessage(value);
                 }
             },
             immediate: true,
         },
+    },
+    meta: {
+        title: "Countries",
     },
 };
 </script>

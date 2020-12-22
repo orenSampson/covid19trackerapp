@@ -56,6 +56,9 @@ export default {
             }
         },
     },
+    meta: {
+        title: "Login",
+    },
 };
 </script>
 

@@ -60,6 +60,9 @@ export default {
             }
         },
     },
+    meta: {
+        title: "Signup",
+    },
 };
 </script>
 
