@@ -44,14 +44,6 @@ export async function changeSelected({ getters, commit }, payload) {
   commit("changeSelected", countryIndex);
 }
 
-export async function adminLogout({ commit }) {
-  try {
-    axios.get("/auth/admin/logout");
-  } catch (error) {
-    notifyError(error);
-  }
-
-  if (this.$route.path !== "/") {
-    this.$router.replace("/");
-  }
+export function setAdminCountriesArr({ commit }, payload) {
+  commit("setAdminCountriesArr", payload);
 }

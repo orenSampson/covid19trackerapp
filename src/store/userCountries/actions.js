@@ -1,6 +1,9 @@
 import axios from "axios";
-import { Notify } from "quasar";
 
+import {
+  FETCH_INTERVAL_OPTIONS,
+  FETCH_INTERVAL_OPTIONS_DEFAULT
+} from "src/constants/generalInfo";
 import { notifyError } from "src/utils/errorHandling";
 
 export async function fetchData({ commit }) {
@@ -77,4 +80,14 @@ export async function changeSelected({ getters, commit }, payload) {
 
   commit("changeSelected", countryId);
   return true;
+}
+
+export function resetState({ commit }) {
+  commit("setCountriesArr", []);
+  commit("setIntervalId", null);
+  commit(
+    "setFetchIntervalVal",
+    FETCH_INTERVAL_OPTIONS[FETCH_INTERVAL_OPTIONS_DEFAULT]
+  );
+  commit("setErrorMsg", null);
 }

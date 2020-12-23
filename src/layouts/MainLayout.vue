@@ -28,6 +28,8 @@
 <script>
 import axios from "axios";
 
+import { mapActions } from "vuex";
+
 export default {
     name: "MainLayout",
 
@@ -35,10 +37,16 @@ export default {
         return {};
     },
     methods: {
+        ...mapActions("adminCountries", ["setAdminCountriesArr"]),
+        ...mapActions("userCountries", ["resetState"]),
         async adminLogout() {
             try {
                 axios.get("/auth/admin/logout");
-            } catch (err) {}
+            } catch (error) {
+                return notifyError(error);
+            }
+
+            this.setAdminCountriesArr([]);
 
             if (this.$route.path !== "/") {
                 this.$router.replace("/");
@@ -47,7 +55,11 @@ export default {
         async userLogout() {
             try {
                 axios.get("/auth/user/logout");
-            } catch (err) {}
+            } catch (err) {
+                return notifyError(error);
+            }
+
+            this.resetState();
 
             if (this.$route.path !== "/") {
                 this.$router.replace("/");
