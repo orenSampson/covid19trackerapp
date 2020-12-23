@@ -53,10 +53,10 @@ export default {
                 if (response && response.data && response.data.message) {
                     notifyMessage(response.data.message);
                 }
-            } catch (err) {
+            } catch (error) {
                 this.submitDisabled = false;
 
-                notifyError(err);
+                notifyError(error);
             }
         },
     },

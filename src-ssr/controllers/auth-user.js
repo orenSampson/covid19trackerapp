@@ -42,7 +42,7 @@ exports.signup = async (req, res, next) => {
 
   try {
     hashedPassWord = await bcrypt.hash(password, 12);
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -52,7 +52,7 @@ exports.signup = async (req, res, next) => {
 
   try {
     countries = await AdminCountry.find({}, "_id");
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -83,7 +83,7 @@ exports.signup = async (req, res, next) => {
     return res
       .status(userCreated.status)
       .json({ message: userCreated.message, userId: result._id });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -108,7 +108,7 @@ exports.login = async (req, res, next) => {
 
   try {
     user = await User.findOne({ email: email });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -122,7 +122,7 @@ exports.login = async (req, res, next) => {
 
   try {
     isEqual = await bcrypt.compare(password, user.password);
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -138,7 +138,7 @@ exports.login = async (req, res, next) => {
     token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
       expiresIn: maxAge + "ms"
     });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });

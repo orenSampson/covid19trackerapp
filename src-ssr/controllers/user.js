@@ -17,7 +17,7 @@ exports.getCountries = async (req, res, next) => {
 
   try {
     countriesSummary = await axios.get(COVID_BASE_URL + "/summary");
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -42,7 +42,7 @@ exports.getCountries = async (req, res, next) => {
       { _id: userId },
       "-_id countries"
     ).populate("countries._id", "slug isSelected");
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -91,7 +91,7 @@ exports.updateSelected = async (req, res, next) => {
 
   try {
     user = await User.findOne({ _id: userId }, "countries");
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -117,7 +117,7 @@ exports.updateSelected = async (req, res, next) => {
 
   try {
     await user.save();
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });

@@ -9,9 +9,9 @@ export async function fetchData({ commit }) {
     adminCountriesArr = await axios.get("/admin/getcountries", {
       withCredentials: true
     });
-  } catch (err) {
+  } catch (error) {
     commit("setAdminCountriesArr", []);
-    return notifyError(err);
+    return notifyError(error);
   }
 
   if (!adminCountriesArr) {
@@ -37,9 +37,21 @@ export async function changeSelected({ getters, commit }, payload) {
         withCredentials: true
       }
     );
-  } catch (err) {
-    return notifyError(err);
+  } catch (error) {
+    return notifyError(error);
   }
 
   commit("changeSelected", countryIndex);
+}
+
+export async function adminLogout({ commit }) {
+  try {
+    axios.get("/auth/admin/logout");
+  } catch (error) {
+    notifyError(error);
+  }
+
+  if (this.$route.path !== "/") {
+    this.$router.replace("/");
+  }
 }

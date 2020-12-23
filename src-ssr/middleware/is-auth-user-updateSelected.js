@@ -24,7 +24,7 @@ const isAuth = token => {
 
   try {
     decodedToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
-  } catch (err) {
+  } catch (error) {
     return false;
   }
 

@@ -16,7 +16,7 @@ module.exports = (req, res, next) => {
 
   try {
     decodedToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
-  } catch (err) {
+  } catch (error) {
     return res
       .status(notAuthenticated.status)
       .json({ message: notAuthenticated.message });

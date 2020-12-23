@@ -17,7 +17,7 @@ exports.getCountries = async (req, res, next) => {
 
   try {
     countriesArr = await AdminCountry.find().sort({ country: 1 });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -50,7 +50,7 @@ exports.updateSelected = async (req, res, next) => {
       { _id: countryId },
       { isSelected: isSelectedNewVal }
     );
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -66,7 +66,7 @@ exports.updateSelected = async (req, res, next) => {
 
   try {
     users = await User.find({});
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -98,7 +98,7 @@ exports.updateSelected = async (req, res, next) => {
 
     try {
       await user.save();
-    } catch (err) {
+    } catch (error) {
       return res
         .status(serverError.status)
         .json({ message: serverError.message });

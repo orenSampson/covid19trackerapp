@@ -17,7 +17,7 @@ module.exports = async (req, res, next) => {
 
   try {
     countriesSummary = await axios.get(COVID_BASE_URL + "/summary");
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -39,7 +39,7 @@ module.exports = async (req, res, next) => {
   let adminCountries;
   try {
     adminCountries = await AdminCountry.find();
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -86,7 +86,7 @@ const isAuth = token => {
 
   try {
     decodedToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
-  } catch (err) {
+  } catch (error) {
     return false;
   }
 

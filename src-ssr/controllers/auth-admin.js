@@ -28,7 +28,7 @@ exports.login = async (req, res, next) => {
 
   try {
     isEqual = await bcrypt.compare(password, ADMIN_PASSWORD);
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -44,7 +44,7 @@ exports.login = async (req, res, next) => {
     token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
       expiresIn: maxAge + "ms"
     });
-  } catch (err) {
+  } catch (error) {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });

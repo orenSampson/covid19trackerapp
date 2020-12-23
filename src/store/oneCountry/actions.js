@@ -26,18 +26,23 @@ export async function fetchData({ commit, getters }, payload) {
       `/country/${country}?from=${from}&to=${to}`
     );
     commit("setFetchedData", calcDiff(res.data, dayDiff));
-  } catch (err) {
+  } catch (error) {
     commit("setFetchedData", []);
-    
-    if (err && err.response && err.response.data && err.response.data.message) {
-        return Notify.create({
-          message: err.response.data.message,
-          color: "primary"
-        });
+
+    if (
+      error &&
+      error.response &&
+      error.response.data &&
+      error.response.data.message
+    ) {
+      return Notify.create({
+        message: error.response.data.message,
+        color: "primary"
+      });
     }
     return Notify.create({
-        message: "Error, Please try again later",
-        color: "primary"
+      message: "Error, Please try again later",
+      color: "primary"
     });
   }
 }

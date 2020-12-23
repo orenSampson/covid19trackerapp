@@ -12,11 +12,16 @@ export async function fetchData({ commit }) {
         withCredentials: true
       }
     });
-  } catch (err) {
+  } catch (error) {
     commit("setCountriesArr", []);
 
-    if (err && err.response && err.response.data && err.response.data.message) {
-      return commit("setErrorMsg", err.response.data.message);
+    if (
+      error &&
+      error.response &&
+      error.response.data &&
+      error.response.data.message
+    ) {
+      return commit("setErrorMsg", error.response.data.message);
     }
     return commit("setErrorMsg", "Error, Please try again later");
   }
@@ -65,8 +70,8 @@ export async function changeSelected({ getters, commit }, payload) {
         }
       }
     );
-  } catch (err) {
-    notifyError(err);
+  } catch (error) {
+    notifyError(error);
     return false;
   }
 
