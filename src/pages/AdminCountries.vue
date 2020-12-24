@@ -1,11 +1,11 @@
 <template>
-    <div v-if="adminCountriesArr && adminCountriesArr.length > 0">
+    <q-page v-if="adminCountriesArr && adminCountriesArr.length > 0">
         <admin-country
             v-for="(country, index) in adminCountriesArr"
             :key="country._id"
             :propsIndex="index"
         ></admin-country>
-    </div>
+    </q-page>
 </template>
 
 <script>

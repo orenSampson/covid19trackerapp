@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <q-page>
         <div>
             <button @click="mode = modeOptions.manual">Manual Fetch</button>
             <button @click="mode = modeOptions.interval">Interval Fetch</button>
@@ -14,7 +14,7 @@
         </div>
 
         <all-countries-info />
-    </div>
+    </q-page>
 </template>
 
 <script>

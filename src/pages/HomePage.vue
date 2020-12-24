@@ -1,5 +1,7 @@
 <template>
-    <h1 class="absolute-center">Home Page</h1>
+    <q-page>
+        <h1 class="absolute-center">Home Page</h1>
+    </q-page>
 </template>
 
 <script>

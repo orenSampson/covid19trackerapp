@@ -1,5 +1,5 @@
 <template>
-    <div class="q-pa-md" style="max-width: 400px">
+    <q-page class="q-pa-md" style="max-width: 400px">
         <h5>Sign up</h5>
         <q-form @submit.prevent="onSubmit" class="q-gutter-md">
             <q-input v-model="name" outlined label="Name" />
@@ -17,7 +17,7 @@
                 :disable="submitDisabled"
             />
         </q-form>
-    </div>
+    </q-page>
 </template>
 
 <script>
