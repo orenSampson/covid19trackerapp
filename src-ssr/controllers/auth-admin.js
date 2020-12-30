@@ -11,10 +11,7 @@ const {
 } = require("../constants/responses");
 
 exports.logout = (req, res, next) => {
-  res.cookie("admin_access_token", "", {
-    maxAge: 1,
-    httpOnly: true
-  });
+  res.clearCookie("admin_access_token");
 
   res.status(successfulResponse.status).end();
 };
