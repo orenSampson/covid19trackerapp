@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import { FETCH_INTERVAL_OPTIONS } from "src/constants/generalInfo";
+import { FETCH_INTERVAL_OPTIONS } from "src/constants/userCountries";
 
 import { mapActions } from "vuex";
 

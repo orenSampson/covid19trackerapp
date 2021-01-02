@@ -22,7 +22,7 @@ import { mapActions, mapGetters } from "vuex";
 
 import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
 import IntervalSelected from "components/generalInfo/IntervalSelected";
-import { MODES } from "src/constants/generalInfo";
+import { MODES } from "src/constants/userCountries";
 import { notifyMessage } from "src/utils/errorHandling";
 
 export default {
