@@ -8,11 +8,17 @@
             <q-tabs align="right">
                 <q-route-tab to="/" label="Home Page" />
 
-                <q-btn @click="adminLogout" label="Admin Logout" />
+                <q-btn
+                    @click="adminLogout({ path: $route.path, router: $router })"
+                    label="Admin Logout"
+                />
                 <q-route-tab to="/admin/login" label="Admin Login" />
                 <q-route-tab to="/admin/countries" label="Admin Countries" />
 
-                <q-btn @click="userLogout" label="User Logout" />
+                <q-btn
+                    @click="userLogout({ path: $route.path, router: $router })"
+                    label="User Logout"
+                />
                 <q-route-tab to="/auth/signup" label="Signup" />
                 <q-route-tab to="/auth/login" label="Login" />
                 <q-route-tab to="/user/countries" label="UserCountries" />
@@ -37,34 +43,8 @@ export default {
         return {};
     },
     methods: {
-        ...mapActions("adminCountries", ["setAdminCountriesArr"]),
-        ...mapActions("userCountries", ["resetState"]),
-        async adminLogout() {
-            try {
-                axios.get("/auth/admin/logout");
-            } catch (error) {
-                return notifyError(error);
-            }
-
-            this.setAdminCountriesArr([]);
-
-            if (this.$route.path !== "/") {
-                this.$router.replace("/");
-            }
-        },
-        async userLogout() {
-            try {
-                axios.get("/auth/user/logout");
-            } catch (err) {
-                return notifyError(error);
-            }
-
-            this.resetState();
-
-            if (this.$route.path !== "/") {
-                this.$router.replace("/");
-            }
-        },
+        ...mapActions("adminCountries", ["adminLogout"]),
+        ...mapActions("userCountries", ["userLogout"]),
     },
 };
 </script>

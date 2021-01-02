@@ -1,9 +1,11 @@
 import axios from "axios";
 
+import { userData } from "src/constants/stateData";
+
 import {
   FETCH_INTERVAL_OPTIONS,
   FETCH_INTERVAL_OPTIONS_DEFAULT
-} from "src/constants/generalInfo";
+} from "src/constants/userCountries";
 import { notifyError } from "src/utils/errorHandling";
 
 export async function fetchData({ commit }) {
@@ -83,11 +85,22 @@ export async function changeSelected({ getters, commit }, payload) {
 }
 
 export function resetState({ commit }) {
-  commit("setCountriesArr", []);
-  commit("setIntervalId", null);
-  commit(
-    "setFetchIntervalVal",
-    FETCH_INTERVAL_OPTIONS[FETCH_INTERVAL_OPTIONS_DEFAULT]
-  );
-  commit("setErrorMsg", null);
+  commit("setCountriesArr", userData.countriesArr);
+  commit("setIntervalId", userData.intervalId);
+  commit("setFetchIntervalVal", userData.fetchIntervalVal);
+  commit("setErrorMsg", userData.errorMsg);
+}
+
+export async function userLogout({ dispatch }, { path, router }) {
+  try {
+    await axios.get("/auth/user/logout");
+  } catch (error) {
+    return notifyError(error);
+  }
+
+  dispatch("resetState");
+
+  if (path !== "/") {
+    router.replace("/");
+  }
 }

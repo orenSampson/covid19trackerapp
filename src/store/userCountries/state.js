@@ -1,13 +1,10 @@
-import {
-  FETCH_INTERVAL_OPTIONS,
-  FETCH_INTERVAL_OPTIONS_DEFAULT
-} from "src/constants/generalInfo";
+import { userData } from "src/constants/stateData";
 
 export default function() {
   return {
-    countriesArr: [],
-    intervalId: null,
-    fetchIntervalVal: FETCH_INTERVAL_OPTIONS[FETCH_INTERVAL_OPTIONS_DEFAULT],
-    errorMsg: null
+    countriesArr: userData.countriesArr,
+    intervalId: userData.intervalId,
+    fetchIntervalVal: userData.fetchIntervalVal,
+    errorMsg: userData.errorMsg
   };
 }

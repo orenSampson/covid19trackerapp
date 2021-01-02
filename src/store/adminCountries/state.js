@@ -1,5 +1,7 @@
+import { adminData } from "src/constants/stateData";
+
 export default function() {
   return {
-    adminCountriesArr: []
+    adminCountriesArr: adminData.adminCountriesArr
   };
 }

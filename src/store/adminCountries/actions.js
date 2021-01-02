@@ -47,3 +47,21 @@ export async function changeSelected({ getters, commit }, payload) {
 export function setAdminCountriesArr({ commit }, payload) {
   commit("setAdminCountriesArr", payload);
 }
+
+export function resetState({ commit }) {
+  commit("setAdminCountriesArr", []);
+}
+
+export async function adminLogout({ dispatch }, { path, router }) {
+  try {
+    await axios.get("/auth/admin/logout");
+  } catch (error) {
+    return notifyError(error);
+  }
+
+  dispatch("resetState");
+
+  if (path !== "/") {
+    router.replace("/");
+  }
+}
