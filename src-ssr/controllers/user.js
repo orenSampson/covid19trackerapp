@@ -1,18 +1,11 @@
 const axios = require("axios");
 
 const User = require("../models/user");
+const AdminCountry = require("../models/adminCountry");
 const { COVID_BASE_URL } = require("../constants/covid19");
 const { serverError, successfulResponse } = require("../constants/responses");
 
-exports.getCountries = async (req, res, next) => {
-  const userId = req.cookies.userId;
-
-  if (!userId) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
+exports.getCountries = async (req, res) => {
   let countriesSummary;
 
   try {
@@ -36,50 +29,91 @@ exports.getCountries = async (req, res, next) => {
   }
   countriesSummary = countriesSummary.data.Countries;
 
-  let userCountries;
-  try {
-    userCountries = await User.findOne(
-      { _id: userId },
-      "-_id countries"
-    ).populate("countries._id", "slug isSelected");
-  } catch (error) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
+  if (res.locals.isAuth) {
+    const userId = req.cookies.userId;
+    let userCountries;
+    try {
+      userCountries = await User.findOne(
+        { _id: userId },
+        "-_id countries"
+      ).populate("countries._id", "slug isSelected");
+    } catch (error) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    if (!userCountries) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    userCountries = userCountries.countries;
+
+    userCountries = userCountries.filter(item => item._id.isSelected);
+
+    const userSlugs = userCountries.map(item => item._id.slug);
+
+    countriesSummary = countriesSummary.filter(item => {
+      const slug = item.Slug;
+      return userSlugs.includes(slug);
+    });
+
+    countriesSummary = countriesSummary.map(item => {
+      const slug = item.Slug;
+      const i = userSlugs.indexOf(slug);
+      return {
+        Country: item.Country,
+        TotalConfirmed: item.TotalConfirmed,
+        NewConfirmed: item.NewConfirmed,
+        TotalDeaths: item.TotalDeaths,
+        TotalRecovered: item.TotalRecovered,
+        countryId: userCountries[i]._id._id.toString(),
+        isSelected: userCountries[i].isSelected
+      };
+    });
+  } else {
+    let adminCountries;
+    try {
+      adminCountries = await AdminCountry.find();
+    } catch (error) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    if (!adminCountries) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    adminCountries = adminCountries.filter(item => item.isSelected);
+
+    const adminSlugs = adminCountries.map(item => item.slug);
+
+    countriesSummary = countriesSummary.filter(item => {
+      const slug = item.Slug;
+      return adminSlugs.includes(slug);
+    });
+
+    countriesSummary = countriesSummary.map(item => {
+      const slug = item.Slug;
+      const i = adminSlugs.indexOf(slug);
+      return {
+        Country: item.Country,
+        TotalConfirmed: item.TotalConfirmed,
+        NewConfirmed: item.NewConfirmed,
+        TotalDeaths: item.TotalDeaths,
+        TotalRecovered: item.TotalRecovered,
+        countryId: adminCountries[i]._id.toString(),
+        isSelected: false
+      };
+    });
   }
 
-  if (!userCountries) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
-  userCountries = userCountries.countries;
-
-  userCountries = userCountries.filter(item => item._id.isSelected);
-
-  const userSlugs = userCountries.map(item => item._id.slug);
-
-  countriesSummary = countriesSummary.filter(item => {
-    const slug = item.Slug;
-    return userSlugs.includes(slug);
-  });
-
-  countriesSummary = countriesSummary.map(item => {
-    const slug = item.Slug;
-    const i = userSlugs.indexOf(slug);
-    return {
-      Country: item.Country,
-      TotalConfirmed: item.TotalConfirmed,
-      NewConfirmed: item.NewConfirmed,
-      TotalDeaths: item.TotalDeaths,
-      TotalRecovered: item.TotalRecovered,
-      countryId: userCountries[i]._id._id.toString(),
-      isSelected: userCountries[i].isSelected
-    };
-  });
-
-  res.status(successfulResponse.status).json({ data: countriesSummary });
+  return res.status(successfulResponse.status).json({ data: countriesSummary });
 };
 
 exports.updateSelected = async (req, res, next) => {
