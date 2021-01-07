@@ -1,17 +1,12 @@
 const express = require("express");
 
 const userController = require("../controllers/user");
-const isAuthCountries = require("../middleware/is-auth-user-countries");
-const isAuthUpdateSelected = require("../middleware/is-auth-user-updateSelected");
+const { getCountries, updateSelected } = require("../middleware/is-auth-user");
 
 const router = express.Router();
 
-router.get("/getcountries", isAuthCountries, userController.getCountries);
+router.get("/getcountries", getCountries, userController.getCountries);
 
-router.post(
-  "/updateselected",
-  isAuthUpdateSelected,
-  userController.updateSelected
-);
+router.post("/updateselected", updateSelected, userController.updateSelected);
 
 module.exports = router;

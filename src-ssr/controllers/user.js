@@ -3,9 +3,21 @@ const axios = require("axios");
 const User = require("../models/user");
 const AdminCountry = require("../models/adminCountry");
 const { COVID_BASE_URL } = require("../constants/covid19");
-const { serverError, successfulResponse } = require("../constants/responses");
+const {
+  serverError,
+  successfulResponse,
+  userNotLoggedIn
+} = require("../constants/responses");
 
 exports.getCountries = async (req, res) => {
+  if (res.locals.isAuth) {
+    if (!req.cookies.userId) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+  }
+
   let countriesSummary;
 
   try {
@@ -116,7 +128,19 @@ exports.getCountries = async (req, res) => {
   return res.status(successfulResponse.status).json({ data: countriesSummary });
 };
 
-exports.updateSelected = async (req, res, next) => {
+exports.updateSelected = async (req, res) => {
+  if (!res.locals.isAuth) {
+    return res
+      .status(userNotLoggedIn.status)
+      .json({ message: userNotLoggedIn.message });
+  }
+
+  if (!req.cookies.userId) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
   const userId = req.cookies.userId;
   const countryId = req.body.countryId;
   const isSelectedNewVal = req.body.isSelectedNewVal;

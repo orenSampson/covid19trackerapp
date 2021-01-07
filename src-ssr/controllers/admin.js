@@ -3,16 +3,19 @@ const jwt = require("jsonwebtoken");
 
 const AdminCountry = require("../models/adminCountry");
 const User = require("../models/user");
-const { ADMIN_PASSWORD } = require("../constants/admin");
-const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 const {
   serverError,
-  wrongPassword,
-  signinSuccessful,
+  notAuthenticated,
   successfulResponse
 } = require("../constants/responses");
 
 exports.getCountries = async (req, res, next) => {
+  if (!res.locals.isAuth) {
+    return res
+      .status(notAuthenticated.status)
+      .json({ message: notAuthenticated.message });
+  }
+
   let countriesArr;
 
   try {
@@ -41,6 +44,12 @@ exports.getCountries = async (req, res, next) => {
 };
 
 exports.updateSelected = async (req, res, next) => {
+  if (!res.locals.isAuth) {
+    return res
+      .status(notAuthenticated.status)
+      .json({ message: notAuthenticated.message });
+  }
+
   const countryId = req.body.id;
   const isSelectedNewVal = req.body.isSelectedNewVal;
 

@@ -1,18 +1,15 @@
 const jwt = require("jsonwebtoken");
 
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
-const { userNotLoggedIn } = require("../constants/responses");
 
-module.exports = (req, res, next) => {
-  const token = req.cookies.user_access_token;
+exports.authMiddleware = (token, res, next) => {
+  res.locals.isAuth = false;
 
   if (isAuth(token)) {
-    return next();
+    res.locals.isAuth = true;
   }
 
-  return res
-    .status(userNotLoggedIn.status)
-    .json({ message: userNotLoggedIn.message });
+  return next();
 };
 
 const isAuth = token => {
