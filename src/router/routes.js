@@ -12,9 +12,9 @@ const routes = [
         component: () => import("pages/UserCountries.vue")
       },
       {
-        path: "graph/:country",
+        path: "country/:country",
         name: "country",
-        component: () => import("pages/Graph.vue")
+        component: () => import("pages/country.vue")
       },
       { path: "test", component: () => import("pages/test.vue") },
       { path: "auth/signup", component: () => import("pages/UserSignup.vue") },

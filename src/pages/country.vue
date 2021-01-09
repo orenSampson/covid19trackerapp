@@ -15,27 +15,27 @@ import GraphByCountry from "components/graph/GraphByCountry";
 import { mapActions } from "vuex";
 
 export default {
-    name: "Graph",
+    name: "country",
 
-    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
-        return store.dispatch(
-            "oneCountry/setCountryAction",
-            currentRoute.params.country
-        );
-    },
+    // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+    //     return store.dispatch(
+    //         "oneCountry/setCountryAction",
+    //         currentRoute.params.country
+    //     );
+    // },
 
     components: {
         LastDaysSelection,
         DateRangeSelection,
-        GraphByCountry
+        GraphByCountry,
     },
 
     methods: {
-        ...mapActions("oneCountry", { setCountry: "setCountryAction" })
+        ...mapActions("country", { setCountry: "setCountryAction" }),
     },
 
     watch: {
-        mode() {}
-    }
+        mode() {},
+    },
 };
 </script>
