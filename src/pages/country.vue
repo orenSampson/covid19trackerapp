@@ -15,7 +15,7 @@ import GraphByCountry from "components/graph/GraphByCountry";
 import { mapActions } from "vuex";
 
 export default {
-    name: "country",
+    name: "Country",
 
     // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
     //     return store.dispatch(

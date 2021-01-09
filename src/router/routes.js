@@ -14,7 +14,7 @@ const routes = [
       {
         path: "country/:country",
         name: "country",
-        component: () => import("pages/country.vue")
+        component: () => import("pages/Country.vue")
       },
       { path: "test", component: () => import("pages/test.vue") },
       { path: "auth/signup", component: () => import("pages/UserSignup.vue") },

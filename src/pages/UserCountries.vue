@@ -14,7 +14,7 @@
         </div>
 
         <div v-if="!errorMsg">
-            <all-countries-info />
+            <countries-info />
         </div>
         <div v-else>
             <h2>{{ generalError }}</h2>
@@ -25,8 +25,8 @@
 <script>
 import { mapActions, mapGetters } from "vuex";
 
-import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
-import IntervalSelected from "components/generalInfo/IntervalSelected";
+import CountriesInfo from "components/userCountries/CountriesInfo";
+import IntervalSelected from "components/userCountries/IntervalSelected";
 import { MODES } from "src/constants/userCountries";
 import { notifyMessage } from "src/utils/errorHandling";
 import responses from "src/constants/responses";
@@ -39,7 +39,7 @@ export default {
     },
 
     components: {
-        AllCountriesInfo,
+        CountriesInfo,
         IntervalSelected,
     },
 
