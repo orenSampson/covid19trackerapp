@@ -1,19 +1,24 @@
 <template>
     <q-page>
         <div>
-            <button @click="mode = modeOptions.manual">Manual Fetch</button>
-            <button @click="mode = modeOptions.interval">Interval Fetch</button>
+            <q-btn @click="mode = modeOptions.manual">Manual Fetch</q-btn>
+            <q-btn @click="mode = modeOptions.interval">Interval Fetch</q-btn>
         </div>
 
         <div v-if="mode === modeOptions.manual">
-            <button @click="fetchData">Fetch Data</button>
+            <q-btn @click="fetchData">Fetch Data</q-btn>
         </div>
 
         <div v-if="mode === modeOptions.interval">
             <interval-selected />
         </div>
 
-        <all-countries-info />
+        <div v-if="!errorMsg">
+            <all-countries-info />
+        </div>
+        <div v-else>
+            <h2>{{ generalError }}</h2>
+        </div>
     </q-page>
 </template>
 
@@ -24,6 +29,7 @@ import AllCountriesInfo from "components/generalInfo/AllCountriesInfo";
 import IntervalSelected from "components/generalInfo/IntervalSelected";
 import { MODES } from "src/constants/userCountries";
 import { notifyMessage } from "src/utils/errorHandling";
+import responses from "src/constants/responses";
 
 export default {
     name: "UserCountries",
@@ -41,27 +47,28 @@ export default {
         return {
             modeOptions: MODES,
             mode: null,
+            generalError: responses.generalError,
         };
     },
 
     methods: {
-        ...mapActions("userCountries", ["fetchData"]),
+        ...mapActions("userCountries", ["fetchData", "resetErrorMsg"]),
     },
 
     computed: {
         ...mapGetters("userCountries", ["errorMsg"]),
     },
 
-    watch: {
-        errorMsg: {
-            handler: function (value) {
-                if (value) {
-                    notifyMessage(value);
-                }
-            },
-            immediate: true,
-        },
-    },
+    // watch: {
+    //     errorMsg: {
+    //         handler: function (value) {
+    //             if (value) {
+    //                 notifyMessage(value);
+    //             }
+    //         },
+    //         immediate: true,
+    //     },
+    // },
     meta: {
         title: "Countries",
     },

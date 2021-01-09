@@ -1,14 +1,14 @@
 import axios from "axios";
 
 import { userData } from "src/constants/stateData";
-
-import {
-  FETCH_INTERVAL_OPTIONS,
-  FETCH_INTERVAL_OPTIONS_DEFAULT
-} from "src/constants/userCountries";
+import responses from "src/constants/responses";
 import { notifyError } from "src/utils/errorHandling";
 
-export async function fetchData({ commit }) {
+const generalError = responses.generalError;
+
+export async function fetchData({ commit, dispatch }) {
+  dispatch("resetErrorMsg");
+
   let res;
 
   try {
@@ -18,7 +18,7 @@ export async function fetchData({ commit }) {
       }
     });
   } catch (error) {
-    commit("setCountriesArr", []);
+    dispatch("resetCountriesArr");
 
     if (
       error &&
@@ -28,12 +28,12 @@ export async function fetchData({ commit }) {
     ) {
       return commit("setErrorMsg", error.response.data.message);
     }
-    return commit("setErrorMsg", "Error, Please try again later");
+    return commit("setErrorMsg", generalError);
   }
 
   if (!res) {
-    commit("setCountriesArr", []);
-    return commit("setErrorMsg", "Error, Please try again later");
+    dispatch("resetCountriesArr");
+    return commit("setErrorMsg", generalError);
   }
 
   const countriesArr = res.data.data;
@@ -84,10 +84,23 @@ export async function changeSelected({ getters, commit }, payload) {
   return true;
 }
 
-export function resetState({ commit }) {
+export function resetState({ dispatch }) {
+  dispatch("resetCountriesArr");
+  dispatch("resetIntervalId");
+  dispatch("resetFetchIntervalVal");
+  dispatch("resetErrorMsg");
+}
+
+export function resetCountriesArr({ commit }) {
   commit("setCountriesArr", userData.countriesArr);
+}
+export function resetIntervalId({ commit }) {
   commit("setIntervalId", userData.intervalId);
+}
+export function resetFetchIntervalVal({ commit }) {
   commit("setFetchIntervalVal", userData.fetchIntervalVal);
+}
+export function resetErrorMsg({ commit }) {
   commit("setErrorMsg", userData.errorMsg);
 }
 
