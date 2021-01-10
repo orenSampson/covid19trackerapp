@@ -46,11 +46,11 @@ export function setFetchIntervalVal({ commit }, payload) {
 }
 
 export function intervalFetchData({ dispatch, commit, getters }) {
-  const fetchInterval = getters.fetchIntervalVal;
+  const fetchIntervalVal = getters.fetchIntervalVal;
 
   const intervalId = setInterval(
     () => dispatch("fetchData"),
-    fetchInterval * 1000
+    fetchIntervalVal * 1000
   );
 
   commit("setIntervalId", intervalId);
