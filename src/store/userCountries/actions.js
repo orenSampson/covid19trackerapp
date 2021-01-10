@@ -41,6 +41,10 @@ export async function fetchData({ commit, dispatch }) {
   commit("setCountriesArr", countriesArr);
 }
 
+export function setFetchIntervalVal({ commit }, payload) {
+  commit("setFetchIntervalVal", payload);
+}
+
 export function intervalFetchData({ dispatch, commit, getters }) {
   const fetchInterval = getters.fetchIntervalVal;
 

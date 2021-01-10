@@ -12,6 +12,11 @@
                 {{ val }}
             </option>
         </select>
+        <q-btn
+            @click="stopCurrentInterval"
+            label="Stop Interval Fetch"
+            padding
+        />
     </div>
 </template>
 
@@ -31,7 +36,7 @@ export default {
 
     methods: {
         ...mapActions("userCountries", [
-            "setFetchIntervalValAction",
+            "setFetchIntervalVal",
             "fetchData",
             "intervalFetchData",
             "stopCurrentInterval",
@@ -54,8 +59,8 @@ export default {
             },
             set(value) {
                 this.stopCurrentInterval();
+                this.setFetchIntervalVal(value);
                 this.intervalFetchData();
-                this.setFetchIntervalValAction(value);
             },
         },
     },
