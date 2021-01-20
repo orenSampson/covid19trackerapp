@@ -3,6 +3,7 @@ const axios = require("axios");
 const User = require("../models/user");
 const AdminCountry = require("../models/adminCountry");
 const { COVID_BASE_URL } = require("../constants/covid19");
+const { NOTLOGGEDINUSERID } = require("../constants/user");
 const {
   serverError,
   successfulResponse,
@@ -10,12 +11,10 @@ const {
 } = require("../constants/responses");
 
 exports.getCountries = async (req, res) => {
-  if (res.locals.isAuth) {
-    if (!req.cookies.userId) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
+  if (res.locals.isAuth && !req.cookies.userId) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 
   let countriesSummary;
@@ -41,89 +40,56 @@ exports.getCountries = async (req, res) => {
   }
   countriesSummary = countriesSummary.data.Countries;
 
+  let userId;
   if (res.locals.isAuth) {
-    const userId = req.cookies.userId;
-    let userCountries;
-    try {
-      userCountries = await User.findOne(
-        { _id: userId },
-        "-_id countries"
-      ).populate("countries._id", "slug isSelected");
-    } catch (error) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-
-    if (!userCountries) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-
-    userCountries = userCountries.countries;
-
-    userCountries = userCountries.filter(item => item._id.isSelected);
-
-    const userSlugs = userCountries.map(item => item._id.slug);
-
-    countriesSummary = countriesSummary.filter(item => {
-      const slug = item.Slug;
-      return userSlugs.includes(slug);
-    });
-
-    countriesSummary = countriesSummary.map(item => {
-      const slug = item.Slug;
-      const i = userSlugs.indexOf(slug);
-      return {
-        Country: item.Country,
-        TotalConfirmed: item.TotalConfirmed,
-        NewConfirmed: item.NewConfirmed,
-        TotalDeaths: item.TotalDeaths,
-        TotalRecovered: item.TotalRecovered,
-        countryId: userCountries[i]._id._id.toString(),
-        isSelected: userCountries[i].isSelected
-      };
-    });
+    userId = req.cookies.userId;
   } else {
-    let adminCountries;
-    try {
-      adminCountries = await AdminCountry.find();
-    } catch (error) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-
-    if (!adminCountries) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-
-    adminCountries = adminCountries.filter(item => item.isSelected);
-
-    const adminSlugs = adminCountries.map(item => item.slug);
-
-    countriesSummary = countriesSummary.filter(item => {
-      const slug = item.Slug;
-      return adminSlugs.includes(slug);
-    });
-
-    countriesSummary = countriesSummary.map(item => {
-      const slug = item.Slug;
-      const i = adminSlugs.indexOf(slug);
-      return {
-        Country: item.Country,
-        TotalConfirmed: item.TotalConfirmed,
-        NewConfirmed: item.NewConfirmed,
-        TotalDeaths: item.TotalDeaths,
-        TotalRecovered: item.TotalRecovered,
-        countryId: adminCountries[i]._id.toString(),
-        isSelected: false
-      };
-    });
+    userId = NOTLOGGEDINUSERID;
   }
+
+  let userCountries;
+  try {
+    userCountries = await User.findOne(
+      { _id: userId },
+      "-_id countries"
+    ).populate("countries._id", "slug isSelected");
+  } catch (error) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  if (!userCountries) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
+  }
+
+  userCountries = userCountries.countries;
+
+  userCountries = userCountries.filter(item => item._id.isSelected);
+
+  const userSlugs = userCountries.map(item => item._id.slug);
+
+  countriesSummary = countriesSummary.filter(item => {
+    const slug = item.Slug;
+    return userSlugs.includes(slug);
+  });
+
+  countriesSummary = countriesSummary.map(item => {
+    const slug = item.Slug;
+    const i = userSlugs.indexOf(slug);
+    return {
+      country: item.Country,
+      slug,
+      totalConfirmed: item.TotalConfirmed,
+      newConfirmed: item.NewConfirmed,
+      totalDeaths: item.TotalDeaths,
+      totalRecovered: item.TotalRecovered,
+      countryId: userCountries[i]._id._id.toString(),
+      isSelected: userCountries[i].isSelected
+    };
+  });
 
   return res.status(successfulResponse.status).json({ data: countriesSummary });
 };
