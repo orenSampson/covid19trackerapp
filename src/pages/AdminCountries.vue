@@ -20,7 +20,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("adminCountries", ["fetchData"]),
+        ...mapActions("adminCountries", ["fetchData", "resetState"]),
     },
 
     computed: {
@@ -29,6 +29,10 @@ export default {
 
     mounted() {
         this.fetchData();
+    },
+
+    beforeDestroy() {
+        this.resetState();
     },
 };
 </script>

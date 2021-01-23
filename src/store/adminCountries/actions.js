@@ -1,5 +1,6 @@
 import axios from "axios";
 
+import { adminInitValues } from "src/constants/stateData";
 import { notifyError } from "src/utils/errorHandling";
 
 export async function fetchData({ commit }) {
@@ -49,17 +50,15 @@ export function setAdminCountriesArr({ commit }, payload) {
 }
 
 export function resetState({ commit }) {
-  commit("setAdminCountriesArr", []);
+  commit("setAdminCountriesArr", adminInitValues.adminCountriesArr);
 }
 
-export async function adminLogout({ dispatch }, { path, router }) {
+export async function adminLogout({}, { path, router }) {
   try {
     await axios.get("/auth/admin/logout");
   } catch (error) {
     return notifyError(error);
   }
-
-  dispatch("resetState");
 
   if (path !== "/") {
     router.replace("/");
