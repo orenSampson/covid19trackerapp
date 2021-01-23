@@ -1,5 +1,5 @@
-export function setCountry(state, payload) {
-  state.country = payload;
+export function setCountryId(state, payload) {
+  state.countryId = payload;
 }
 
 export function setFrom(state, payload) {

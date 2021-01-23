@@ -1,6 +1,6 @@
 export default function() {
   return {
-    country: null,
+    countryId: null,
     from: null,
     to: null,
     fetchedData: []

@@ -47,14 +47,14 @@ export async function fetchData({ commit, getters }, payload) {
   }
 }
 
-export function setCountryAction({ commit }, payload) {
-  commit("setCountry", payload);
+export function setCountryId({ commit }, payload) {
+  commit("setCountryId", payload);
 }
 
-export function setFromAction({ commit }, payload) {
+export function setFrom({ commit }, payload) {
   commit("setFrom", payload);
 }
 
-export function setToAction({ commit }, payload) {
+export function setTo({ commit }, payload) {
   commit("setTo", payload);
 }
