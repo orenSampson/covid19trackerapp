@@ -48,10 +48,6 @@ export default {
         this.intervalFetchData();
     },
 
-    beforeDestroy() {
-        this.stopCurrentInterval();
-    },
-
     computed: {
         fetchIntervalValue: {
             get() {

@@ -8,6 +8,7 @@ const generalError = responses.generalError;
 
 export async function fetchData({ commit, dispatch }) {
   dispatch("resetErrorMsg");
+  dispatch("resetCountriesArr");
 
   let res;
 
@@ -18,8 +19,6 @@ export async function fetchData({ commit, dispatch }) {
       }
     });
   } catch (error) {
-    dispatch("resetCountriesArr");
-
     if (
       error &&
       error.response &&
@@ -58,8 +57,9 @@ export function intervalFetchData({ dispatch, commit, getters }) {
 
 export function stopCurrentInterval({ getters }) {
   const intervalId = getters.intervalId;
-
-  clearInterval(intervalId);
+  if (intervalId) {
+    clearInterval(intervalId);
+  }
 }
 
 export async function changeSelected({ getters, commit }, payload) {
@@ -89,6 +89,8 @@ export async function changeSelected({ getters, commit }, payload) {
 }
 
 export function resetState({ dispatch }) {
+  dispatch("stopCurrentInterval");
+
   dispatch("resetCountriesArr");
   dispatch("resetIntervalId");
   dispatch("resetFetchIntervalVal");
@@ -108,14 +110,12 @@ export function resetErrorMsg({ commit }) {
   commit("setErrorMsg", userData.errorMsg);
 }
 
-export async function userLogout({ dispatch }, { path, router }) {
+export async function userLogout({}, { path, router }) {
   try {
     await axios.get("/auth/user/logout");
   } catch (error) {
     return notifyError(error);
   }
-
-  dispatch("resetState");
 
   if (path !== "/") {
     router.replace("/");

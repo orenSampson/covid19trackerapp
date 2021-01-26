@@ -29,13 +29,13 @@ import CountriesInfo from "components/userCountries/CountriesInfo";
 import IntervalSelected from "components/userCountries/IntervalSelected";
 import Error404 from "./Error404.vue";
 import { MODES } from "src/constants/userCountries";
-import { notifyMessage } from "src/utils/errorHandling";
+// import { notifyMessage } from "src/utils/errorHandling";
 import responses from "src/constants/responses";
 
 export default {
     name: "UserCountries",
 
-    preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+    preFetch({ store }) {
         return store.dispatch("userCountries/fetchData");
     },
 
@@ -54,7 +54,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("userCountries", ["fetchData", "resetErrorMsg"]),
+        ...mapActions("userCountries", ["fetchData", "resetState"]),
     },
 
     computed: {
@@ -73,6 +73,9 @@ export default {
     // },
     meta: {
         title: "Countries",
+    },
+    beforeDestroy() {
+        this.resetState();
     },
 };
 </script>
