@@ -54,7 +54,7 @@ export default {
     },
 
     methods: {
-        ...mapActions("userCountries", ["fetchData", "resetState"]),
+        ...mapActions("userCountries", ["fetchData"]),
     },
 
     computed: {
@@ -73,9 +73,6 @@ export default {
     // },
     meta: {
         title: "Countries",
-    },
-    beforeDestroy() {
-        this.resetState();
     },
 };
 </script>

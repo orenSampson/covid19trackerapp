@@ -40,12 +40,18 @@ export default {
             "fetchData",
             "intervalFetchData",
             "stopCurrentInterval",
+            "resetFetchIntervalVal",
         ]),
     },
 
     mounted() {
         this.fetchData();
         this.intervalFetchData();
+    },
+
+    beforeDestroy() {
+        this.stopCurrentInterval();
+        this.resetFetchIntervalVal();
     },
 
     computed: {

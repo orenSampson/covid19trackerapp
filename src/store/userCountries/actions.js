@@ -55,10 +55,11 @@ export function intervalFetchData({ dispatch, commit, getters }) {
   commit("setIntervalId", intervalId);
 }
 
-export function stopCurrentInterval({ getters }) {
+export function stopCurrentInterval({ getters, dispatch }) {
   const intervalId = getters.intervalId;
   if (intervalId) {
     clearInterval(intervalId);
+    dispatch("resetIntervalId");
   }
 }
 
