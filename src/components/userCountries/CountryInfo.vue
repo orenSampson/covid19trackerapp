@@ -5,35 +5,33 @@
             :propsIsSelected="country(propsCountryId).isSelected"
             :propsIsDisabled="isDisabled"
         />
-        <!-- <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry"> -->
-        <div class="row q-mx-xl q-my-md q-pa-sm">
+        <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">{{
-                    country(propsCountryId).Country
+                    country(propsCountryId).country
                 }}</span>
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Cases:</span>
-                {{ country(propsCountryId).TotalConfirmed }}
+                {{ country(propsCountryId).totalConfirmed }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">New Cases:</span>
-                {{ country(propsCountryId).NewConfirmed }}
+                {{ country(propsCountryId).newConfirmed }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Total Deaths:</span>
-                {{ country(propsCountryId).TotalDeaths }}
+                {{ country(propsCountryId).totalDeaths }}
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">Total Recovered:</span>
-                {{ country(propsCountryId).TotalRecovered }}
+                {{ country(propsCountryId).totalRecovered }}
             </div>
         </div>
     </div>
 </template>
 
 <script>
-import axios from "axios";
 import { mapGetters, mapActions } from "vuex";
 
 import StarToggle from "components/general/StarToggle";
@@ -65,12 +63,13 @@ export default {
 
     methods: {
         ...mapActions("userCountries", ["changeSelected"]),
-        // routeToCountry(event) {
-        //     this.$router.push({
-        //         name: "country",
-        //         params: { country: this.countryInfo.Slug },
-        //     });
-        // },
+        ...mapActions("userCountry", ["setCountryId"]),
+        routeToCountry() {
+            this.setCountryId(this.propsCountryId);
+            this.$router.push({
+                name: "country",
+            });
+        },
         async starToggleClicked() {
             this.isDisabled = true;
 
