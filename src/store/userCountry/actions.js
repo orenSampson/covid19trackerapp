@@ -1,49 +1,33 @@
 import Vue from "vue";
-import { date, Notify } from "quasar";
+import { date } from "quasar";
 
 import { calcDiff, formatDateWithTime } from "src/utils/date";
+import { notifyError } from "src/utils/errorHandling";
 
-export async function fetchData({ commit, getters }, payload) {
+export async function fetchData({ commit, getters, rootGetters }, payload) {
   const { getDateDiff, subtractFromDate, formatDate } = date;
 
   let from = payload.from;
   commit("setFrom", from);
-
   let to = payload.to;
   commit("setTo", to);
 
-  const country = getters.country;
+  const country = rootGetters["userCountries/country"](getters.countryId);
+  const countrySlug = country.slug;
 
   let dayDiff = getDateDiff(to, from, "days") + 1;
 
   from = formatDate(subtractFromDate(from, { days: 1 }), "YYYY-MM-DD");
-
   from = formatDateWithTime(from);
   to = formatDateWithTime(to);
-
   try {
     const res = await Vue.prototype.$axiosFetch.get(
-      `/country/${country}?from=${from}&to=${to}`
+      `/country/${countrySlug}?from=${from}&to=${to}`
     );
     commit("setFetchedData", calcDiff(res.data, dayDiff));
   } catch (error) {
     commit("setFetchedData", []);
-
-    if (
-      error &&
-      error.response &&
-      error.response.data &&
-      error.response.data.message
-    ) {
-      return Notify.create({
-        message: error.response.data.message,
-        color: "primary"
-      });
-    }
-    return Notify.create({
-      message: "Error, Please try again later",
-      color: "primary"
-    });
+    notifyError(error);
   }
 }
 

@@ -1,3 +1,5 @@
+import { date } from "quasar";
+
 export const calcDiff = (arr, daysAmount) => {
   if (arr.length > 2) {
     const compactedArr = [];
@@ -33,3 +35,19 @@ export const calcDiff = (arr, daysAmount) => {
 };
 
 export const formatDateWithTime = date => date + "T00:00:00Z";
+
+export const lastDaysToFromTo = lastDays => {
+  const { subtractFromDate, formatDate } = date;
+
+  let to = subtractFromDate(new Date(), {
+    days: 1
+  });
+  to = formatDate(to, "YYYY-MM-DD");
+
+  let from = subtractFromDate(to, {
+    days: lastDays - 1
+  });
+  from = formatDate(from, "YYYY-MM-DD");
+
+  return { from, to };
+};
