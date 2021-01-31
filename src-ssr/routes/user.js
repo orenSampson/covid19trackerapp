@@ -1,12 +1,21 @@
 const express = require("express");
 
 const userController = require("../controllers/user");
-const { getCountries, updateSelected } = require("../middleware/is-auth-user");
+const { authMiddleware } = require("../utils/middleware");
+const { USER_ACCESS_TOKEN } = require("../constants/auth");
 
 const router = express.Router();
 
-router.get("/getcountries", getCountries, userController.getCountries);
+router.get(
+  "/getcountries",
+  authMiddleware(USER_ACCESS_TOKEN),
+  userController.getCountries
+);
 
-router.post("/updateselected", updateSelected, userController.updateSelected);
+router.post(
+  "/updateselected",
+  authMiddleware(USER_ACCESS_TOKEN),
+  userController.updateSelected
+);
 
 module.exports = router;

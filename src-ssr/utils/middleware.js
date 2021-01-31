@@ -2,7 +2,9 @@ const jwt = require("jsonwebtoken");
 
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 
-exports.authMiddleware = (token, res, next) => {
+exports.authMiddleware = tokenName => (req, res, next) => {
+  const token = req.cookies[tokenName];
+
   res.locals.isAuth = false;
 
   if (isAuth(token)) {
