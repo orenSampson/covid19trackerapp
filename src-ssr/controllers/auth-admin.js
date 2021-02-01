@@ -9,9 +9,10 @@ const {
   signinSuccessful,
   successfulResponse
 } = require("../constants/responses");
+const { ADMIN_ACCESS_TOKEN } = require("../constants/auth");
 
 exports.logout = (req, res, next) => {
-  res.clearCookie("admin_access_token");
+  res.clearCookie(ADMIN_ACCESS_TOKEN);
 
   res.status(successfulResponse.status).end();
 };
@@ -47,7 +48,7 @@ exports.login = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  res.cookie("admin_access_token", token, {
+  res.cookie(ADMIN_ACCESS_TOKEN, token, {
     maxAge: maxAge,
     httpOnly: true
   });

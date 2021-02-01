@@ -13,9 +13,10 @@ const {
   signinSuccessful,
   successfulResponse
 } = require("../constants/responses");
+const { USER_ACCESS_TOKEN } = require("../constants/auth");
 
 exports.logout = (req, res, next) => {
-  res.clearCookie("user_access_token");
+  res.clearCookie(USER_ACCESS_TOKEN);
   res.clearCookie("userId");
 
   res.status(successfulResponse.status).end();
@@ -137,7 +138,7 @@ exports.login = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  res.cookie("user_access_token", token, {
+  res.cookie(USER_ACCESS_TOKEN, token, {
     maxAge: maxAge,
     httpOnly: true
   });
