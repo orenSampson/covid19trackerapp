@@ -1,8 +1,10 @@
 import Vue from "vue";
 import axios from "axios";
 
+import { BASE_URL } from "src/constants/covid19api";
+
 const axiosForFetch = axios.create({
-	baseURL: "https://api.covid19api.com"
+  baseURL: BASE_URL
 });
 
 Vue.prototype.$axiosFetch = axiosForFetch;
