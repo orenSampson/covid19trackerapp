@@ -5,7 +5,7 @@
         >
         <select v-model="fetchIntervalValue" class="q-ml-md">
             <option
-                v-for="(val, index) in fetchIntervalOptions"
+                v-for="(val, index) in FETCH_INTERVAL_OPTIONS"
                 :key="index"
                 :value="val"
             >
@@ -28,10 +28,8 @@ import { mapActions } from "vuex";
 export default {
     name: "IntevalSelected",
 
-    data() {
-        return {
-            fetchIntervalOptions: FETCH_INTERVAL_OPTIONS,
-        };
+    created() {
+        this.FETCH_INTERVAL_OPTIONS = FETCH_INTERVAL_OPTIONS;
     },
 
     methods: {
