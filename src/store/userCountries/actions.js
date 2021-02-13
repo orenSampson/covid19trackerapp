@@ -13,7 +13,7 @@ export async function fetchData({ commit, dispatch }) {
   let res;
 
   try {
-    res = await axios.get("/user/getcountries", {
+    res = await axios.get("http://localhost:8080/user/getcountries", {
       headers: {
         withCredentials: true
       }
