@@ -3,7 +3,7 @@ const axios = require("axios");
 const User = require("../models/user");
 const AdminCountry = require("../models/adminCountry");
 const { COVID_BASE_URL } = require("../constants/covid19");
-const { NOTLOGGEDINUSERID } = require("../constants/user");
+// const { NOTLOGGEDINUSERID } = require("../constants/user");
 const {
   serverError,
   successfulResponse,
@@ -11,6 +11,8 @@ const {
 } = require("../constants/responses");
 
 exports.getCountries = async (req, res) => {
+  console.log("getCountries called");
+
   if (res.locals.isAuth && !req.cookies.userId) {
     return res
       .status(serverError.status)
@@ -21,7 +23,9 @@ exports.getCountries = async (req, res) => {
 
   try {
     countriesSummary = await axios.get(COVID_BASE_URL + "/summary");
+    console.log("calling covid19 api successfully");
   } catch (error) {
+    console.log("calling covid19 api failed 1: ", error);
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
@@ -34,42 +38,84 @@ exports.getCountries = async (req, res) => {
       countriesSummary.data.Countries
     )
   ) {
+    console.log("calling covid19 api failed 2");
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
   }
   countriesSummary = countriesSummary.data.Countries;
 
-  let userId;
-  if (res.locals.isAuth) {
-    userId = req.cookies.userId;
-  } else {
-    userId = NOTLOGGEDINUSERID;
-  }
-
   let userCountries;
-  try {
-    userCountries = await User.findOne(
-      { _id: userId },
-      "-_id countries"
-    ).populate("countries._id", "slug isSelected");
-  } catch (error) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
+
+  if (res.locals.isAuth) {
+    console.log(
+      "🚀 ~ file: user.js ~ line 46 ~ exports.getCountries= ~ res.locals.isAuth",
+      res.locals.isAuth
+    );
+    try {
+      userCountries = await User.findOne(
+        { _id: req.cookies.userId },
+        "-_id countries"
+      ).populate("countries._id", "slug country isSelected");
+    } catch (error) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    if (!userCountries) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    userCountries = userCountries.countries;
+
+    userCountries = userCountries.filter(item => item._id.isSelected);
+    userCountries = userCountries.map(item => {
+      return {
+        _id: item._id._id,
+        country: item._id.country,
+        slug: item._id.slug,
+        isSelected: item.isSelected
+      };
+    });
+  } else {
+    console.log(
+      "🚀 ~ file: user.js ~ line 76 ~ exports.getCountries= ~ res.locals.isAuth",
+      res.locals.isAuth
+    );
+    try {
+      userCountries = await AdminCountry.find();
+    } catch (error) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    if (!userCountries) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    userCountries = userCountries.filter(item => item.isSelected);
+    userCountries = userCountries.map(item => {
+      return {
+        _id: item._id,
+        country: item.country,
+        slug: item.slug,
+        isSelected: false
+      };
+    });
   }
 
-  if (!userCountries) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
+  console.log(
+    "🚀 ~ file: user.js ~ line 81 ~ exports.getCountries= ~ userCountries",
+    userCountries
+  );
 
-  userCountries = userCountries.countries;
-
-  userCountries = userCountries.filter(item => item._id.isSelected);
-
-  const userSlugs = userCountries.map(item => item._id.slug);
+  const userSlugs = userCountries.map(item => item.slug);
 
   countriesSummary = countriesSummary.filter(item => {
     const slug = item.Slug;
@@ -80,14 +126,14 @@ exports.getCountries = async (req, res) => {
     const slug = item.Slug;
     const i = userSlugs.indexOf(slug);
     return {
+      countryId: userCountries[i]._id.toString(),
       country: item.Country,
       slug,
+      isSelected: userCountries[i].isSelected,
       totalConfirmed: item.TotalConfirmed,
       newConfirmed: item.NewConfirmed,
       totalDeaths: item.TotalDeaths,
-      totalRecovered: item.TotalRecovered,
-      countryId: userCountries[i]._id._id.toString(),
-      isSelected: userCountries[i].isSelected
+      totalRecovered: item.TotalRecovered
     };
   });
 
