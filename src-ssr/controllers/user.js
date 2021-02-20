@@ -43,6 +43,7 @@ exports.getCountries = async (req, res) => {
       .status(serverError.status)
       .json({ message: serverError.message });
   }
+
   countriesSummary = countriesSummary.data.Countries;
 
   let userCountries;
@@ -86,7 +87,7 @@ exports.getCountries = async (req, res) => {
       res.locals.isAuth
     );
     try {
-      userCountries = await AdminCountry.find();
+      userCountries = await AdminCountry.find({ isSelected: true });
     } catch (error) {
       return res
         .status(serverError.status)
@@ -99,7 +100,6 @@ exports.getCountries = async (req, res) => {
         .json({ message: serverError.message });
     }
 
-    userCountries = userCountries.filter(item => item.isSelected);
     userCountries = userCountries.map(item => {
       return {
         _id: item._id,
