@@ -1,5 +1,5 @@
 const axios = require("axios");
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 
 const User = require("../models/user");
@@ -45,7 +45,7 @@ exports.getCountries = async (req, res) => {
     let rawdata;
     const certPath = path.join(__dirname, "../constants/countriesData.json");
     try {
-      rawdata = await fs.readFileSync(certPath);
+      rawdata = await fs.readFile(certPath);
     } catch (error) {
       return res
         .status(serverError.status)
