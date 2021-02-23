@@ -67,7 +67,7 @@ exports.getCountries = async (req, res) => {
       userCountries = await User.findOne(
         { _id: req.cookies.userId },
         "-_id countries"
-      ).populate("countries._id", "slug country isSelected");
+      ).populate("countries._id", "slug isSelected");
 
       //   console.log(
       //     "🚀 ~ file: user.js ~ line 64 ~ exports.getCountries= ~ userCountries",
@@ -99,7 +99,6 @@ exports.getCountries = async (req, res) => {
     userCountries = userCountries.map(item => {
       return {
         _id: item._id._id,
-        country: item._id.country,
         slug: item._id.slug,
         isSelected: item.isSelected
       };
@@ -126,7 +125,6 @@ exports.getCountries = async (req, res) => {
     userCountries = userCountries.map(item => {
       return {
         _id: item._id,
-        country: item.country,
         slug: item.slug,
         isSelected: false
       };
