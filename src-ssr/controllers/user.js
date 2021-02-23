@@ -1,4 +1,6 @@
 const axios = require("axios");
+const fs = require("fs");
+const path = require("path");
 
 const User = require("../models/user");
 const AdminCountry = require("../models/adminCountry");
@@ -20,31 +22,39 @@ exports.getCountries = async (req, res) => {
   }
 
   let countriesSummary;
+  let isCovid19APISuccess = false;
 
   try {
     countriesSummary = await axios.get(COVID_BASE_URL + "/summary");
+    countriesSummary = countriesSummary.data.Countries;
+
+    isCovid19APISuccess = true;
+
     console.log("calling covid19 api successfully");
   } catch (error) {
-    console.log("calling covid19 api failed 1: ", error);
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
+    console.log("calling covid19 api failed 1: ", error.message);
   }
 
-  if (
-    !(
-      countriesSummary &&
-      countriesSummary.data &&
-      countriesSummary.data.Countries
-    )
-  ) {
+  if (!countriesSummary) {
     console.log("calling covid19 api failed 2");
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
   }
 
-  countriesSummary = countriesSummary.data.Countries;
+  if (!isCovid19APISuccess) {
+    console.log("reading json from file");
+
+    let rawdata;
+    const certPath = path.join(__dirname, "../constants/countriesData.json");
+    try {
+      rawdata = await fs.readFileSync(certPath);
+    } catch (error) {
+      return res
+        .status(serverError.status)
+        .json({ message: serverError.message });
+    }
+
+    countriesSummary = JSON.parse(rawdata);
+    countriesSummary = countriesSummary.Countries;
+  }
 
   let userCountries;
 
@@ -58,6 +68,18 @@ exports.getCountries = async (req, res) => {
         { _id: req.cookies.userId },
         "-_id countries"
       ).populate("countries._id", "slug country isSelected");
+
+      //   console.log(
+      //     "🚀 ~ file: user.js ~ line 64 ~ exports.getCountries= ~ userCountries",
+      //     userCountries
+      //   );
+
+      //   userCountries = await User.aggregate([
+      //     { $match: { _id: Schema.Types.ObjectId(req.cookies.userId) } },
+      //     { $unwind: "$countries" },
+      //     { $match: { "countries.isSelected": true } },
+      //     { $group: { _id: "$_id", list: { $push: "$countries.isSelected" } } }
+      //   ]);
     } catch (error) {
       return res
         .status(serverError.status)
@@ -73,6 +95,7 @@ exports.getCountries = async (req, res) => {
     userCountries = userCountries.countries;
 
     userCountries = userCountries.filter(item => item._id.isSelected);
+
     userCountries = userCountries.map(item => {
       return {
         _id: item._id._id,
