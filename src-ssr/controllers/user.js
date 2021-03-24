@@ -1,11 +1,11 @@
 const axios = require("axios");
 const fs = require("fs").promises;
 const path = require("path");
+// const mongoose = require("mongoose");
 
 const User = require("../models/user");
 const AdminCountry = require("../models/adminCountry");
 const { COVID_BASE_URL } = require("../constants/covid19");
-// const { NOTLOGGEDINUSERID } = require("../constants/user");
 const {
   serverError,
   successfulResponse,
@@ -13,8 +13,6 @@ const {
 } = require("../constants/responses");
 
 exports.getCountries = async (req, res) => {
-  console.log("getCountries called");
-
   if (res.locals.isAuth && !req.cookies.userId) {
     return res
       .status(serverError.status)
@@ -29,19 +27,12 @@ exports.getCountries = async (req, res) => {
     countriesSummary = countriesSummary.data.Countries;
 
     isCovid19APISuccess = true;
-
-    console.log("calling covid19 api successfully");
-  } catch (error) {
-    console.log("calling covid19 api failed 1: ", error.message);
-  }
+  } catch (error) {}
 
   if (!countriesSummary) {
-    console.log("calling covid19 api failed 2");
   }
 
   if (!isCovid19APISuccess) {
-    console.log("reading json from file");
-
     let rawdata;
     const certPath = path.join(__dirname, "../constants/countriesData.json");
     try {
@@ -59,27 +50,11 @@ exports.getCountries = async (req, res) => {
   let userCountries;
 
   if (res.locals.isAuth) {
-    console.log(
-      "🚀 ~ file: user.js ~ line 46 ~ exports.getCountries= ~ res.locals.isAuth",
-      res.locals.isAuth
-    );
     try {
       userCountries = await User.findOne(
         { _id: req.cookies.userId },
         "-_id countries"
       ).populate("countries._id", "slug isSelected");
-
-      //   console.log(
-      //     "🚀 ~ file: user.js ~ line 64 ~ exports.getCountries= ~ userCountries",
-      //     userCountries
-      //   );
-
-      //   userCountries = await User.aggregate([
-      //     { $match: { _id: Schema.Types.ObjectId(req.cookies.userId) } },
-      //     { $unwind: "$countries" },
-      //     { $match: { "countries.isSelected": true } },
-      //     { $group: { _id: "$_id", list: { $push: "$countries.isSelected" } } }
-      //   ]);
     } catch (error) {
       return res
         .status(serverError.status)
@@ -104,10 +79,6 @@ exports.getCountries = async (req, res) => {
       };
     });
   } else {
-    console.log(
-      "🚀 ~ file: user.js ~ line 76 ~ exports.getCountries= ~ res.locals.isAuth",
-      res.locals.isAuth
-    );
     try {
       userCountries = await AdminCountry.find({ isSelected: true });
     } catch (error) {
@@ -115,13 +86,11 @@ exports.getCountries = async (req, res) => {
         .status(serverError.status)
         .json({ message: serverError.message });
     }
-
     if (!userCountries) {
       return res
         .status(serverError.status)
         .json({ message: serverError.message });
     }
-
     userCountries = userCountries.map(item => {
       return {
         _id: item._id,
@@ -130,12 +99,6 @@ exports.getCountries = async (req, res) => {
       };
     });
   }
-
-  console.log(
-    "🚀 ~ file: user.js ~ line 81 ~ exports.getCountries= ~ userCountries",
-    userCountries
-  );
-
   const userSlugs = userCountries.map(item => item.slug);
 
   countriesSummary = countriesSummary.filter(item => {
