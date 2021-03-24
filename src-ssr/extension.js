@@ -20,8 +20,8 @@ module.exports.extendApp = function({ app, ssr }) {
   app.use(express.json());
   app.use(cookieParser());
 
-  app.use("/auth/user", authUserRoutes);
-  app.use("/auth/admin", authAdminRoutes);
-  app.use("/admin", adminRoutes);
-  app.use("/user", userRoutes);
+  app.use("/api/auth/user", authUserRoutes);
+  app.use("/api/auth/admin", authAdminRoutes);
+  app.use("/api/admin", adminRoutes);
+  app.use("/api/user", userRoutes);
 };
