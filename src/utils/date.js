@@ -14,18 +14,12 @@ export const calcDiff = (arr, daysAmount) => {
     }
 
     const newArr = [];
-    for (
-      let i = compactedArr.length - 1, counter = 1;
-      counter <= daysAmount && i > 0;
-      i--
-    ) {
+    for (let i = compactedArr.length - 1; i > 0; i--) {
       newArr.unshift({
         date: compactedArr[i].Date,
         newCases: compactedArr[i].Confirmed - compactedArr[i - 1].Confirmed,
         newDeaths: compactedArr[i].Deaths - compactedArr[i - 1].Deaths
       });
-
-      counter++;
     }
 
     return newArr;

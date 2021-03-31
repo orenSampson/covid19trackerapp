@@ -65,9 +65,12 @@ export default {
         ...mapActions("userCountries", ["changeSelected"]),
         ...mapActions("userCountry", ["setCountryId"]),
         routeToCountry() {
-            this.setCountryId(this.propsCountryId);
             this.$router.push({
                 name: "country",
+                params: {
+                    countryName: this.country(this.propsCountryId).country,
+                },
+                query: { countrySlug: this.country(this.propsCountryId).slug },
             });
         },
         async starToggleClicked() {

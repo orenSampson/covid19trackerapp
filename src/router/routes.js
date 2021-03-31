@@ -12,11 +12,10 @@ const routes = [
         component: () => import("pages/UserCountries.vue")
       },
       {
-        path: "country",
+        path: "country/:countryName",
         name: "country",
         component: () => import("pages/Country.vue")
       },
-      { path: "test", component: () => import("pages/test.vue") },
       { path: "auth/signup", component: () => import("pages/UserSignup.vue") },
       { path: "auth/login", component: () => import("pages/UserLogin.vue") },
       {

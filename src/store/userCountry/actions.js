@@ -7,32 +7,32 @@ import { notifyError } from "src/utils/errorHandling";
 export async function fetchData({ commit, getters, rootGetters }, payload) {
   const { getDateDiff, subtractFromDate, formatDate } = date;
 
-  let from = payload.from;
-  commit("setFrom", from);
-  let to = payload.to;
+  commit("setFrom", formatDateWithTime(payload.from));
+  let from = subtractFromDate(payload.from, {
+    days: 1
+  });
+  from = formatDate(from, "YYYY-MM-DD");
+  from = formatDateWithTime(from);
+
+  const to = formatDateWithTime(payload.to);
   commit("setTo", to);
 
-  const country = rootGetters["userCountries/country"](getters.countryId);
-  const countrySlug = country.slug;
+  const countrySlug = payload.countrySlug;
 
-  let dayDiff = getDateDiff(to, from, "days") + 1;
+  const dayDiff = getDateDiff(to, from, "days") + 1;
 
-  from = formatDate(subtractFromDate(from, { days: 1 }), "YYYY-MM-DD");
-  from = formatDateWithTime(from);
-  to = formatDateWithTime(to);
   try {
     const res = await Vue.prototype.$axiosFetch.get(
       `/country/${countrySlug}?from=${from}&to=${to}`
     );
+
     commit("setFetchedData", calcDiff(res.data, dayDiff));
   } catch (error) {
+    commit("setFrom", null);
+    commit("setTo", null);
     commit("setFetchedData", []);
     notifyError(error);
   }
-}
-
-export function setCountryId({ commit }, payload) {
-  commit("setCountryId", payload);
 }
 
 export function setFrom({ commit }, payload) {

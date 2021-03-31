@@ -1,7 +1,3 @@
-export function setCountryId(state, payload) {
-  state.countryId = payload;
-}
-
 export function setFrom(state, payload) {
   state.from = payload;
 }

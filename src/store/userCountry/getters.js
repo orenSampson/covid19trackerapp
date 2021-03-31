@@ -1,6 +1,3 @@
-export function countryId(state) {
-  return state.countryId;
-}
 export function from(state) {
   return state.from;
 }

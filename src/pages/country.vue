@@ -1,41 +1,69 @@
 <template>
     <div>
-        <last-days-selection></last-days-selection>
-        <date-range-selection></date-range-selection>
-
-        <graph-by-country></graph-by-country>
+        <br />
+        <br />
+        <last-days-selection
+            :propsCountrySlug="$route.query.countrySlug"
+        ></last-days-selection>
+        <br />
+        <hr />
+        <br />
+        <date-range-selection
+            :propsCountrySlug="$route.query.countrySlug"
+        ></date-range-selection>
     </div>
 </template>
 
 <script>
-import LastDaysSelection from "components/graph/LastDaysSelection";
-import DateRangeSelection from "components/graph/DateRangeSelection";
-import GraphByCountry from "components/graph/GraphByCountry";
-
-import { mapActions } from "vuex";
-
+import LastDaysSelection from "components/userCountry/LastDaysSelection";
+import DateRangeSelection from "components/userCountry/DateRangeSelection";
+// import GraphByCountry from "components/userCountry/GraphByCountry";
+// import { mapGetters, mapActions } from "vuex";
 export default {
     name: "Country",
-
-    // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
-    //     return store.dispatch(
-    //         "oneCountry/setCountryAction",
-    //         currentRoute.params.country
-    //     );
-    // },
 
     components: {
         LastDaysSelection,
         DateRangeSelection,
-        GraphByCountry,
     },
 
-    methods: {
-        ...mapActions("country", { setCountry: "setCountryAction" }),
-    },
+    // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+    //     return store.dispatch(
+    //         "oneCountry/setCountryAction",
+    //         currentRoute.params.countryId
+    //     );
+    // },
 
-    watch: {
-        mode() {},
-    },
+    // mounted() {
+    //     console.log(
+    //         "Country param countryName :>> ",
+    //         this.$route.params.countryName
+    //     );
+    //     console.log(
+    //         "Country query countrySlug :>> ",
+    //         this.$route.query.countrySlug
+    //     );
+    // },
+
+    // components: {
+    //     LastDaysSelection,
+    //     DateRangeSelection,
+    //     GraphByCountry,
+    // },
+
+    // computed: {
+    //     ...mapGetters("userCountries", ["country"]),
+    //     ...mapGetters("userCountry", ["countryId"]),
+    // },
+
+    // methods: {
+    //     ...mapActions("userCountry", { setCountry: "setCountryAction" }),
+    // },
+
+    // watch: {
+    //     mode() {},
+    // },
+
+    // beforeDestroy() {},
 };
 </script>

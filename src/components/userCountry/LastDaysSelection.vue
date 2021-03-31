@@ -25,9 +25,16 @@ import { lastDaysToFromTo } from "src/utils/date";
 export default {
     name: "LastDaysSelection",
 
+    props: {
+        propsCountrySlug: {
+            type: String,
+            required: true,
+        },
+    },
+
     data() {
         return {
-            lastDays: LAST_DAYS_OPTIONS[DEFAULT_LAST_DAYS],
+            lastDays: null,
         };
     },
 
@@ -35,15 +42,13 @@ export default {
         this.LAST_DAYS_OPTIONS = LAST_DAYS_OPTIONS;
     },
 
-    mounted() {
-        this.callFetchData();
-    },
-
     methods: {
         ...mapActions("userCountry", ["fetchData"]),
         callFetchData() {
-            const fromTo = lastDaysToFromTo(this.lastDays);
-            this.fetchData(fromTo);
+            const { from, to } = lastDaysToFromTo(this.lastDays);
+            const countrySlug = this.propsCountrySlug;
+
+            this.fetchData({ from: from, to: to, countrySlug: countrySlug });
         },
     },
 };
