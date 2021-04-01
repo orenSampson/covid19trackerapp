@@ -53,9 +53,9 @@ export default {
             const formatedNewTO = formatDate(newTo, "YYYY-MM-DD");
 
             for (let i = 0; i < this.LAST_DAYS_OPTIONS.length; i++) {
-                const lastDays = lastDaysToFromTo(this.LAST_DAYS_OPTIONS[i]);
-                const lastDaysFrom = lastDays.from;
-                const lastDaysTo = lastDays.to;
+                const { from: lastDaysFrom, to: lastDaysTo } = lastDaysToFromTo(
+                    this.LAST_DAYS_OPTIONS[i]
+                );
 
                 const isSameTo = isSameDate(formatedNewTO, lastDaysTo);
                 if (!isSameTo) {
