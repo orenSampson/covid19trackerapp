@@ -14,7 +14,8 @@
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions, mapGetters } from "vuex";
+import { date } from "quasar";
 
 import {
     LAST_DAYS_OPTIONS,
@@ -42,6 +43,40 @@ export default {
         this.LAST_DAYS_OPTIONS = LAST_DAYS_OPTIONS;
     },
 
+    watch: {
+        fromOrTo(val) {
+            const { formatDate, isSameDate, subtractFromDate } = date;
+
+            const [newFrom, newTo] = val.split("|");
+
+            const formatedNewFrom = formatDate(newFrom, "YYYY-MM-DD");
+            const formatedNewTO = formatDate(newTo, "YYYY-MM-DD");
+
+            let lastDays, lastDaysFrom, lastDaysTo, isSameFrom, isSameTo;
+
+            for (let i = 0; i < this.LAST_DAYS_OPTIONS.length; i++) {
+                lastDays = lastDaysToFromTo(this.LAST_DAYS_OPTIONS[i]);
+                lastDaysFrom = lastDays.from;
+                lastDaysTo = lastDays.to;
+
+                isSameTo = isSameDate(formatedNewTO, lastDaysTo);
+                if (!isSameTo) {
+                    this.lastDays = null;
+                    return;
+                }
+
+                isSameFrom = isSameDate(formatedNewFrom, lastDaysFrom);
+                if (isSameFrom) {
+                    this.lastDays = this.LAST_DAYS_OPTIONS[i];
+                    return;
+                }
+            }
+
+            this.lastDays = null;
+            return;
+        },
+    },
+
     methods: {
         ...mapActions("userCountry", ["fetchData"]),
         callFetchData() {
@@ -49,6 +84,13 @@ export default {
             const countrySlug = this.propsCountrySlug;
 
             this.fetchData({ from: from, to: to, countrySlug: countrySlug });
+        },
+    },
+
+    computed: {
+        ...mapGetters("userCountry", ["from", "to"]),
+        fromOrTo() {
+            return `${this.from}|${this.to}`;
         },
     },
 };
