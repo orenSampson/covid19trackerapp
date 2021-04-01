@@ -68,9 +68,8 @@ export default {
             this.$router.push({
                 name: "country",
                 params: {
-                    countryName: this.country(this.propsCountryId).country,
+                    countrySlug: this.country(this.propsCountryId).slug,
                 },
-                query: { countrySlug: this.country(this.propsCountryId).slug },
             });
         },
         async starToggleClicked() {

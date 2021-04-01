@@ -3,13 +3,13 @@
         <br />
         <br />
         <last-days-selection
-            :propsCountrySlug="$route.query.countrySlug"
+            :propsCountrySlug="$route.params.countrySlug"
         ></last-days-selection>
         <br />
         <hr />
         <br />
         <date-range-selection
-            :propsCountrySlug="$route.query.countrySlug"
+            :propsCountrySlug="$route.params.countrySlug"
         ></date-range-selection>
     </div>
 </template>
