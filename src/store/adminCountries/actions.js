@@ -7,7 +7,7 @@ export async function fetchData({ commit }) {
   let adminCountriesArr;
 
   try {
-    adminCountriesArr = await axios.get("/admin/getcountries", {
+    adminCountriesArr = await axios.get("/api/admin/getcountries", {
       withCredentials: true
     });
   } catch (error) {
@@ -29,7 +29,7 @@ export async function changeSelected({ getters, commit }, payload) {
 
   try {
     await axios.post(
-      "/admin/updateselected",
+      "/api/admin/updateselected",
       {
         id: adminCountry._id,
         isSelectedNewVal: !adminCountry.isSelected
@@ -55,7 +55,7 @@ export function resetState({ commit }) {
 
 export async function adminLogout({}, { path, router }) {
   try {
-    await axios.get("/auth/admin/logout");
+    await axios.get("/api/auth/admin/logout");
   } catch (error) {
     return notifyError(error);
   }

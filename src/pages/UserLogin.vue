@@ -39,7 +39,7 @@ export default {
         async onSubmit() {
             this.submitDisabled = true;
             try {
-                const response = await axios.post("/auth/user/login", {
+                const response = await axios.post("api/auth/user/login", {
                     email: this.email,
                     password: this.password,
                 });

@@ -12,13 +12,19 @@ export async function fetchData({ commit, dispatch }) {
 
   let res;
 
+  console.log("fetchData called");
+
   try {
-    res = await axios.get("http://localhost:8080/user/getcountries", {
+    res = await axios.get("http://localhost:8080/api/user/getcountries", {
       headers: {
         withCredentials: true
       }
     });
   } catch (error) {
+    console.log(
+      "🚀 ~ file: actions.js ~ line 31 ~ fetchData ~ error",
+      error.message
+    );
     if (
       error &&
       error.response &&
@@ -31,7 +37,6 @@ export async function fetchData({ commit, dispatch }) {
   }
 
   if (!res) {
-    dispatch("resetCountriesArr");
     return commit("setErrorMsg", generalError);
   }
 
@@ -113,7 +118,7 @@ export function resetErrorMsg({ commit }) {
 
 export async function userLogout({}, { path, router }) {
   try {
-    await axios.get("/auth/user/logout");
+    await axios.get("/api/auth/user/logout");
   } catch (error) {
     return notifyError(error);
   }
