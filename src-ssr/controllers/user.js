@@ -44,7 +44,6 @@ exports.getCountries = async (req, res) => {
     }
 
     countriesSummary = JSON.parse(rawdata);
-    countriesSummary = countriesSummary.Countries;
   }
 
   let userCountries;
