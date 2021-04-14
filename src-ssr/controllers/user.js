@@ -12,6 +12,18 @@ const {
   userNotLoggedIn
 } = require("../constants/responses");
 
+async function getUserCountries(userId) {
+  const { selectedCountries } = await User.findOne(
+    { _id: userId },
+    "-_id selectedCountries"
+  ).lean();
+  return selectedCountries || [];
+}
+
+function getAllSelectedCountries() {
+  return AdminCountry.find({ isSelected: true }).lean();
+}
+
 exports.getCountries = async (req, res) => {
   if (res.locals.isAuth && !req.cookies.userId) {
     return res
@@ -48,71 +60,43 @@ exports.getCountries = async (req, res) => {
 
   let userCountries;
 
-  if (res.locals.isAuth) {
-    try {
-      userCountries = await User.findOne(
-        { _id: req.cookies.userId },
-        "-_id countries"
-      ).populate("countries._id", "slug isSelected");
-    } catch (error) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
+  try {
+    const [userSelectedCountries, allCountries] = await Promise.all([
+      res.locals.isAuth
+        ? getUserCountries(req.cookies.userId)
+        : Promise.resolve([]),
+      getAllSelectedCountries()
+    ]);
 
-    if (!userCountries) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
+    const userSelectedCountriesIds = new Set(
+      userSelectedCountries.map(id => id.toString())
+    );
 
-    userCountries = userCountries.countries;
-
-    userCountries = userCountries.filter(item => item._id.isSelected);
-
-    userCountries = userCountries.map(item => {
-      return {
-        _id: item._id._id,
-        slug: item._id.slug,
-        isSelected: item.isSelected
-      };
-    });
-  } else {
-    try {
-      userCountries = await AdminCountry.find({ isSelected: true });
-    } catch (error) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-    if (!userCountries) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-    userCountries = userCountries.map(item => {
-      return {
-        _id: item._id,
-        slug: item.slug,
-        isSelected: false
-      };
-    });
+    userCountries = allCountries.map(country => ({
+      _id: country._id,
+      slug: country.slug,
+      isSelected: userSelectedCountriesIds.has(country._id.toString())
+    }));
+  } catch (error) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
-  const userSlugs = userCountries.map(item => item.slug);
 
-  countriesSummary = countriesSummary.filter(item => {
-    const slug = item.Slug;
-    return userSlugs.includes(slug);
+  const userSlugsMap = new Map(
+    userCountries.map(country => [country.slug, country])
+  );
+  countriesSummary = countriesSummary.filter(({ Slug }) => {
+    return userSlugsMap.has(Slug);
   });
 
   countriesSummary = countriesSummary.map(item => {
-    const slug = item.Slug;
-    const i = userSlugs.indexOf(slug);
+    const country = userSlugsMap.get(item.Slug);
     return {
-      countryId: userCountries[i]._id.toString(),
+      countryId: country._id.toString(),
       country: item.Country,
-      slug,
-      isSelected: userCountries[i].isSelected,
+      slug: item.Slug,
+      isSelected: country.isSelected,
       totalConfirmed: item.TotalConfirmed,
       newConfirmed: item.NewConfirmed,
       totalDeaths: item.TotalDeaths,
@@ -143,7 +127,7 @@ exports.updateSelected = async (req, res) => {
   let user;
 
   try {
-    user = await User.findOne({ _id: userId }, "countries");
+    user = await User.findOne({ _id: userId }, "selectedCountries");
   } catch (error) {
     return res
       .status(serverError.status)
@@ -156,17 +140,13 @@ exports.updateSelected = async (req, res) => {
       .json({ message: serverError.message });
   }
 
-  const userCountries = user.countries;
-
-  const i = userCountries.findIndex(item => item._id.toString() === countryId);
-
-  if (i < 0) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
+  if (isSelectedNewVal) {
+    user.selectedCountries.push(countryId);
+  } else {
+    user.selectedCountries = user.selectedCountries.filter(
+      selectedCountriesId => selectedCountriesId.toString() !== countryId
+    );
   }
-
-  userCountries[i].isSelected = isSelectedNewVal;
 
   try {
     await user.save();

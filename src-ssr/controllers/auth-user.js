@@ -42,34 +42,11 @@ exports.signup = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  let countries;
-
-  try {
-    countries = await AdminCountry.find({}, "_id");
-  } catch (error) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
-  if (!countries) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
-  countries = countries.map(item => {
-    return {
-      _id: item._id,
-      isSelected: false
-    };
-  });
-
   const user = new User({
     email,
     password: hashedPassWord,
     name,
-    countries: countries
+    countries: []
   });
 
   try {
@@ -85,7 +62,7 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.login = async (req, res, next) => {
-  const maxAge = 3600 * 1000; //one hour in milliseconds
+  const maxAge = 365;
 
   const errors = validationResult(req);
 
@@ -130,7 +107,7 @@ exports.login = async (req, res, next) => {
 
   try {
     token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
-      expiresIn: maxAge + "ms"
+      expiresIn: maxAge + "d"
     });
   } catch (error) {
     return res
@@ -139,12 +116,12 @@ exports.login = async (req, res, next) => {
   }
 
   res.cookie(USER_ACCESS_TOKEN, token, {
-    maxAge: maxAge,
+    maxAge: maxAge * 24 * 60 * 60 * 1000,
     httpOnly: true
   });
 
   res.cookie("userId", user._id.toString(), {
-    maxAge: maxAge,
+    maxAge: maxAge * 24 * 60 * 60 * 1000,
     httpOnly: true
   });
 
