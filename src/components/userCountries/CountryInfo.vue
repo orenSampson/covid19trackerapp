@@ -8,7 +8,7 @@
         <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
             <div class="col-xs-6 col-sm-4 col-md">
                 <span class="text-weight-bold">{{
-                    country(propsCountryId).country
+                    country(propsCountryId).countryName
                 }}</span>
             </div>
             <div class="col-xs-6 col-sm-4 col-md">
@@ -63,7 +63,6 @@ export default {
 
     methods: {
         ...mapActions("userCountries", ["changeSelected"]),
-        ...mapActions("userCountry", ["setCountryId"]),
         routeToCountry() {
             this.$router.push({
                 name: "country",

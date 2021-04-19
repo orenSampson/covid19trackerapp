@@ -1,11 +1,6 @@
-const axios = require("axios");
-const fs = require("fs").promises;
-const path = require("path");
-// const mongoose = require("mongoose");
-
 const User = require("../models/user");
 const AdminCountry = require("../models/adminCountry");
-const { COVID_BASE_URL } = require("../constants/covid19");
+const CountriesSummary = require("../models/countriesSummary");
 const {
   serverError,
   successfulResponse,
@@ -32,30 +27,13 @@ exports.getCountries = async (req, res) => {
   }
 
   let countriesSummary;
-  let isCovid19APISuccess = false;
-
   try {
-    countriesSummary = await axios.get(COVID_BASE_URL + "/summary");
-    countriesSummary = countriesSummary.data.Countries;
-
-    isCovid19APISuccess = true;
-  } catch (error) {}
-
-  if (!countriesSummary) {
-  }
-
-  if (!isCovid19APISuccess) {
-    let rawdata;
-    const certPath = path.join(__dirname, "../constants/countriesData.json");
-    try {
-      rawdata = await fs.readFile(certPath);
-    } catch (error) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
-
-    countriesSummary = JSON.parse(rawdata);
+    countriesSummary = await CountriesSummary.findOne({});
+    countriesSummary = countriesSummary.countries;
+  } catch (error) {
+    return res
+      .status(serverError.status)
+      .json({ message: serverError.message });
   }
 
   let userCountries;
@@ -86,21 +64,21 @@ exports.getCountries = async (req, res) => {
   const userSlugsMap = new Map(
     userCountries.map(country => [country.slug, country])
   );
-  countriesSummary = countriesSummary.filter(({ Slug }) => {
-    return userSlugsMap.has(Slug);
+  countriesSummary = countriesSummary.filter(({ slug }) => {
+    return userSlugsMap.has(slug);
   });
 
   countriesSummary = countriesSummary.map(item => {
-    const country = userSlugsMap.get(item.Slug);
+    const country = userSlugsMap.get(item.slug);
     return {
       countryId: country._id.toString(),
-      country: item.Country,
-      slug: item.Slug,
+      countryName: item.countryName,
+      slug: item.slug,
       isSelected: country.isSelected,
-      totalConfirmed: item.TotalConfirmed,
-      newConfirmed: item.NewConfirmed,
-      totalDeaths: item.TotalDeaths,
-      totalRecovered: item.TotalRecovered
+      totalConfirmed: item.totalConfirmed,
+      newConfirmed: item.newConfirmed,
+      totalDeaths: item.totalDeaths,
+      totalRecovered: item.totalRecovered
     };
   });
 
