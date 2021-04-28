@@ -3,7 +3,6 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
-const AdminCountry = require("../models/adminCountry");
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 const {
   serverError,
@@ -17,7 +16,6 @@ const { USER_ACCESS_TOKEN } = require("../constants/auth");
 
 exports.logout = (req, res, next) => {
   res.clearCookie(USER_ACCESS_TOKEN);
-  res.clearCookie("userId");
 
   res.status(successfulResponse.status).end();
 };
@@ -106,7 +104,7 @@ exports.login = async (req, res, next) => {
   }
 
   try {
-    token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
+    token = jwt.sign({ sub: user._id, isAdmin: false }, ACCESS_TOKEN_SECRET, {
       expiresIn: maxAge + "d"
     });
   } catch (error) {
@@ -116,11 +114,6 @@ exports.login = async (req, res, next) => {
   }
 
   res.cookie(USER_ACCESS_TOKEN, token, {
-    maxAge: maxAge * 24 * 60 * 60 * 1000,
-    httpOnly: true
-  });
-
-  res.cookie("userId", user._id.toString(), {
     maxAge: maxAge * 24 * 60 * 60 * 1000,
     httpOnly: true
   });

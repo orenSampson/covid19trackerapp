@@ -1,5 +1,3 @@
-import axios from "axios";
-
 import { userData } from "src/constants/stateData";
 import responses from "src/constants/responses";
 import { notifyError } from "src/utils/errorHandling";
@@ -11,15 +9,8 @@ export async function fetchData({ commit, dispatch }) {
   dispatch("resetCountriesArr");
 
   let res;
-
-  console.log("fetchData called");
-
   try {
-    res = await axios.get("http://localhost:8080/api/user/getcountries", {
-      headers: {
-        withCredentials: true
-      }
-    });
+    res = await this.$axios.get("/api/user/getcountries");
   } catch (error) {
     console.log(
       "🚀 ~ file: actions.js ~ line 31 ~ fetchData ~ error",
@@ -73,18 +64,10 @@ export async function changeSelected({ getters, commit }, payload) {
   const country = getters.country(countryId);
 
   try {
-    await axios.post(
-      "/user/updateselected",
-      {
-        countryId: country.countryId,
-        isSelectedNewVal: !country.isSelected
-      },
-      {
-        headers: {
-          withCredentials: true
-        }
-      }
-    );
+    await this.$axios.post("/api/user/updateselected", {
+      countryId: country.countryId,
+      isSelectedNewVal: !country.isSelected
+    });
   } catch (error) {
     notifyError(error);
     return false;
@@ -118,7 +101,7 @@ export function resetErrorMsg({ commit }) {
 
 export async function userLogout({}, { path, router }) {
   try {
-    await axios.get("/api/auth/user/logout");
+    await this.$axios.get("/api/auth/user/logout");
   } catch (error) {
     return notifyError(error);
   }

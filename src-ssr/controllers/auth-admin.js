@@ -10,6 +10,7 @@ const {
   successfulResponse
 } = require("../constants/responses");
 const { ADMIN_ACCESS_TOKEN } = require("../constants/auth");
+const user = require("../models/user");
 
 exports.logout = (req, res, next) => {
   res.clearCookie(ADMIN_ACCESS_TOKEN);
@@ -39,7 +40,7 @@ exports.login = async (req, res, next) => {
   }
 
   try {
-    token = jwt.sign({}, ACCESS_TOKEN_SECRET, {
+    token = jwt.sign({ sub: 1, isAdmin: true }, ACCESS_TOKEN_SECRET, {
       expiresIn: maxAge + "ms"
     });
   } catch (error) {

@@ -3,33 +3,40 @@ const jwt = require("jsonwebtoken");
 const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
 
 exports.authMiddleware = tokenName => (req, res, next) => {
-  const token = req.cookies[tokenName];
+  let token;
 
-  res.locals.isAuth = false;
-
-  if (isAuth(token)) {
-    res.locals.isAuth = true;
+  if (req.cookies[tokenName]) {
+    token = req.cookies[tokenName];
+  } else {
+    token = req.headers[tokenName]
+      ? req.headers[tokenName].split(" ")[1]
+      : null;
   }
+
+  res.locals.payload = getPayload(token);
+
+  res.locals.isAuth = !!res.locals.payload;
+
+  res.locals.isAdmin = res.locals.isAuth && res.locals.payload.isAdmin;
 
   return next();
 };
 
-const isAuth = token => {
+const getPayload = token => {
   if (!token) {
-    return false;
+    return null;
   }
 
-  let decodedToken = null;
-
+  let decodedTokenPayload = null;
   try {
-    decodedToken = jwt.verify(token, ACCESS_TOKEN_SECRET);
+    decodedTokenPayload = jwt.verify(token, ACCESS_TOKEN_SECRET);
   } catch (error) {
-    return false;
+    return null;
   }
 
-  if (!decodedToken) {
-    return false;
+  if (!decodedTokenPayload) {
+    return null;
   }
 
-  return true;
+  return decodedTokenPayload;
 };

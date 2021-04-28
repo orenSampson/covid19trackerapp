@@ -19,12 +19,8 @@ function getAllSelectedCountries() {
   return AdminCountry.find({ isSelected: true }).lean();
 }
 
-exports.getCountries = async (req, res) => {
-  if (res.locals.isAuth && !req.cookies.userId) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
+exports.getCountries = async (req, res, next) => {
+  const userId = res.locals.payload && res.locals.payload.sub;
 
   let countriesSummary;
   try {
@@ -40,9 +36,7 @@ exports.getCountries = async (req, res) => {
 
   try {
     const [userSelectedCountries, allCountries] = await Promise.all([
-      res.locals.isAuth
-        ? getUserCountries(req.cookies.userId)
-        : Promise.resolve([]),
+      res.locals.isAuth ? getUserCountries(userId) : Promise.resolve([]),
       getAllSelectedCountries()
     ]);
 
@@ -85,20 +79,14 @@ exports.getCountries = async (req, res) => {
   return res.status(successfulResponse.status).json({ data: countriesSummary });
 };
 
-exports.updateSelected = async (req, res) => {
+exports.updateSelected = async (req, res, next) => {
   if (!res.locals.isAuth) {
     return res
       .status(userNotLoggedIn.status)
       .json({ message: userNotLoggedIn.message });
   }
 
-  if (!req.cookies.userId) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
-  const userId = req.cookies.userId;
+  const userId = res.locals.payload.sub;
   const countryId = req.body.countryId;
   const isSelectedNewVal = req.body.isSelectedNewVal;
 
@@ -122,7 +110,7 @@ exports.updateSelected = async (req, res) => {
     user.selectedCountries.push(countryId);
   } else {
     user.selectedCountries = user.selectedCountries.filter(
-      selectedCountriesId => selectedCountriesId.toString() !== countryId
+      selectedCountryId => selectedCountryId.toString() !== countryId
     );
   }
 

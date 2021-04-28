@@ -1,5 +1,4 @@
 const AdminCountry = require("../models/adminCountry");
-const User = require("../models/user");
 const {
   serverError,
   notAuthenticated,
@@ -7,7 +6,7 @@ const {
 } = require("../constants/responses");
 
 exports.getCountries = async (req, res, next) => {
-  if (!res.locals.isAuth) {
+  if (!res.locals.isAdmin) {
     return res
       .status(notAuthenticated.status)
       .json({ message: notAuthenticated.message });
@@ -41,7 +40,7 @@ exports.getCountries = async (req, res, next) => {
 };
 
 exports.updateSelected = async (req, res, next) => {
-  if (!res.locals.isAuth) {
+  if (!res.locals.isAdmin) {
     return res
       .status(notAuthenticated.status)
       .json({ message: notAuthenticated.message });
@@ -66,49 +65,6 @@ exports.updateSelected = async (req, res, next) => {
     return res
       .status(serverError.status)
       .json({ message: serverError.message });
-  }
-
-  let users;
-
-  try {
-    users = await User.find({});
-  } catch (error) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
-  if (!users) {
-    return res
-      .status(serverError.status)
-      .json({ message: serverError.message });
-  }
-
-  let userCountry;
-  if (isSelectedNewVal) {
-    userCountry = {
-      _id: countryId,
-      slug: doc.slug,
-      isSelected: false
-    };
-  }
-
-  for (const user of users) {
-    if (isSelectedNewVal) {
-      user.countries.push(userCountry);
-    } else {
-      user.countries = user.countries.filter(
-        obj => obj._id.toString() !== countryId
-      );
-    }
-
-    try {
-      await user.save();
-    } catch (error) {
-      return res
-        .status(serverError.status)
-        .json({ message: serverError.message });
-    }
   }
 
   res.status(successfulResponse.status).end();
