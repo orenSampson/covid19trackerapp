@@ -1,4 +1,4 @@
-script<template>
+<template>
   <div>
     <div>Date Range:</div>
     <vue-ctk-date-time-picker
@@ -7,7 +7,6 @@ script<template>
       format="YYYY-MM-DD"
       :range="true"
       :noShortcuts="true"
-      @is-hidden="dateRangePickerHidden"
     >
     </vue-ctk-date-time-picker>
     <br />
@@ -36,45 +35,23 @@ export default {
       required: true,
     },
   },
-
-  data() {
-    return {
-      dates: { end: null, shortcut: undefined, start: null },
-    };
-  },
-
-  watch: {
-    from() {
-      this.data.start = this.from;
-    },
-    to() {
-      this.data.end = this.to;
-    },
-  },
   methods: {
-    ...mapActions("userCountry", ["fetchData"]),
-    dateRangePickerHidden() {
-      this.fetchData({
-        from: this.data.start,
-        to: this.data.end,
-        countrySlug: this.propsCountrySlug,
-      });
-    },
+    ...mapActions("userCountry", ["setDates"]),
   },
   computed: {
     ...mapGetters("userCountry", ["from", "to"]),
-    // dates: {
-    //   get() {
-    //     return { shortcut: null, start: this.from, end: this.to };
-    //   },
-    //   set(newData) {
-    //     this.fetchData({
-    //       from: newData.start,
-    //       to: newData.end,
-    //       countrySlug: this.propsCountrySlug,
-    //     });
-    //   },
-    // },
+    dates: {
+      get() {
+        return { shortcut: null, start: this.from, end: this.to };
+      },
+      set(newData) {
+        this.setDates({
+          from: newData.start,
+          to: newData.end,
+          countrySlug: this.propsCountrySlug,
+        });
+      },
+    },
   },
 };
 </script>

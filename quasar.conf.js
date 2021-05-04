@@ -48,7 +48,7 @@ module.exports = function(/* ctx */) {
       directives: [],
 
       // Quasar plugins
-      plugins: ["Notify", "Meta"]
+      plugins: ["Notify", "Meta", "Cookies"]
     },
 
     // https://quasar.dev/quasar-cli/cli-documentation/supporting-ie

@@ -1,8 +1,8 @@
 import { date } from "quasar";
 
-export const calcDiff = (arr, daysAmount) => {
-  if (arr.length > 2) {
-    const compactedArr = [];
+export const mergeSubCountries = arr => {
+  if (arr.length > 1) {
+    let compactedArr = [];
     compactedArr.push(arr[0]);
     for (let i = 1; i < arr.length; i++) {
       if (compactedArr[compactedArr.length - 1].Date === arr[i].Date) {
@@ -13,19 +13,33 @@ export const calcDiff = (arr, daysAmount) => {
       }
     }
 
-    const newArr = [];
-    for (let i = compactedArr.length - 1; i > 0; i--) {
-      newArr.unshift({
-        date: compactedArr[i].Date,
-        newCases: compactedArr[i].Confirmed - compactedArr[i - 1].Confirmed,
-        newDeaths: compactedArr[i].Deaths - compactedArr[i - 1].Deaths
-      });
-    }
+    compactedArr = compactedArr.map(element => ({
+      date: element.Date,
+      cases: element.Confirmed,
+      deaths: element.Deaths
+    }));
 
-    return newArr;
+    return compactedArr;
   }
 
-  commit("setErrorMsg", "Array fetched is to short. please try again");
+  return arr;
+};
+
+export const calcDiff = arr => {
+  const compactedArr = mergeSubCountries(arr);
+  if (compactedArr.length > 1) {
+    const diffArr = [];
+    for (let i = compactedArr.length - 1; i > 0; i--) {
+      diffArr.unshift({
+        date: compactedArr[i].date,
+        cases: compactedArr[i].cases - compactedArr[i - 1].cases,
+        deaths: compactedArr[i].deaths - compactedArr[i - 1].deaths
+      });
+    }
+    return diffArr;
+  }
+
+  return arr;
 };
 
 export const formatDateWithTime = date => date + "T00:00:00Z";

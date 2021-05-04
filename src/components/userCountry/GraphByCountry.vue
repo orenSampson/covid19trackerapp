@@ -35,13 +35,16 @@ export default {
 
   watch: {
     fetchedData(val) {
-      console.log("fetchedData changed");
       this.setOptions();
     },
   },
 
   computed: {
-    ...mapGetters("userCountry", ["fetchedData"]),
+    ...mapGetters("userCountry", ["fetchedData", "dataMode"]),
+    legendArr() {
+      const legendArr = [`${this.dataMode} cases`, `${this.dataMode} deaths`];
+      return legendArr;
+    },
     xAxisArr() {
       const { formatDate } = date;
 
@@ -51,19 +54,19 @@ export default {
       }
       return xAxisArr;
     },
-    yAxisNewCasesArr() {
-      const yAxisNewCasesArr = [];
+    yAxisCasesArr() {
+      const yAxisCasesArr = [];
       for (const singleData of this.fetchedData) {
-        yAxisNewCasesArr.push(singleData.newCases);
+        yAxisCasesArr.push(singleData.cases);
       }
-      return yAxisNewCasesArr;
+      return yAxisCasesArr;
     },
-    yAxisNewDeathsArr() {
-      const yAxisNewDeathsArr = [];
+    yAxisDeathsArr() {
+      const yAxisDeathsArr = [];
       for (const singleData of this.fetchedData) {
-        yAxisNewDeathsArr.push(singleData.newDeaths);
+        yAxisDeathsArr.push(singleData.deaths);
       }
-      return yAxisNewDeathsArr;
+      return yAxisDeathsArr;
     },
   },
 
@@ -78,7 +81,7 @@ export default {
           text: "ECharts Oren Sampson",
         },
         legend: {
-          data: ["new cases", "new deaths"],
+          data: this.legendArr,
         },
         tooltip: {},
         xAxis: {
@@ -88,14 +91,38 @@ export default {
         yAxis: {},
         series: [
           {
-            name: "new cases",
+            name: this.legendArr[0],
             type: "bar",
-            data: this.yAxisNewCasesArr,
+            data: this.yAxisCasesArr,
+            stack: "total",
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  position: "insideTop",
+                  formatter(p) {
+                    return p.value > 0 ? p.value : "";
+                  },
+                },
+              },
+            },
           },
           {
-            name: "new deaths",
+            name: this.legendArr[1],
             type: "bar",
-            data: this.yAxisNewDeathsArr,
+            data: this.yAxisDeathsArr,
+            stack: "total",
+            itemStyle: {
+              normal: {
+                label: {
+                  show: true,
+                  position: "top",
+                  formatter(p) {
+                    return p.value > 0 ? p.value : "";
+                  },
+                },
+              },
+            },
           },
         ],
       });

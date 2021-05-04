@@ -1,36 +1,77 @@
-import Vue from "vue";
 import { date } from "quasar";
+import axios from "axios";
 
-import { calcDiff, formatDateWithTime } from "src/utils/date";
+import { BASE_URL } from "src/constants/covid19api";
+import {
+  DATA_MODE_OPTIONS,
+  FROM_DEFAULT,
+  TO_DEFAULT,
+  COUNTRY_SLUG_DEFAULT,
+  DATA_MODE_DEFAULT,
+  FETCHED_DATA_DEFAULT
+} from "src/constants/userCountry";
+import {
+  mergeSubCountries,
+  calcDiff,
+  formatDateWithTime
+} from "src/utils/date";
 import { notifyError } from "src/utils/errorHandling";
 
-export async function fetchData({ commit, getters, rootGetters }, payload) {
-  const { getDateDiff, subtractFromDate, formatDate } = date;
+export function setDates({ commit, getters, dispatch }, payload) {
+  const { formatDate } = date;
+  commit(
+    "setFrom",
+    payload.from
+      ? formatDateWithTime(formatDate(payload.from, "YYYY-MM-DD"))
+      : FROM_DEFAULT
+  );
+  commit(
+    "setTo",
+    payload.to
+      ? formatDateWithTime(formatDate(payload.to, "YYYY-MM-DD"))
+      : TO_DEFAULT
+  );
 
-  commit("setFrom", formatDateWithTime(payload.from));
-  let from = subtractFromDate(payload.from, {
-    days: 1
-  });
-  from = formatDate(from, "YYYY-MM-DD");
-  from = formatDateWithTime(from);
+  commit("setCountrySlug", payload.countrySlug);
 
-  const to = formatDateWithTime(payload.to);
-  commit("setTo", to);
+  if (getters.from && getters.to && getters.countrySlug) {
+    dispatch("fetchData");
+  }
+}
 
-  const countrySlug = payload.countrySlug;
-
-  const dayDiff = getDateDiff(to, from, "days") + 1;
+export async function fetchData({ commit, getters }) {
+  const { subtractFromDate, formatDate } = date;
+  let fromOneDaySubtract = formatDate(
+    subtractFromDate(getters.from, {
+      days: 1
+    }),
+    "YYYY-MM-DD"
+  );
+  fromOneDaySubtract = formatDateWithTime(fromOneDaySubtract);
 
   try {
-    const res = await Vue.prototype.$axiosFetch.get(
-      `/country/${countrySlug}?from=${from}&to=${to}`
+    let res = await axios.get(
+      `${BASE_URL}/country/${getters.countrySlug}?from=${fromOneDaySubtract}&to=${getters.to}`
     );
 
-    commit("setFetchedData", calcDiff(res.data, dayDiff));
+    let fetchedDataArr;
+    switch (getters.dataMode) {
+      case DATA_MODE_OPTIONS[0]:
+        fetchedDataArr = calcDiff(res.data);
+        break;
+      case DATA_MODE_OPTIONS[1]:
+        fetchedDataArr = mergeSubCountries(res.data);
+        fetchedDataArr.shift();
+        break;
+    }
+
+    commit("setFetchedData", fetchedDataArr);
   } catch (error) {
-    commit("setFrom", null);
-    commit("setTo", null);
-    commit("setFetchedData", []);
+    commit("setFrom", FROM_DEFAULT);
+    commit("setTo", TO_DEFAULT);
+    commit("setCountrySlug", COUNTRY_SLUG_DEFAULT);
+    commit("setDataMode", DATA_MODE_DEFAULT);
+    commit("setFetchedData", FETCHED_DATA_DEFAULT);
     notifyError(error);
   }
 }
@@ -41,4 +82,12 @@ export function setFrom({ commit }, payload) {
 
 export function setTo({ commit }, payload) {
   commit("setTo", payload);
+}
+
+export function setDataMode({ commit }, payload) {
+  commit("setDataMode", payload);
+
+  if (getters.from && getters.to && getters.countrySlug) {
+    dispatch("fetchData");
+  }
 }
