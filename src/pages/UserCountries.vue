@@ -17,6 +17,7 @@
             <countries-info />
         </div>
         <div v-else>
+            <h4>{{ errorMsg }}</h4>
             <error-404 />
         </div>
     </q-page>
