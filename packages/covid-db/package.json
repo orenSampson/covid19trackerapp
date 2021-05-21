@@ -1,16 +1,10 @@
 {
-  "name": "covid19trackerapp-monorepo",
+  "name": "covid-db",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "workspaces": [
-    "apps/*",
-    "cronjobs/*",
-    "packages/*"
-  ],
+  "devDependencies": {},
   "scripts": {
-    "start:covid": "env-cmd npm start --workspace=apps/covid19Tracker",
-    "start:fetch": "env-cmd npm start --workspace=cronjobs/fetch-history",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -25,6 +19,6 @@
   },
   "homepage": "https://github.com/orenSampson/covid19trackerapp#readme",
   "dependencies": {
-    "env-cmd": "^10.1.0"
+    "mongoose": "^5.12.10"
   }
 }

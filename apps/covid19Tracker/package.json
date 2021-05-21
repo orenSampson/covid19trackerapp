@@ -1,0 +1,53 @@
+{
+  "name": "covid19trackerapp",
+  "version": "0.0.1",
+  "description": "A Quasar Framework app",
+  "productName": "Quasar App",
+  "cordovaId": "org.cordova.quasar.app",
+  "capacitorId": "",
+  "author": "oren sampson <oren.sampson@gmail.com>",
+  "private": true,
+  "scripts": {
+    "start": "quasar dev -m ssr",
+    "test": "echo \"No test specified\" && exit 0"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.9.12",
+    "axios": "^0.21.1",
+    "chart.js": "^2.9.3",
+    "core-js": "^3.6.5",
+    "covid-db": "^1.0.0",
+    "echarts": "^5.0.2",
+    "mapbox-gl": "^2.2.0",
+    "quasar": "^1.14.7",
+    "vue-chartjs": "^3.5.0",
+    "vue-ctk-date-time-picker": "^2.5.0",
+    "vue-element-admin": "^3.9.3",
+    "vue-mapbox": "^0.4.1",
+    "vue2-google-maps": "^0.10.7"
+  },
+  "devDependencies": {
+    "@quasar/app": "^2.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
+    "eslint-loader": "^3.0.3",
+    "eslint-plugin-vue": "^6.1.2"
+  },
+  "browserslist": [
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
+  ],
+  "engines": {
+    "node": ">= 10.18.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
+  }
+}
