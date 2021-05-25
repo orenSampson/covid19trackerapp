@@ -1,15 +1,9 @@
 const axios = require("axios");
 const moment = require("moment");
 
-const {
-  MONGODB_URI,
-  COVID_BASE_URL,
-  INTERVAL_FROM_TO
-} = require("./constants");
+const { COVID_BASE_URL } = require("covid19api-consts");
 
-exports.connectToDB = async () => {
-  require("covid-db")(MONGODB_URI);
-};
+const { INTERVAL_FROM_TO } = require("./constants");
 
 exports.fillDataFromTo = async (from, to, slug) => {
   let tempTo, countriesAxios, returnArr;

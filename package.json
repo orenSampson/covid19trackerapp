@@ -6,7 +6,8 @@
   "workspaces": [
     "apps/*",
     "cronjobs/*",
-    "packages/*"
+    "packages/*",
+    "constants/*"
   ],
   "scripts": {
     "start:covid": "env-cmd npm start --workspace=apps/covid19Tracker",

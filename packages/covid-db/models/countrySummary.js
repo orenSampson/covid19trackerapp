@@ -1,18 +1,13 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const countryDataSubSchema = new Schema(
-  {
-    date: { type: Date, required: true },
-    totalConfirmed: { type: Number, required: true },
-    totalDeaths: { type: Number, required: true },
-  },
-  { _id: false }
-);
-
 const countrySummary = new Schema({
-  slug: { type: String, required: true },
-  countryData: [countryDataSubSchema],
+  countryName: { type: String, required: true },
+  slug: { type: String, required: true, unique: true },
+  totalConfirmed: { type: Number, required: true },
+  newConfirmed: { type: Number, required: true },
+  totalDeaths: { type: Number, required: true },
+  totalRecovered: { type: Number, required: true }
 });
 
 module.exports = mongoose.model("CountrySummary", countrySummary);
