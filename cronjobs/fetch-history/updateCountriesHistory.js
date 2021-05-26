@@ -2,8 +2,11 @@ const moment = require("moment");
 
 const AdminCountry = require("covid-db/models/adminCountry");
 const CountryHistory = require("covid-db/models/countryHistory");
-const { fillDataFromTo } = require("./utils");
-const { BEGINING_DATE } = require("./constants");
+const {
+  fillDataFromTo,
+  fillDataBeginingToYesterday
+} = require("fetch-history-utils");
+const { BEGINING_DATE } = require("covid19api-consts");
 
 module.exports = async () => {
   let adminSelectedCountries;
@@ -105,9 +108,8 @@ module.exports = async () => {
         }
       }
     } else {
-      to = moment().subtract(1, "days");
       countryHistory = new CountryHistory({ slug: slug, countryData: [] });
-      returnCountryHistoryArr = await fillDataFromTo(from, to, slug);
+      returnCountryHistoryArr = await fillDataBeginingToYesterday(slug);
       countryHistory.countryData.push(...returnCountryHistoryArr);
     }
 

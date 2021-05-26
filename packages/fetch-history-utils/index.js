@@ -1,11 +1,20 @@
 const axios = require("axios");
 const moment = require("moment");
 
-const { COVID_BASE_URL } = require("covid19api-consts");
+const {
+  COVID_BASE_URL,
+  BEGINING_DATE,
+  INTERVAL_FROM_TO
+} = require("covid19api-consts");
 
-const { INTERVAL_FROM_TO } = require("./constants");
+exports.fillDataBeginingToYesterday = async slug => {
+  const from = moment(BEGINING_DATE),
+    to = moment().subtract(1, "days");
 
-exports.fillDataFromTo = async (from, to, slug) => {
+  return fillDataFromTo(from, to, slug);
+};
+
+const fillDataFromTo = async (from, to, slug) => {
   let tempTo, countriesAxios, returnArr;
   tempTo = countriesAxios = null;
   returnArr = [];
@@ -57,6 +66,8 @@ exports.fillDataFromTo = async (from, to, slug) => {
 
   return returnArr;
 };
+
+exports.fillDataFromTo = fillDataFromTo;
 
 const waitInMilliSeconds = milliseconds => {
   return new Promise(resolve =>
