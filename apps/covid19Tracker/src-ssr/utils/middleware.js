@@ -27,13 +27,12 @@ const getPayload = token => {
     return null;
   }
 
-  let decodedTokenPayload = null;
+  let decodedTokenPayload;
   try {
     decodedTokenPayload = jwt.verify(token, ACCESS_TOKEN_SECRET);
   } catch (error) {
     return null;
   }
-
   if (!decodedTokenPayload) {
     return null;
   }

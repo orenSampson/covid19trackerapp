@@ -1,26 +1,18 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { ADMIN_PASSWORD } = require("../constants/admin");
-const { ACCESS_TOKEN_SECRET } = require("../constants/auth");
+const { ACCESS_TOKEN_SECRET } = require("../../constants/auth");
+const { ADMIN_TOKEN_NAME } = require("../../constants/admin");
+const { ADMIN_PASSWORD } = require("../../constants/admin");
 const {
   serverError,
   wrongPassword,
-  signinSuccessful,
-  successfulResponse
-} = require("../constants/responses");
-const { ADMIN_ACCESS_TOKEN } = require("../constants/auth");
-const user = require("covid-db/models/user");
+  signinSuccessful
+} = require("../../constants/responses");
 
-exports.logout = (req, res, next) => {
-  res.clearCookie(ADMIN_ACCESS_TOKEN);
-
-  res.status(successfulResponse.status).end();
-};
-
-exports.login = async (req, res, next) => {
+module.exports = async (req, res, next) => {
   const password = req.body.password;
-  const maxAge = 3600 * 1000; //one hour in milliseconds
+  const maxAge = 3600 * 1000 * 24 * 365; //one year
 
   let isEqual;
   let token;
@@ -49,7 +41,7 @@ exports.login = async (req, res, next) => {
       .json({ message: serverError.message });
   }
 
-  res.cookie(ADMIN_ACCESS_TOKEN, token, {
+  res.cookie(ADMIN_TOKEN_NAME, token, {
     maxAge: maxAge,
     httpOnly: true
   });

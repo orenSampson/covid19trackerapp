@@ -20,7 +20,7 @@ export default {
   name: "AdminLogin",
   data() {
     return {
-      password: null,
+      password: "",
       submitDisabled: false,
     };
   },
@@ -29,7 +29,7 @@ export default {
       this.submitDisabled = true;
 
       try {
-        const response = await this.$axios.post("/api/auth/admin/login", {
+        const response = await this.$axios.post("/api/admin/login", {
           password: this.password,
         });
 

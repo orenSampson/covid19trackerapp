@@ -1,6 +1,6 @@
 const User = require("covid-db/models/user");
 const AdminCountry = require("covid-db/models/adminCountry");
-const CountriesSummary = require("covid-db/models/countriesSummary");
+const CountrySummary = require("covid-db/models/countrySummary");
 const {
   serverError,
   successfulResponse,
@@ -22,10 +22,10 @@ function getAllSelectedCountries() {
 exports.getCountries = async (req, res, next) => {
   const userId = res.locals.payload && res.locals.payload.sub;
 
-  let countriesSummary;
+  let countrySummary;
   try {
-    countriesSummary = await CountriesSummary.findOne({});
-    countriesSummary = countriesSummary.countries;
+    countrySummary = await CountrySummary.findOne({});
+    countrySummary = countrySummary.countries;
   } catch (error) {
     return res
       .status(serverError.status)
@@ -58,11 +58,11 @@ exports.getCountries = async (req, res, next) => {
   const userSlugsMap = new Map(
     userCountries.map(country => [country.slug, country])
   );
-  countriesSummary = countriesSummary.filter(({ slug }) => {
+  countrySummary = countrySummary.filter(({ slug }) => {
     return userSlugsMap.has(slug);
   });
 
-  countriesSummary = countriesSummary.map(item => {
+  countrySummary = countrySummary.map(item => {
     const country = userSlugsMap.get(item.slug);
     return {
       countryId: country._id.toString(),
@@ -76,7 +76,7 @@ exports.getCountries = async (req, res, next) => {
     };
   });
 
-  return res.status(successfulResponse.status).json({ data: countriesSummary });
+  return res.status(successfulResponse.status).json({ data: countrySummary });
 };
 
 exports.updateSelected = async (req, res, next) => {
