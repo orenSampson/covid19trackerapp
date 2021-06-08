@@ -9,8 +9,6 @@ const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
 
 module.exports.extendApp = async function({ app, ssr }) {
-  await connectToDB(MONGODB_URI);
-
   app.use(
     cors({
       origin: "*",
@@ -29,4 +27,6 @@ module.exports.extendApp = async function({ app, ssr }) {
     console.log("the url endpoint doesn't match any routes listing");
     return next();
   });
+
+  await connectToDB(MONGODB_URI);
 };
