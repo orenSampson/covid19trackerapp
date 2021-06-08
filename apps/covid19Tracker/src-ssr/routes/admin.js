@@ -8,9 +8,9 @@ const router = express.Router();
 
 router.post("/login", adminController.login);
 
-router.get("/logout", adminController.logout);
+router.post("/logout", adminController.logout);
 
-router.post(
+router.get(
   "/getcountries",
   authMiddleware(ADMIN_TOKEN_NAME),
   adminController.getCountries

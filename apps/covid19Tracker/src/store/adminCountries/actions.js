@@ -45,7 +45,7 @@ export function resetState({ commit }) {
 
 export async function adminLogout({}, { path, router }) {
   try {
-    await this.$axios.get("/api/admin/logout");
+    await this.$axios.post("/api/admin/logout");
   } catch (error) {
     return notifyError(error);
   }
