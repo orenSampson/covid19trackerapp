@@ -1,12 +1,12 @@
 <template>
-    <div>
-        <star-toggle
-            @click="starToggleClicked"
-            :propsIsSelected="adminCountriesArr[this.propsIndex].isSelected"
-            :propsCountryName="adminCountriesArr[this.propsIndex].country"
-            :propsIsDisabled="disabled"
-        />
-    </div>
+  <div>
+    <star-toggle
+      @click="starToggleClicked"
+      :propsIsSelected="adminCountriesArr[this.propsIndex].isSelected"
+      :propsCountryName="adminCountriesArr[this.propsIndex].countryName"
+      :propsIsDisabled="disabled"
+    />
+  </div>
 </template>
 
 <script>
@@ -17,42 +17,42 @@ import StarToggle from "components/general/StarToggle";
 import { notifyError } from "src/utils/errorHandling";
 
 export default {
-    name: "AdminCountry",
+  name: "AdminCountry",
 
-    components: {
-        StarToggle,
+  components: {
+    StarToggle,
+  },
+
+  props: {
+    propsIndex: {
+      type: Number,
+      required: true,
     },
+  },
 
-    props: {
-        propsIndex: {
-            type: Number,
-            required: true,
-        },
+  data() {
+    return {
+      disabled: false,
+    };
+  },
+
+  computed: {
+    ...mapGetters("adminCountries", ["adminCountriesArr"]),
+  },
+
+  methods: {
+    ...mapActions("adminCountries", ["changeSelected"]),
+    async starToggleClicked() {
+      this.disabled = true;
+
+      try {
+        await this.changeSelected(this.propsIndex);
+      } catch {
+        notifyError();
+      }
+
+      this.disabled = false;
     },
-
-    data() {
-        return {
-            disabled: false,
-        };
-    },
-
-    computed: {
-        ...mapGetters("adminCountries", ["adminCountriesArr"]),
-    },
-
-    methods: {
-        ...mapActions("adminCountries", ["changeSelected"]),
-        async starToggleClicked() {
-            this.disabled = true;
-
-            try {
-                await this.changeSelected(this.propsIndex);
-            } catch {
-                notifyError();
-            }
-
-            this.disabled = false;
-        },
-    },
+  },
 };
 </script>
