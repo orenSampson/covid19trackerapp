@@ -4,7 +4,6 @@ const cors = require("cors");
 
 const connectToDB = require("covid-db");
 const { MONGODB_URI } = require("db-consts");
-const authUserRoutes = require("./routes/auth-user");
 const adminRoutes = require("./routes/admin");
 const userRoutes = require("./routes/user");
 
@@ -20,7 +19,6 @@ module.exports.extendApp = async function({ app, ssr }) {
   app.use(cookieParser());
 
   app.use("/api/admin", adminRoutes);
-  app.use("/api/auth/user", authUserRoutes);
   app.use("/api/user", userRoutes);
 
   app.use("*", (req, res, next) => {

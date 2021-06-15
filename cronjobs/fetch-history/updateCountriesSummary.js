@@ -11,7 +11,6 @@ module.exports = async () => {
   } catch (error) {
     return console.log(error);
   }
-
   if (!countriesSummary) {
     return console.log("error retrieving countries summary");
   }

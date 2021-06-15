@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-const AdminCountry = require("covid-db/models/adminCountry");
+const CountrySummary = require("covid-db/models/countrySummary");
 const CountryHistory = require("covid-db/models/countryHistory");
 const {
   fillDataFromTo,
@@ -9,16 +9,14 @@ const {
 const { BEGINING_DATE } = require("covid19api-consts");
 
 module.exports = async () => {
-  let adminSelectedCountries;
+  let countriesSummary;
   try {
-    adminSelectedCountries = await AdminCountry.find({
-      isSelected: true
-    }).lean();
+    countriesSummary = await CountrySummary.find({}).lean();
   } catch (error) {
     return console.log("error :>> ", error);
   }
-  if (!adminSelectedCountries) {
-    return console.log("error retrieving admin countries");
+  if (!countriesSummary) {
+    return console.log("error retrieving CountrySummary countries");
   }
 
   let slug,
@@ -29,8 +27,8 @@ module.exports = async () => {
     index,
     originalCountryDataLength;
 
-  for (const adminSelectedCountry of adminSelectedCountries) {
-    slug = adminSelectedCountry.slug;
+  for (const countrySummary of countriesSummary) {
+    slug = countrySummary.slug;
 
     console.log(`start country ${slug}`);
 

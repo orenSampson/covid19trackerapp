@@ -6,17 +6,9 @@ export function countriesArr(state) {
   return countriesArrCopy;
 }
 
-export const country = state => countryId => {
-  return state.countriesArr.find(country => country.countryId === countryId);
+export const country = state => countrySlug => {
+  return state.countriesArr.find(country => country.slug === countrySlug);
 };
-
-export function intervalId(state) {
-  return state.intervalId;
-}
-
-export function fetchIntervalVal(state) {
-  return state.fetchIntervalVal;
-}
 
 export function errorMsg(state) {
   return state.errorMsg;

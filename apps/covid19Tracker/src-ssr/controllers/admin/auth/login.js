@@ -1,14 +1,14 @@
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
-const { ACCESS_TOKEN_SECRET } = require("../../constants/auth");
-const { ADMIN_TOKEN_NAME } = require("../../constants/admin");
-const { ADMIN_PASSWORD } = require("../../constants/admin");
+const { ACCESS_TOKEN_SECRET } = require("../../../constants/auth");
+const { ADMIN_TOKEN_NAME } = require("../../../constants/admin");
+const { ADMIN_PASSWORD } = require("../../../constants/admin");
 const {
   serverError,
   wrongPassword,
-  signinSuccessful
-} = require("../../constants/responses");
+  loginSuccessful
+} = require("../../../constants/responses");
 
 module.exports = async (req, res, next) => {
   const password = req.body.password;
@@ -46,7 +46,7 @@ module.exports = async (req, res, next) => {
     httpOnly: true
   });
 
-  res.status(signinSuccessful.status).json({
-    message: signinSuccessful.message
+  res.status(loginSuccessful.status).json({
+    message: loginSuccessful.message
   });
 };

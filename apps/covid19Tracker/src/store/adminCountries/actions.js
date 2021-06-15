@@ -10,7 +10,6 @@ export async function fetchData({ commit }) {
     commit("setAdminCountriesArr", []);
     return notifyError(error);
   }
-
   if (!adminCountriesArr) {
     commit("setAdminCountriesArr", []);
     return notifyError();
@@ -25,7 +24,7 @@ export async function changeSelected({ getters, commit }, payload) {
 
   try {
     await this.$axios.post("/api/admin/updateselected", {
-      id: adminCountry._id,
+      slug: adminCountry.slug,
       isSelectedNewVal: !adminCountry.isSelected
     });
   } catch (error) {

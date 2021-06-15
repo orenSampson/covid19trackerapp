@@ -1,1 +1,1 @@
-exports.NOTLOGGEDINUSERID = "600866b180628b33e018a4b9";
+exports.USER_TOKEN_NAME = "user_access_token";

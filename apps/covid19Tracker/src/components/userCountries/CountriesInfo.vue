@@ -1,13 +1,13 @@
 <template>
-    <div>
-        <div v-if="countriesArr && countriesArr.length > 0">
-            <country-info
-                v-for="country in countriesArr"
-                :key="country.countryId"
-                :propsCountryId="country.countryId"
-            />
-        </div>
+  <div>
+    <div v-if="countriesArr && countriesArr.length > 0">
+      <country-info
+        v-for="country in countriesArr"
+        :key="country.slug"
+        :propsCountrySlug="country.slug"
+      />
     </div>
+  </div>
 </template>
 
 <script>
@@ -16,14 +16,14 @@ import CountryInfo from "components/userCountries/CountryInfo";
 import { mapGetters } from "vuex";
 
 export default {
-    name: "AllCountriesInfo",
+  name: "AllCountriesInfo",
 
-    components: {
-        CountryInfo,
-    },
+  components: {
+    CountryInfo,
+  },
 
-    computed: {
-        ...mapGetters("userCountries", ["countriesArr"]),
-    },
+  computed: {
+    ...mapGetters("userCountries", ["countriesArr"]),
+  },
 };
 </script>

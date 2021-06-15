@@ -12,13 +12,13 @@ module.exports = async (req, res, next) => {
       .json({ message: notAuthenticated.message });
   }
 
-  const countryId = req.body.id;
+  const slug = req.body.slug;
   const isSelectedNewVal = req.body.isSelectedNewVal;
 
   let doc;
   try {
     doc = await AdminCountry.findOneAndUpdate(
-      { _id: countryId },
+      { slug: slug },
       { isSelected: isSelectedNewVal }
     );
   } catch (error) {
@@ -31,12 +31,6 @@ module.exports = async (req, res, next) => {
       .status(serverError.status)
       .json({ message: serverError.message });
   }
-
-  // const slug = doc.slug;
-  // console.log("slug :>> ", slug);
-
-  // if (isSelected) {
-  // }
 
   res.status(successfulResponse.status).end();
 };

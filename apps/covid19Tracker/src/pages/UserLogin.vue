@@ -32,7 +32,7 @@ export default {
     async onSubmit() {
       this.submitDisabled = true;
       try {
-        const response = await this.$axios.post("api/auth/user/login", {
+        const response = await this.$axios.post("api/user/login", {
           email: this.email,
           password: this.password,
         });

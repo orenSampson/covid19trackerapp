@@ -2,7 +2,7 @@ const express = require("express");
 
 const adminController = require("../controllers/admin");
 const { authMiddleware } = require("../utils/middleware");
-const { ADMIN_TOKEN_NAME } = require("../constants/auth");
+const { ADMIN_TOKEN_NAME } = require("../constants/admin");
 
 const router = express.Router();
 

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 module.exports = async uri => {
   try {
-    await mongoose.connect(uri, {
+    return await mongoose.connect(uri, {
       useNewUrlParser: true,
       useCreateIndex: true,
       useUnifiedTopology: true,

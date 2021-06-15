@@ -5,7 +5,7 @@ const userSchema = new Schema({
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   name: { type: String, required: true },
-  selectedCountries: [{ type: Schema.Types.ObjectId, ref: "AdminCountry" }]
+  selectedCountries: [{ type: String }] //contain slugs of countries
 });
 
 module.exports = mongoose.model("User", userSchema);
