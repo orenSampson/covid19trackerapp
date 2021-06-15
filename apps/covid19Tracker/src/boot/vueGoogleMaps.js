@@ -1,14 +1,16 @@
 // import Vue from "vue";
 import * as VueGoogleMaps from "vue2-google-maps";
 
-import { API_KEY } from "src/constants/googleMaps";
+import { GOOGLE_MAPS_API_KEY } from "google-maps-consts";
 
 export default function({ app, Vue, ssrContext }) {
   console.log("boot google map running");
+  console.log("GOOGLE_MAPS_API_KEY :>> ", GOOGLE_MAPS_API_KEY);
+
   if (!process.env.SERVER) {
     Vue.use(VueGoogleMaps, {
       load: {
-        key: API_KEY
+        key: GOOGLE_MAPS_API_KEY
         // libraries: "places" // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'

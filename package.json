@@ -27,5 +27,8 @@
   "homepage": "https://github.com/orenSampson/covid19trackerapp#readme",
   "dependencies": {
     "env-cmd": "^10.1.0"
+  },
+  "devDependencies": {
+    "prettier": "1.19.1"
   }
 }
