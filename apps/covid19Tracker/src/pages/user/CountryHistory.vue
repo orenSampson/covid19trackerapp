@@ -18,10 +18,10 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-import LastDaysSelection from "components/userCountry/LastDaysSelection";
-import DateRangeSelection from "components/userCountry/DateRangeSelection";
-import GraphByCountry from "components/userCountry/GraphByCountry";
-import RadioDataOptions from "components/userCountry/RadioDataOptions";
+import LastDaysSelection from "components/userCountryHistory/LastDaysSelection";
+import DateRangeSelection from "components/userCountryHistory/DateRangeSelection";
+import GraphByCountry from "components/userCountryHistory/GraphByCountry";
+import RadioDataOptions from "components/userCountryHistory/RadioDataOptions";
 import { lastDaysToFromTo } from "src/utils/date";
 import {
   LAST_DAYS_OPTIONS,

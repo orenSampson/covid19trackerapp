@@ -5,7 +5,7 @@
       :propsIsSelected="country(propsCountrySlug).isSelected"
       :propsIsDisabled="isDisabled"
     />
-    <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountry">
+    <div class="row q-mx-xl q-my-md q-pa-sm" @click="routeToCountryHistory">
       <div class="col-xs-6 col-sm-4 col-md">
         <span class="text-weight-bold">{{
           country(propsCountrySlug).countryName
@@ -63,9 +63,9 @@ export default {
 
   methods: {
     ...mapActions("userCountries", ["changeSelected"]),
-    routeToCountry() {
+    routeToCountryHistory() {
       this.$router.push({
-        name: "country",
+        name: "countryHistory",
         params: {
           countrySlug: propsCountrySlug,
         },

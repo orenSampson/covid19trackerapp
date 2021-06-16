@@ -49,7 +49,7 @@ export async function adminLogout({}, { path, router }) {
     return notifyError(error);
   }
 
-  if (path !== "/") {
-    router.replace("/");
+  if (path !== router.resolve({ name: "homePage" }).href) {
+    router.replace({ name: "homePage" });
   }
 }

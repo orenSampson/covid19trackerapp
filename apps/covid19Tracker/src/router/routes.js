@@ -5,26 +5,38 @@ const routes = [
     children: [
       {
         path: "",
+        name: "homePage",
         component: () => import("pages/HomePage.vue")
       },
       {
-        path: "user/countries",
-        component: () => import("pages/UserCountries.vue")
+        path: "user/signup",
+        name: "userSignup",
+        component: () => import("pages/user/Signup.vue")
       },
       {
-        path: "country/:countrySlug",
-        name: "country",
-        component: () => import("pages/Country.vue")
+        path: "user/login",
+        name: "userLogin",
+        component: () => import("pages/user/Login.vue")
       },
-      { path: "auth/signup", component: () => import("pages/UserSignup.vue") },
-      { path: "auth/login", component: () => import("pages/UserLogin.vue") },
+      {
+        path: "user/countries",
+        name: "userCountries",
+        component: () => import("pages/user/Countries.vue")
+      },
+      {
+        path: "countryHistory/:countrySlug",
+        name: "countryHistory",
+        component: () => import("pages/user/CountryHistory.vue")
+      },
       {
         path: "admin/login",
-        component: () => import("pages/AdminLogin.vue")
+        name: "adminLogin",
+        component: () => import("pages/admin/Login.vue")
       },
       {
         path: "admin/countries",
-        component: () => import("pages/AdminCountries.vue")
+        name: "adminCountries",
+        component: () => import("pages/admin/Countries.vue")
       }
     ]
   }

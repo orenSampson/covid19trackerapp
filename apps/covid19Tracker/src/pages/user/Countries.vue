@@ -16,7 +16,7 @@ import { mapActions, mapGetters } from "vuex";
 
 import CountriesInfo from "components/userCountries/CountriesInfo";
 import VueGoogleMaps from "components/userCountries/VueGoogleMaps";
-import Error404 from "./Error404.vue";
+import Error404 from "src/pages/Error404.vue";
 import { MODES } from "src/constants/userCountries";
 // import { notifyMessage } from "src/utils/errorHandling";
 // import responses from "src/constants/responses";
