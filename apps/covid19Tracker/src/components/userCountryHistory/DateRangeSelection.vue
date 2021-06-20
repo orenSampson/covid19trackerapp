@@ -29,17 +29,11 @@ export default {
     VueCtkDateTimePicker,
   },
 
-  props: {
-    propsCountrySlug: {
-      type: String,
-      required: true,
-    },
-  },
   methods: {
-    ...mapActions("userCountry", ["setDates"]),
+    ...mapActions("userCountryHistory", ["setDates"]),
   },
   computed: {
-    ...mapGetters("userCountry", ["from", "to"]),
+    ...mapGetters("userCountryHistory", ["from", "to"]),
     dates: {
       get() {
         return { shortcut: null, start: this.from, end: this.to };
@@ -48,7 +42,7 @@ export default {
         this.setDates({
           from: newData.start,
           to: newData.end,
-          countrySlug: this.propsCountrySlug,
+          countrySlug: this.$route.params.countrySlug,
         });
       },
     },

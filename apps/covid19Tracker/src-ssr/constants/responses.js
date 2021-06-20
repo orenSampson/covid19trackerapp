@@ -30,6 +30,10 @@ module.exports = Object.freeze({
     status: 401,
     message: "Not authenticated."
   },
+  notAllowed: {
+    status: 401,
+    message: "admin does not allow to view this content"
+  },
   emptyNameMsg: "Name must not be empty",
   notValidEmailMsg: "Please enter a valid email",
   emailInUseMsg: "E-mail already in use. Please choose another email",

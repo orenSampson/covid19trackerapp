@@ -22,12 +22,12 @@
 <script>
 import { mapGetters, mapActions } from "vuex";
 
-import { DATA_MODE_OPTIONS } from "src/constants/userCountry";
+import { DATA_MODE_OPTIONS } from "src/constants/userCountryHistory";
 export default {
   name: "RadioDataOptions",
 
   methods: {
-    ...mapActions("userCountry", ["setDataMode"]),
+    ...mapActions("userCountryHistory", ["setDataMode"]),
   },
 
   created() {
@@ -35,7 +35,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters("userCountry", ["dataMode"]),
+    ...mapGetters("userCountryHistory", ["dataMode"]),
     dataOption: {
       get() {
         return this.dataMode;

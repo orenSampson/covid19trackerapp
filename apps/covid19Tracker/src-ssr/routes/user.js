@@ -28,4 +28,10 @@ router.post(
   userController.updateSelected
 );
 
+router.get(
+  "/countryhistory",
+  authMiddleware(USER_TOKEN_NAME),
+  userController.countryHistory
+);
+
 module.exports = router;

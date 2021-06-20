@@ -14,21 +14,14 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from "vuex";
 import { date } from "quasar";
+import { mapActions, mapGetters } from "vuex";
 
-import { LAST_DAYS_OPTIONS } from "src/constants/userCountry";
+import { LAST_DAYS_OPTIONS } from "src/constants/userCountryHistory";
 import { lastDaysToFromTo } from "src/utils/date";
 
 export default {
   name: "LastDaysSelection",
-
-  props: {
-    propsCountrySlug: {
-      type: String,
-      required: true,
-    },
-  },
 
   data() {
     return {
@@ -73,17 +66,17 @@ export default {
   },
 
   methods: {
-    ...mapActions("userCountry", ["setDates"]),
+    ...mapActions("userCountryHistory", ["setDates"]),
     callFetchData() {
       const { from, to } = lastDaysToFromTo(this.lastDays);
-      const countrySlug = this.propsCountrySlug;
+      const countrySlug = this.$route.params.countrySlug;
 
       this.setDates({ from: from, to: to, countrySlug: countrySlug });
     },
   },
 
   computed: {
-    ...mapGetters("userCountry", ["from", "to"]),
+    ...mapGetters("userCountryHistory", ["from", "to"]),
     fromOrTo() {
       return `${this.from}|${this.to}`;
     },

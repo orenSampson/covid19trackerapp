@@ -1,5 +1,4 @@
 import { date } from "quasar";
-import axios from "axios";
 
 import { BASE_URL } from "src/constants/covid19api";
 import {
@@ -9,27 +8,19 @@ import {
   COUNTRY_SLUG_DEFAULT,
   DATA_MODE_DEFAULT,
   FETCHED_DATA_DEFAULT
-} from "src/constants/userCountry";
-import {
-  mergeSubCountries,
-  calcDiff,
-  formatDateWithTime
-} from "src/utils/date";
+} from "src/constants/userCountryHistory";
+import { calcDiff } from "src/utils/date";
 import { notifyError } from "src/utils/errorHandling";
 
 export function setDates({ commit, getters, dispatch }, payload) {
   const { formatDate } = date;
   commit(
     "setFrom",
-    payload.from
-      ? formatDateWithTime(formatDate(payload.from, "YYYY-MM-DD"))
-      : FROM_DEFAULT
+    payload.from ? formatDate(payload.from, "YYYY-MM-DD") : FROM_DEFAULT
   );
   commit(
     "setTo",
-    payload.to
-      ? formatDateWithTime(formatDate(payload.to, "YYYY-MM-DD"))
-      : TO_DEFAULT
+    payload.to ? formatDate(payload.to, "YYYY-MM-DD") : TO_DEFAULT
   );
 
   commit("setCountrySlug", payload.countrySlug);
@@ -41,31 +32,26 @@ export function setDates({ commit, getters, dispatch }, payload) {
 
 export async function fetchData({ commit, getters }) {
   const { subtractFromDate, formatDate } = date;
-  let fromOneDaySubtract = formatDate(
+  let fromOneDaySubtracted = formatDate(
     subtractFromDate(getters.from, {
       days: 1
     }),
     "YYYY-MM-DD"
   );
-  fromOneDaySubtract = formatDateWithTime(fromOneDaySubtract);
 
+  let fetchedCountryHistory;
   try {
-    let res = await axios.get(
-      `${BASE_URL}/country/${getters.countrySlug}?from=${fromOneDaySubtract}&to=${getters.to}`
-    );
-
-    let fetchedDataArr;
-    switch (getters.dataMode) {
-      case DATA_MODE_OPTIONS[0]:
-        fetchedDataArr = calcDiff(res.data);
-        break;
-      case DATA_MODE_OPTIONS[1]:
-        fetchedDataArr = mergeSubCountries(res.data);
-        fetchedDataArr.shift();
-        break;
+    fetchedCountryHistory = await this.$axios.get("api/user/countryhistory", {
+      params: {
+        from: fromOneDaySubtracted,
+        to: getters.to,
+        slug: getters.countrySlug
+      }
+    });
+    if (!fetchedCountryHistory) {
+      throw new Error();
     }
-
-    commit("setFetchedData", fetchedDataArr);
+    fetchedCountryHistory = fetchedCountryHistory.data.data;
   } catch (error) {
     commit("setFrom", FROM_DEFAULT);
     commit("setTo", TO_DEFAULT);
@@ -74,6 +60,17 @@ export async function fetchData({ commit, getters }) {
     commit("setFetchedData", FETCHED_DATA_DEFAULT);
     notifyError(error);
   }
+
+  // switch (getters.dataMode) {
+  //   case DATA_MODE_OPTIONS[0]: //new
+  //     fetchedCountryHistory = calcDiff(fetchedCountryHistory);
+  //     break;
+  //   case DATA_MODE_OPTIONS[1]: //total
+  //     fetchedCountryHistory.shift();
+  //     break;
+  // }
+
+  commit("setFetchedData", fetchedCountryHistory);
 }
 
 export function setFrom({ commit }, payload) {

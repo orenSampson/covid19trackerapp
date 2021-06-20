@@ -12,6 +12,9 @@ import echarts from "vue-element-admin/node_modules/echarts/";
 import { date } from "quasar";
 import { mapGetters } from "vuex";
 
+import { calcDiff } from "src/utils/date";
+import { DATA_MODE_OPTIONS } from "src/constants/userCountryHistory";
+
 export default {
   name: "GraphByCountry",
 
@@ -40,7 +43,7 @@ export default {
   },
 
   computed: {
-    ...mapGetters("userCountry", ["fetchedData", "dataMode"]),
+    ...mapGetters("userCountryHistory", ["fetchedData", "dataMode"]),
     legendArr() {
       const legendArr = [`${this.dataMode} cases`, `${this.dataMode} deaths`];
       return legendArr;
@@ -49,23 +52,36 @@ export default {
       const { formatDate } = date;
 
       const xAxisArr = [];
-      for (const singleData of this.fetchedData) {
-        xAxisArr.push(formatDate(singleData.date, "DD-MM-YYYY"));
+      for (let i = 1; i < this.fetchedData.length; i++) {
+        xAxisArr.push(formatDate(this.fetchedData[i].date, "DD-MM-YYYY"));
       }
+
       return xAxisArr;
     },
     yAxisCasesArr() {
-      const yAxisCasesArr = [];
-      for (const singleData of this.fetchedData) {
-        yAxisCasesArr.push(singleData.cases);
+      let yAxisCasesArr = [...this.fetchedData];
+
+      if (this.dataMode === DATA_MODE_OPTIONS[0]) {
+        yAxisCasesArr = calcDiff(yAxisCasesArr).map((country) => country.cases);
+      } else {
+        yAxisCasesArr.shift();
+        yAxisCasesArr = yAxisCasesArr.map((country) => country.cases);
       }
+
       return yAxisCasesArr;
     },
     yAxisDeathsArr() {
-      const yAxisDeathsArr = [];
-      for (const singleData of this.fetchedData) {
-        yAxisDeathsArr.push(singleData.deaths);
+      let yAxisDeathsArr = [...this.fetchedData];
+
+      if (this.dataMode === DATA_MODE_OPTIONS[0]) {
+        yAxisDeathsArr = calcDiff(yAxisDeathsArr).map(
+          (country) => country.deaths
+        );
+      } else {
+        yAxisDeathsArr.shift();
+        yAxisDeathsArr = yAxisDeathsArr.map((country) => country.deaths);
       }
+
       return yAxisDeathsArr;
     },
   },

@@ -67,7 +67,7 @@ export default {
       this.$router.push({
         name: "countryHistory",
         params: {
-          countrySlug: propsCountrySlug,
+          countrySlug: this.propsCountrySlug,
         },
       });
     },

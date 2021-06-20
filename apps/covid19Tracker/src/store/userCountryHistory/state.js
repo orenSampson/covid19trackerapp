@@ -4,7 +4,7 @@ import {
   COUNTRY_SLUG_DEFAULT,
   DATA_MODE_DEFAULT,
   FETCHED_DATA_DEFAULT
-} from "src/constants/userCountry";
+} from "src/constants/userCountryHistory";
 
 export default function() {
   return {

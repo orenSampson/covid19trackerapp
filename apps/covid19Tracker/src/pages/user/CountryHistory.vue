@@ -1,14 +1,11 @@
 <template>
   <div>
     <br />
-    <last-days-selection
-      :propsCountrySlug="$route.params.countrySlug"
-    ></last-days-selection>
+    <last-days-selection />
     <hr />
-    <date-range-selection
-      :propsCountrySlug="$route.params.countrySlug"
-    ></date-range-selection>
+    <date-range-selection />
     <hr />
+
     <radio-data-options></radio-data-options>
     <hr />
     <graph-by-country></graph-by-country>
@@ -20,16 +17,16 @@ import { mapGetters, mapActions } from "vuex";
 
 import LastDaysSelection from "components/userCountryHistory/LastDaysSelection";
 import DateRangeSelection from "components/userCountryHistory/DateRangeSelection";
-import GraphByCountry from "components/userCountryHistory/GraphByCountry";
 import RadioDataOptions from "components/userCountryHistory/RadioDataOptions";
+import GraphByCountry from "components/userCountryHistory/GraphByCountry";
 import { lastDaysToFromTo } from "src/utils/date";
 import {
   LAST_DAYS_OPTIONS,
   LAST_DAYS_OPTIONS_DEFAULT,
-} from "src/constants/userCountry";
+} from "src/constants/userCountryHistory";
 
 export default {
-  name: "Country",
+  name: "CountryHistory",
 
   components: {
     LastDaysSelection,
@@ -38,42 +35,32 @@ export default {
     GraphByCountry,
   },
 
-  preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+  methods: {
+    ...mapActions("userCountryHistory", ["setDates"]),
+  },
+
+  mounted() {
     const { from, to } = lastDaysToFromTo(
       LAST_DAYS_OPTIONS[LAST_DAYS_OPTIONS_DEFAULT]
     );
 
-    return store.dispatch("userCountry/setDates", {
+    this.setDates({
       from: from,
       to: to,
-      countrySlug: currentRoute.params.countrySlug,
+      countrySlug: this.$route.params.countrySlug,
     });
   },
 
-  // mounted() {
-  //     console.log(
-  //         "Country param countryName :>> ",
-  //         this.$route.params.countryName
-  //     );
-  //     console.log(
-  //         "Country query countrySlug :>> ",
-  //         this.$route.query.countrySlug
-  //     );
-  // },
+  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
+  //   const { from, to } = lastDaysToFromTo(
+  //     LAST_DAYS_OPTIONS[LAST_DAYS_OPTIONS_DEFAULT]
+  //   );
 
-  // computed: {
-  //     ...mapGetters("userCountries", ["country"]),
-  //     ...mapGetters("userCountry", ["countryId"]),
+  //   store.dispatch("userCountryHistory/setDates", {
+  //     from: from,
+  //     to: to,
+  //     countrySlug: currentRoute.params.countrySlug,
+  //   });
   // },
-
-  // methods: {
-  //     ...mapActions("userCountry", { setCountry: "setCountryAction" }),
-  // },
-
-  // watch: {
-  //     mode() {},
-  // },
-
-  // beforeDestroy() {},
 };
 </script>

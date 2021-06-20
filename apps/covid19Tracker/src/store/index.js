@@ -1,7 +1,7 @@
 import Vue from "vue";
 import Vuex from "vuex";
 
-import userCountry from "./userCountry";
+import userCountryHistory from "./userCountryHistory";
 import userCountries from "./userCountries";
 import adminCountries from "./adminCountries";
 
@@ -19,7 +19,7 @@ Vue.use(Vuex);
 export default function(/* { ssrContext } */) {
   const Store = new Vuex.Store({
     modules: {
-      userCountry,
+      userCountryHistory,
       userCountries,
       adminCountries
     },
