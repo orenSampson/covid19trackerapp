@@ -47,7 +47,7 @@ export default {
     this.setDates({
       from: from,
       to: to,
-      countrySlug: this.$route.params.countrySlug,
+      slug: this.$route.params.countrySlug,
     });
   },
 

@@ -42,7 +42,7 @@ export default {
         this.setDates({
           from: newData.start,
           to: newData.end,
-          countrySlug: this.$route.params.countrySlug,
+          slug: this.$route.params.countrySlug,
         });
       },
     },

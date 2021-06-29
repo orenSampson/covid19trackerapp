@@ -34,4 +34,6 @@ router.get(
   userController.countryHistory
 );
 
+router.get("/get_map_info", userController.get_map_info);
+
 module.exports = router;
