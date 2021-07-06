@@ -39,28 +39,16 @@ export default {
     ...mapActions("userCountryHistory", ["setDates"]),
   },
 
-  mounted() {
+  preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
     const { from, to } = lastDaysToFromTo(
       LAST_DAYS_OPTIONS[LAST_DAYS_OPTIONS_DEFAULT]
     );
 
-    this.setDates({
+    return store.dispatch("userCountryHistory/setDates", {
       from: from,
       to: to,
-      slug: this.$route.params.countrySlug,
+      slug: currentRoute.params.countrySlug,
     });
   },
-
-  // preFetch({ store, currentRoute, previousRoute, redirect, ssrContext }) {
-  //   const { from, to } = lastDaysToFromTo(
-  //     LAST_DAYS_OPTIONS[LAST_DAYS_OPTIONS_DEFAULT]
-  //   );
-
-  //   store.dispatch("userCountryHistory/setDates", {
-  //     from: from,
-  //     to: to,
-  //     countrySlug: currentRoute.params.countrySlug,
-  //   });
-  // },
 };
 </script>

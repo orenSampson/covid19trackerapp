@@ -5,6 +5,7 @@ const getCountries = require("./get_countries");
 const updateSelected = require("./update_selection");
 const countryHistory = require("./country_history");
 const get_map_info = require("./get_map_info");
+const upload_country_names = require("./upload_country_names");
 
 exports.logout = logout;
 
@@ -19,3 +20,5 @@ exports.updateSelected = updateSelected;
 exports.countryHistory = countryHistory;
 
 exports.get_map_info = get_map_info;
+
+exports.upload_country_names = upload_country_names;

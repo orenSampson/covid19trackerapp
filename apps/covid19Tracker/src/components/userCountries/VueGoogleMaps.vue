@@ -82,6 +82,7 @@ export default {
 
   methods: {
     createCountry(coords, country) {
+      this.countryNames.push(country.country);
       const currentCountry = new google.maps.Polygon({
         paths: coords,
         //strokeColor: 'white',
@@ -97,6 +98,10 @@ export default {
     },
 
     async addEventsToCountries() {
+      // this.$axios.post("/api/user/upload_country_names", {
+      //   password: this.password,
+      // });
+
       let map;
       try {
         map = await this.$refs.mapRef.$mapPromise;
@@ -125,6 +130,7 @@ export default {
 
   data() {
     return {
+      countryNames: [],
       countries: [],
       stylesArray: [
         {

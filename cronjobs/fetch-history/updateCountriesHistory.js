@@ -30,6 +30,43 @@ module.exports = async () => {
   for (const countrySummary of countriesSummary) {
     slug = countrySummary.slug;
 
+    // try {
+    //   countryHistory = await CountryHistory.findOne({ slug: slug });
+    //   const searchedDate = moment(
+    //     moment({
+    //       year: 2021,
+    //       month: 05,
+    //       day: 29
+    //     }).format("YYYY-MM-DD")
+    //   );
+
+    //   const { countryData } = countryHistory;
+
+    //   for (let i = 0; i < countryData.length; i++) {
+    //     const currDate = moment(
+    //       moment(countryData[i].date).format("YYYY-MM-DD")
+    //     );
+
+    //     if (currDate.isSame(searchedDate)) {
+    //       console.log("adding to slug: ", slug);
+    //       countryData.splice(i + 1, 0, {
+    //         date: new Date("2021-06-30"),
+    //         totalConfirmed: countryData[i].totalConfirmed,
+    //         totalDeaths: countryData[i].totalDeaths
+    //       });
+
+    //       try {
+    //         await countryHistory.save();
+    //       } catch (error) {
+    //         return;
+    //       }
+    //     }
+    //   }
+    // } catch (error) {
+    //   console.log("error :>> ", error);
+    //   return;
+    // }
+
     console.log(`start country ${slug}`);
 
     countryHistory = from = to = returnCountryHistoryArr = null;

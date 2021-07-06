@@ -1,0 +1,403 @@
+{
+  "mapping": [
+    { "mapCountryName": "Afghanistan", "slugCountryName": "afghanistan" },
+    { "mapCountryName": "Albania", "slugCountryName": "albania" },
+    { "mapCountryName": "Algeria", "slugCountryName": "algeria" },
+    { "mapCountryName": "American Samoa", "slugCountryName": "" },
+    { "mapCountryName": "Andorra", "slugCountryName": "andorra" },
+    { "mapCountryName": "Angola", "slugCountryName": "angola" },
+    { "mapCountryName": "Anguilla", "slugCountryName": "" },
+    {
+      "mapCountryName": "Antigua & Barbuda",
+      "slugCountryName": "antigua-and-barbuda"
+    },
+    {
+      "mapCountryName": "Argentina",
+      "slugCountryName": "argentina"
+    },
+    {
+      "mapCountryName": "Armenia",
+      "slugCountryName": "armenia"
+    },
+    {
+      "mapCountryName": "Aruba",
+      "slugCountryName": ""
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Austria",
+      "slugCountryName": "austria"
+    },
+    {
+      "mapCountryName": "Azerbaijan",
+      "slugCountryName": "azerbaijan"
+    },
+    {
+      "mapCountryName": "Bahrain",
+      "slugCountryName": "bahrain"
+    },
+    {
+      "mapCountryName": "Bangladesh",
+      "slugCountryName": "bangladesh"
+    },
+    {
+      "mapCountryName": "Barbados",
+      "slugCountryName": "barbados"
+    },
+    {
+      "mapCountryName": "Belarus",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    },
+    {
+      "mapCountryName": "Australia",
+      "slugCountryName": "australia"
+    }
+  ]
+}

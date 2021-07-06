@@ -36,4 +36,6 @@ router.get(
 
 router.get("/get_map_info", userController.get_map_info);
 
+router.post("/upload_country_names", userController.upload_country_names);
+
 module.exports = router;

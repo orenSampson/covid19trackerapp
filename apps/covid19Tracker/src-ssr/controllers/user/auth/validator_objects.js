@@ -20,8 +20,8 @@ exports.signupValidator = [
     .withMessage(notValidEmailMsg)
     .normalizeEmail()
     .custom(async value => {
-      const user = await User.findOne({ email: value });
-      if (user) {
+      const userCount = await User.count({ email: value });
+      if (userCount) {
         return Promise.reject();
       }
     })
